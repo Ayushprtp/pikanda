@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter/material.dart';
+import 'package:myapp/frontend/home.dart';
 import 'package:myapp/frontend/splash_screen.dart';
 
 void main() {
@@ -11,6 +13,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(home: SplashScreen());
+    return CupertinoApp(
+      debugShowCheckedModeBanner: false,
+      theme: CupertinoThemeData(
+        textTheme: CupertinoTextThemeData(
+          textStyle: TextStyle(fontFamily: "SF"),
+        ),
+      ),
+      home: Banner(
+        message: 'Alpha',
+        location: BannerLocation.topEnd,
+        child: HomeScreen(),
+      ),
+    );
   }
 }
