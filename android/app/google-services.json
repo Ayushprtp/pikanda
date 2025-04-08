@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "512863634059",
+    "project_id": "pikanda1648",
+    "storage_bucket": "pikanda1648.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512863634059:android:a3afff24e389b2dfba4a8e",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZK7DpyXmbN0xEK8YR0QfwzPgX-oMxArg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
