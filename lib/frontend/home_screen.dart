@@ -16,7 +16,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       backgroundColor: CupertinoColors.systemGrey,
-      child: Align(alignment: Alignment.bottomCenter, child: SongWidget()),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Hello..!!',
+            style: TextStyle(fontFamily: 'Blanka', fontSize: 45),
+          ),
+          Text(
+            'Hello..!!',
+            style: TextStyle(fontFamily: 'Jasmine', fontSize: 45),
+          ),
+          Text(
+            'Hello..!!',
+            style: TextStyle(fontFamily: 'Ethnocentric', fontSize: 45),
+          ),
+          Text('Hello..!!', style: TextStyle(fontFamily: 'SF', fontSize: 45)),
+          Spacer(),
+          Align(alignment: Alignment.bottomCenter, child: SongWidget()),
+        ],
+      ),
     );
   }
 }

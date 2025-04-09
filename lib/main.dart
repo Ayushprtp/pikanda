@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/material.dart';
 import 'package:myapp/frontend/home_screen.dart';
-import 'package:myapp/frontend/splash_screen.dart';
-import 'package:supabase/supabase.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
@@ -28,18 +25,16 @@ class MyApp extends StatelessWidget {
     return CupertinoApp(
       debugShowCheckedModeBanner: false,
       theme: CupertinoThemeData(
-        primaryColor: CupertinoColors.white,
         textTheme: CupertinoTextThemeData(
           textStyle: TextStyle(fontFamily: "SF", fontStyle: FontStyle.normal),
         ),
       ),
-      title: 'Hey',
+      title: 'Pikanda',
       home: Banner(
-        message: 'Alpha',
+        message: 'Beta',
         textStyle: TextStyle(color: CupertinoColors.black),
-        color: CupertinoColors.white,
-        location: BannerLocation.topEnd,
-        textDirection: TextDirection.rtl,
+        color: CupertinoColors.destructiveRed,
+        location: BannerLocation.bottomEnd,
         child: HomeScreen(),
       ),
     );

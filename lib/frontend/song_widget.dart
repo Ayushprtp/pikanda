@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/utilities/globalvar.dart' as global;
 
 class SongWidget extends StatefulWidget {
   const SongWidget({super.key});
@@ -37,7 +34,7 @@ class _SongWidgetState extends State<SongWidget> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: CupertinoColors.systemRed,
+                      color: CupertinoColors.destructiveRed,
                     ),
 
                     child: Image(
@@ -54,7 +51,16 @@ class _SongWidgetState extends State<SongWidget> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text('Song Name'), Text('Artist')],
+                      children: [
+                        Text('Song Name', style: TextStyle(fontSize: 25)),
+                        Text(
+                          'Artist',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: CupertinoColors.systemGrey4,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -64,7 +70,7 @@ class _SongWidgetState extends State<SongWidget> {
                   child: IconButton.filled(
                     onPressed: null,
                     icon: Icon(
-                      CupertinoIcons.play_circle,
+                      CupertinoIcons.pause,
                       color: CupertinoColors.white,
                     ),
                   ),

@@ -96,7 +96,7 @@ flutter:
           weight: 500
         - asset: assets/fonts/SF-PRO-ROUNDED-REGULAR.OTF
           style: normal
-    - family: 
+    - family: Blanka
       fonts:
         - asset: assets/fonts/Blanka.otf
     - family: Ethnocentric
