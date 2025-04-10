@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:myapp/frontend/quote_widget.dart';
 import 'package:myapp/frontend/song_widget.dart';
 import 'package:myapp/utilities/globalvar.dart' as global;
 
@@ -33,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Text('Hello..!!', style: TextStyle(fontFamily: 'SF', fontSize: 45)),
           Spacer(),
+          // Align(alignment: Alignment.bottomCenter, child: SongWidget()),
+          Align(alignment: Alignment.bottomCenter, child: QuoteWidget()),
           Align(alignment: Alignment.bottomCenter, child: SongWidget()),
         ],
       ),

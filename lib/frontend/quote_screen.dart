@@ -13,3 +13,10 @@ class _QuoteScreenState extends State<QuoteScreen> {
     return const Placeholder();
   }
 }
+
+
+//it will show 
+    // -Quotesflipcard
+    // -song plays
+    // -reply leave your feeling 
+    // - love ur unoved the quote

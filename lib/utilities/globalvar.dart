@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-String song = 'sdfgh';
+String song = 'Song Name';
+String artist = 'Artist';
 
 double screenWidth = 0.0;
 double screenHeight = 0.0;
