@@ -47,14 +47,19 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child:
-            _controller.value.isInitialized
-                ? AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller),
-                )
-                : Container(),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: SizedBox(
+          child: Center(
+            child:
+                _controller.value.isInitialized
+                    ? AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    )
+                    : Container(),
+          ),
+        ),
       ),
     );
   }
