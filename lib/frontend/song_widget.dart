@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/utilities/globalvar.dart' as global;
+import 'package:Pikanda/utilities/globalvar.dart' as global;
 
 class SongWidget extends StatefulWidget {
   const SongWidget({super.key});

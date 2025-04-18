@@ -1,9 +1,10 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:myapp/frontend/quote_widget.dart';
-import 'package:myapp/frontend/song_widget.dart';
-import 'package:myapp/utilities/globalvar.dart' as global;
-
-var ht = global.screenHeight;
+import 'package:Pikanda/frontend/quote_widget.dart';
+import 'package:Pikanda/frontend/song_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:Pikanda/test.dart';
+import 'package:Pikanda/utilities/globalvar.dart' as global;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,28 +17,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.systemGrey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Hello..!!',
-            style: TextStyle(fontFamily: 'Blanka', fontSize: 45),
-          ),
-          Text(
-            'Hello..!!',
-            style: TextStyle(fontFamily: 'Jasmine', fontSize: 45),
-          ),
-          Text(
-            'Hello..!!',
-            style: TextStyle(fontFamily: 'Ethnocentric', fontSize: 45),
-          ),
-          Text('Hello..!!', style: TextStyle(fontFamily: 'SF', fontSize: 45)),
-          Spacer(),
-          // Align(alignment: Alignment.bottomCenter, child: SongWidget()),
-          Align(alignment: Alignment.bottomCenter, child: QuoteWidget()),
-          Align(alignment: Alignment.bottomCenter, child: SongWidget()),
-        ],
+      backgroundColor: CupertinoColors.activeGreen,
+      child: SafeArea(
+        bottom: false,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [Text('####'), Text('####'), Text('####'), Text('####')],
+        ),
       ),
     );
   }

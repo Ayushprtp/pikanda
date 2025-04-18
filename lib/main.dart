@@ -1,14 +1,16 @@
+import 'package:Pikanda/frontend/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:myapp/frontend/home_screen.dart';
+import 'package:Pikanda/frontend/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
+import 'package:Pikanda/utilities/globalvar.dart' as global;
 
 Future<void> main() async {
   await Supabase.initialize(
-    url: 'https://xyzcompany.supabase.co',
-    anonKey: 'public-anon-key',
+    url: global.supabaseUrl,
+    anonKey: global.supabaseUrl,
   );
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    global.SizeConfig.init(context);
     return CupertinoApp(
       debugShowCheckedModeBanner: false,
       theme: CupertinoThemeData(
@@ -31,11 +34,11 @@ class MyApp extends StatelessWidget {
       ),
       title: 'Pikanda',
       home: Banner(
-        message: 'Beta',
+        message: 'Sigma',
         textStyle: TextStyle(color: CupertinoColors.black),
         color: CupertinoColors.destructiveRed,
         location: BannerLocation.bottomEnd,
-        child: HomeScreen(),
+        child: SplashScreen(),
       ),
     );
   }
