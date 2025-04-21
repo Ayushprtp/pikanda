@@ -28,3 +28,4 @@ class SizeConfig {
 
 String song = 'Song Name';
 String artist = 'Artist';
+String thumbnail = '';

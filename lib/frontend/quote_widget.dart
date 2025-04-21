@@ -16,7 +16,7 @@ class _QuoteWidgetState extends State<QuoteWidget> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         // decoration: BoxDecoration(image: DecorationImage(image: global.svg1)),
-        child: Center(child: Text('####')),
+        child: Center(child: Text('Flipcard')),
         // height: global.SizeConfig.screenWidth * 0.6,
       ),
     );

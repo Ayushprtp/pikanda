@@ -1,3 +1,4 @@
+import 'package:Pikanda/utilities/bg.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Pikanda/frontend/quote_widget.dart';
@@ -16,15 +17,19 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.activeGreen,
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [Text('####'), Text('####'), Text('####'), Text('####')],
+    return Bg(
+      child: CupertinoPageScaffold(
+        backgroundColor: CupertinoColors.activeGreen,
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [Text('####'), Text('####'), Text('####'), Text('####')],
+          ),
         ),
       ),
     );
   }
 }
+
+// homescreen will be deisged using super cupertinonaviagation baar
