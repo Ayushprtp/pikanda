@@ -22,7 +22,7 @@ class _TestState extends State<Test> {
           style: TextStyle(fontFamily: 'Jasmine', fontSize: 25),
         ),
         Text(
-          '${Geolocator.getLastKnownPosition()}',
+          '${Geolocator.isLocationServiceEnabled()}',
           style: TextStyle(fontFamily: 'Ethnocentric', fontSize: 25),
         ),
         Text(

@@ -1,12 +1,8 @@
+import 'package:Pikanda/frontend/devinfo_screen.dart';
 import 'package:Pikanda/utilities/bg.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:device_preview/device_preview.dart';
-import 'package:super_cupertino_navigation_bar/super_cupertino_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Pikanda/frontend/quote_widget.dart';
 import 'package:Pikanda/frontend/song_widget.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:Pikanda/test.dart';
 import 'package:flutter/material.dart';
 import 'package:Pikanda/utilities/globalvar.dart' as global;
 
@@ -21,12 +17,26 @@ class _QuoteScreenState extends State<QuoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
+      leading: CupertinoNavigationBarBackButton(onPressed: () {}),
+      middle: Text(
+        'Quotessss..!!',
+        style: TextStyle(
+          fontFamily: 'Ethnocentric',
+          fontSize: 25,
+          color: CupertinoColors.white,
+        ),
+      ),
+      trailing: IconButton(
+        iconSize: global.SizeConfig.screenHeight / 24,
+        onPressed: () {},
+        icon: const Icon(CupertinoIcons.person_solid),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Test(),
           Spacer(),
           Align(alignment: Alignment.center, child: QuoteWidget()),
+          Dev(),
           Spacer(),
           Align(alignment: Alignment.bottomCenter, child: SongWidget()),
         ],

@@ -29,3 +29,15 @@ class SizeConfig {
 String song = 'Song Name';
 String artist = 'Artist';
 String thumbnail = '';
+
+String dev_name = 'Ayush Pratap';
+String dev_nickname = 'AYU';
+String dev_image = 'assets/images/icon.png';
+String dev_username = 'ayushprtp';
+String dev_instagram = 'instagram.com/ayushprtp';
+String dev_threads = 'threads.com/ayushprtp';
+String dev_facebook = 'facebook.com/ayushprtp';
+String dev_youtube = 'youtube.com/@ayushprtp';
+String dev_x = 'x.com/ayushprtp';
+String dev_discord = 'discord.com/ayushprtp';
+String dev_mail = 'ayushprtp@outlook.com';

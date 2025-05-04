@@ -1,7 +1,4 @@
 import 'package:Pikanda/frontend/quote_screen.dart';
-import 'package:Pikanda/frontend/splash_screen.dart';
-import 'package:Pikanda/test.dart';
-import 'package:Pikanda/utilities/bg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:Pikanda/frontend/home_screen.dart';
@@ -30,12 +27,14 @@ class MyApp extends StatelessWidget {
     global.SizeConfig.init(context);
     return CupertinoApp(
       debugShowCheckedModeBanner: true,
+
       theme: CupertinoThemeData(
+        brightness: Brightness.dark,
         textTheme: CupertinoTextThemeData(
           textStyle: TextStyle(fontFamily: "SF", fontStyle: FontStyle.normal),
         ),
       ),
-      title: 'Pikanda',
+      // title: 'Pikanda',
       home: Banner(
         message: 'Beta',
         textStyle: TextStyle(
@@ -45,6 +44,7 @@ class MyApp extends StatelessWidget {
         ),
         color: CupertinoColors.destructiveRed,
         location: BannerLocation.bottomStart,
+
         child: QuoteScreen(),
       ),
     );

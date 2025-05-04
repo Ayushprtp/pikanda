@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Pikanda/utilities/globalvar.dart' as global;
 import 'package:hugeicons/hugeicons.dart';
-import 'package:local_auth/local_auth.dart';
 
 class SongWidget extends StatefulWidget {
   const SongWidget({super.key});
@@ -75,20 +74,23 @@ class _SongWidgetState extends State<SongWidget> {
                       children: [
                         IconButton.filledTonal(
                           highlightColor: CupertinoColors.systemGrey,
-                          onPressed: LocalAuthentication.new,
+                          onPressed: () {},
                           icon: HugeIcon(
                             icon: HugeIcons.strokeRoundedPlay,
                             color: CupertinoColors.white,
                           ),
                         ),
                         //Yeha Colors ka abhi khel baki hai and funstions add krna
-                        IconButton.filledTonal(
-                          highlightColor: CupertinoColors.systemGrey,
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: IconButton.filledTonal(
+                            highlightColor: CupertinoColors.systemGrey,
 
-                          onPressed: LocalAuthentication.new,
-                          icon: HugeIcon(
-                            icon: HugeIcons.strokeRoundedHeadsetOff,
-                            color: CupertinoColors.systemRed,
+                            onPressed: () {},
+                            icon: HugeIcon(
+                              icon: HugeIcons.strokeRoundedHeadsetOff,
+                              color: CupertinoColors.systemRed,
+                            ),
                           ),
                         ),
                       ],
@@ -99,7 +101,7 @@ class _SongWidgetState extends State<SongWidget> {
 
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 5.0,
+                  top: 3.0,
                   bottom: 2,
                   left: 5,
                   right: 5,

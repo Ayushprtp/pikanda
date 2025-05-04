@@ -1,10 +1,7 @@
+import 'package:Pikanda/frontend/devinfo_screen.dart';
+import 'package:Pikanda/frontend/quote_screen.dart';
 import 'package:Pikanda/utilities/bg.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:Pikanda/frontend/quote_widget.dart';
-import 'package:Pikanda/frontend/song_widget.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:Pikanda/test.dart';
 import 'package:Pikanda/utilities/globalvar.dart' as global;
 
 class HomeScreen extends StatefulWidget {
@@ -24,7 +21,24 @@ class _HomeScreenState extends State<HomeScreen> {
           bottom: false,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [Text('####'), Text('####'), Text('####'), Text('####')],
+            children: [
+              Text('####'),
+              Text('####'),
+              CupertinoButton.filled(
+                child: const Text("Quote Screen"),
+                onPressed: () {
+                  // Navigator.of(context).push(
+                  //   CupertinoPageRoute(
+                  //     builder: (context) => const QuoteScreen(),
+                  //   ),
+                  // );
+                },
+              ),
+              Text('####'),
+              Text('####'),
+              Spacer(),
+              Align(alignment: Alignment.bottomCenter, child: Dev()),
+            ],
           ),
         ),
       ),
