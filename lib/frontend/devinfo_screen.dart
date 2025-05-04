@@ -1,3 +1,4 @@
+import 'package:Pikanda/frontend/song_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Pikanda/utilities/globalvar.dart' as global;
 import 'package:flutter/material.dart';
@@ -22,73 +23,267 @@ class Dev extends StatelessWidget {
               child: Container(
                 height: global.SizeConfig.screenHeight * 0.4,
 
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: CupertinoColors.activeOrange,
-                          maxRadius: global.SizeConfig.screenHeight * 0.05,
-                          minRadius: global.SizeConfig.screenHeight * 0.04,
-                          child: Image(
-                            image: AssetImage('assets/images/icon.png'),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: CupertinoColors.white,
+                            maxRadius: global.SizeConfig.screenHeight * 0.05,
+                            minRadius: global.SizeConfig.screenHeight * 0.04,
+                            child: Image(
+                              image: AssetImage('assets/images/icon.png'),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    text: ('${global.dev_name}'),
+                                    style: TextStyle(
+                                      fontSize:
+                                          global.SizeConfig.screenHeight * 0.03,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: (' ( ${global.dev_nickname} )'),
+                                        style: TextStyle(fontFamily: 'Blanka'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Text(
+                                  '@${global.dev_username}',
+                                  style: TextStyle(
+                                    fontSize:
+                                        global.SizeConfig.screenHeight * 0.025,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      CupertinoActivityIndicator(
+                        animating: true,
+                        radius: global.SizeConfig.screenHeight * 0.02,
+                      ),
+                      Spacer(),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton.filledTonal(
+                                highlightColor: CupertinoColors.systemGrey,
+                                onPressed: () async {
+                                  // try {
+                                  //   Uri url = Uri(
+                                  //     scheme: 'https',
+                                  //     path: "${global.dev_phone}",
+                                  //   );
+                                  //   await launchUrl(url);
+                                  // } catch (e) {
+                                  //   debugPrint(e.toString());
+                                  // }
+                                },
+                                icon: HugeIcon(
+                                  icon: HugeIcons.strokeRoundedCallOutgoing04,
+                                  color: CupertinoColors.systemGrey,
+                                ),
+                              ),
+                              IconButton.filledTonal(
+                                highlightColor: CupertinoColors.systemGrey,
+                                onPressed: () async {
+                                  // try {
+                                  //   Uri url = Uri(
+                                  //     scheme: 'https',
+                                  //     path: "${global.dev_mail}",
+                                  //   );
+                                  //   await launchUrl(url);
+                                  // } catch (e) {
+                                  //   debugPrint(e.toString());
+                                  // }
+                                },
+                                icon: HugeIcon(
+                                  icon: HugeIcons.strokeRoundedMailLove02,
+                                  color: CupertinoColors.systemGrey,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Column(
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            RichText(
-                              text: TextSpan(
-                                text: ('${global.dev_name}'),
-                                style: TextStyle(
-                                  fontSize:
-                                      global.SizeConfig.screenHeight * 0.025,
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: ('${global.dev_nickname}'),
-                                    style: TextStyle(fontFamily: 'Blanka'),
-                                  ),
-                                ],
+                            IconButton.filledTonal(
+                              highlightColor: CupertinoColors.systemGrey,
+                              onPressed: () async {
+                                try {
+                                  Uri email = Uri(
+                                    scheme: 'https',
+                                    path: "${global.dev_github}",
+                                  );
+                                  await launchUrl(email);
+                                } catch (e) {
+                                  debugPrint(e.toString());
+                                }
+                              },
+                              icon: HugeIcon(
+                                icon: HugeIcons.strokeRoundedGithub,
+                                color: CupertinoColors.systemGrey,
                               ),
                             ),
-                            Text(
-                              '${global.song}',
-                              style: TextStyle(
-                                fontSize:
-                                    global.SizeConfig.screenHeight * 0.0256,
-                                color: CupertinoColors.systemGrey4,
+                            IconButton.filledTonal(
+                              highlightColor: CupertinoColors.systemGrey,
+                              onPressed: () async {
+                                try {
+                                  Uri url = Uri(
+                                    scheme: 'https',
+                                    path: "${global.dev_discord}",
+                                  );
+                                  await launchUrl(url);
+                                } catch (e) {
+                                  debugPrint(e.toString());
+                                }
+                              },
+                              icon: HugeIcon(
+                                icon: HugeIcons.strokeRoundedDiscord,
+                                color: CupertinoColors.systemGrey,
                               ),
                             ),
-                            // Text('${global.dev_username}'),
+                            IconButton.filledTonal(
+                              highlightColor: CupertinoColors.systemGrey,
+                              onPressed: () async {
+                                try {
+                                  Uri url = Uri(
+                                    scheme: 'https',
+                                    path: "${global.dev_facebook}",
+                                  );
+                                  await launchUrl(url);
+                                } catch (e) {
+                                  debugPrint(e.toString());
+                                }
+                              },
+                              icon: HugeIcon(
+                                icon: HugeIcons.strokeRoundedFacebook02,
+                                color: CupertinoColors.systemGrey,
+                              ),
+                            ),
+                            IconButton.filledTonal(
+                              highlightColor: CupertinoColors.systemGrey,
+                              onPressed: () async {
+                                try {
+                                  Uri url = Uri(
+                                    scheme: 'https',
+                                    path: "${global.dev_instagram}",
+                                  );
+                                  await launchUrl(url);
+                                } catch (e) {
+                                  debugPrint(e.toString());
+                                }
+                              },
+                              icon: HugeIcon(
+                                icon: HugeIcons.strokeRoundedInstagram,
+                                color: CupertinoColors.systemGrey,
+                              ),
+                            ),
+                            IconButton.filledTonal(
+                              highlightColor: CupertinoColors.systemGrey,
+                              onPressed: () async {
+                                try {
+                                  Uri url = Uri(
+                                    scheme: 'https',
+                                    path: "${global.dev_snapchat}",
+                                  );
+                                  await launchUrl(url);
+                                } catch (e) {
+                                  debugPrint(e.toString());
+                                }
+                              },
+                              icon: HugeIcon(
+                                icon: HugeIcons.strokeRoundedSnapchat,
+                                color: CupertinoColors.systemGrey,
+                              ),
+                            ),
+                            IconButton.filledTonal(
+                              highlightColor: CupertinoColors.systemGrey,
+                              onPressed: () async {
+                                try {
+                                  Uri url = Uri(
+                                    scheme: 'https',
+                                    path: "${global.dev_threads}",
+                                  );
+                                  await launchUrl(url);
+                                } catch (e) {
+                                  debugPrint(e.toString());
+                                }
+                              },
+                              icon: HugeIcon(
+                                icon: HugeIcons.strokeRoundedThreads,
+                                color: CupertinoColors.systemGrey,
+                              ),
+                            ),
+                            IconButton.filledTonal(
+                              highlightColor: CupertinoColors.systemGrey,
+                              onPressed: () async {
+                                try {
+                                  Uri url = Uri(
+                                    scheme: 'https',
+                                    path: "${global.dev_x}",
+                                  );
+                                  await launchUrl(url);
+                                } catch (e) {
+                                  debugPrint(e.toString());
+                                }
+                              },
+                              icon: HugeIcon(
+                                icon: HugeIcons.strokeRoundedNewTwitter,
+                                color: CupertinoColors.systemGrey,
+                              ),
+                            ),
+                            IconButton.filledTonal(
+                              highlightColor: CupertinoColors.systemGrey,
+                              onPressed: () async {
+                                try {
+                                  Uri url = Uri(
+                                    scheme: 'https',
+                                    path: "${global.dev_youtube}",
+                                  );
+                                  await launchUrl(url);
+                                } catch (e) {
+                                  debugPrint(e.toString());
+                                }
+                              },
+                              icon: HugeIcon(
+                                icon: HugeIcons.strokeRoundedYoutube,
+                                color: CupertinoColors.systemGrey,
+                              ),
+                            ),
                           ],
                         ),
-                      ],
-                    ),
-
-                    Row(
-                      children: [
-                        IconButton.filledTonal(
-                          highlightColor: CupertinoColors.systemGrey,
-                          onPressed: () async {
-                            const url =
-                                'https://www.facebook.com/yourusername'; // Replace with actual URL
-                            if (await canLaunch(url)) {
-                              await launch(url);
-                            } else {
-                              print('Could not launch $url');
-                            }
-                          },
-                          icon: HugeIcon(
-                            icon:
-                                HugeIcons
-                                    .strokeRoundedMailLove02, // Replace with Facebook icon
-                            color: CupertinoColors.systemRed,
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: CupertinoNavigationBarBackButton(
+                          color: CupertinoColors.systemRed,
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );

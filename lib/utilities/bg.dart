@@ -1,7 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
-import 'package:Pikanda/utilities/globalvar.dart' as global;
 
 class Bg extends StatelessWidget {
   const Bg({super.key, this.child, this.leading, this.middle, this.trailing});
@@ -18,16 +15,15 @@ class Bg extends StatelessWidget {
         middle: middle!,
         trailing: trailing!,
         automaticBackgroundVisibility: true,
-        previousPageTitle: 'Hey',
       ),
       resizeToAvoidBottomInset: false,
       child: Container(
         decoration: BoxDecoration(
-          color: CupertinoColors.destructiveRed,
-          // image: DecorationImage(
-          //   image: AssetImage('assets/images/bg.png'),
-          //   fit: BoxFit.fill,
-          // ),
+          color: CupertinoColors.systemYellow,
+          image: DecorationImage(
+            image: AssetImage('assets/images/bg.png'),
+            fit: BoxFit.fill,
+          ),
         ),
         child: SafeArea(bottom: false, child: child!),
       ),

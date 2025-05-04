@@ -17,12 +17,11 @@ class _QuoteScreenState extends State<QuoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
-      leading: CupertinoNavigationBarBackButton(onPressed: () {}),
+      leading: CupertinoNavigationBarBackButton(),
       middle: Text(
-        'Quotessss..!!',
+        'Quotesss..!!',
         style: TextStyle(
-          fontFamily: 'Ethnocentric',
-          fontSize: 25,
+          fontSize: global.SizeConfig.screenHeight * 0.025,
           color: CupertinoColors.white,
         ),
       ),

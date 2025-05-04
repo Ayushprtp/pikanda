@@ -1,7 +1,6 @@
 import 'package:Pikanda/frontend/quote_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:Pikanda/frontend/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
