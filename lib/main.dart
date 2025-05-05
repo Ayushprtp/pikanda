@@ -1,4 +1,5 @@
 import 'package:Pikanda/frontend/quote_screen.dart';
+import 'package:Pikanda/website/website.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
         color: CupertinoColors.destructiveRed,
         location: BannerLocation.bottomStart,
 
-        child: QuoteScreen(),
+        child: Website(),
       ),
     );
   }
