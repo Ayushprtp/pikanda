@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       ),
       // title: 'Pikanda',
       home: Banner(
-        message: 'Beta',
+        message: 'Basic',
         textStyle: TextStyle(
           fontFamily: 'SF',
           fontWeight: FontWeight.w500,
