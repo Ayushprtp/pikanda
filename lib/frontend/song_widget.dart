@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Pikanda/utilities/globalvar.dart' as global;
+import 'package:pikanda/utilities/globalvar.dart' as global;
 import 'package:hugeicons/hugeicons.dart';
 
 class SongWidget extends StatefulWidget {
-  const SongWidget({super.key});
+  SongWidget({super.key});
 
   @override
   State<SongWidget> createState() => _SongWidgetState();
@@ -16,12 +16,13 @@ class _SongWidgetState extends State<SongWidget> {
     return Padding(
       padding: EdgeInsets.all(10.0),
       child: Container(
+        width: double.maxFinite,
         decoration: BoxDecoration(
           color: CupertinoColors.black,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(25),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
+          padding: EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
           child: Column(
             children: [
               Row(
@@ -32,15 +33,15 @@ class _SongWidgetState extends State<SongWidget> {
                     padding: const EdgeInsets.all(5.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: CupertinoColors.white),
-                        borderRadius: BorderRadius.circular(15),
-                        color: CupertinoColors.black,
+                        border: Border.all(color: CupertinoColors.black),
+                        borderRadius: BorderRadius.circular(25),
+                        color: CupertinoColors.white,
                       ),
 
                       child: Image(
                         image: AssetImage('assets/images/icon.png'),
                         height: global.SizeConfig.screenHeight * 0.07,
-                        color: CupertinoColors.white,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),
@@ -98,19 +99,10 @@ class _SongWidgetState extends State<SongWidget> {
                   ),
                 ],
               ),
-
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 3.0,
-                  bottom: 2,
-                  left: 5,
-                  right: 5,
-                ),
-                child: Container(
-                  height: 2.0,
-                  width: double.infinity,
-                  color: CupertinoColors.white,
-                ),
+              LinearProgressIndicator(
+                value: 0.5,
+                backgroundColor: CupertinoColors.systemRed,
+                color: CupertinoColors.white,
               ),
             ],
           ),

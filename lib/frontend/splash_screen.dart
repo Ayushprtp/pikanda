@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:supabase/supabase.dart';
+import 'package:pikanda/main.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -9,6 +11,27 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Future<void> checkAuthAndNavigate() async {
+    final user = supabase.auth.currentUser;
+    if (user == null) {
+      Navigator.pushReplacementNamed(context, '/login');
+      return;
+    }
+    final response =
+        await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single();
+
+    final role = response['role'];
+    if (role == 'admin') {
+      Navigator.pushReplacementNamed(context, '/adminHome');
+    } else {
+      Navigator.pushReplacementNamed(context, '/userHome');
+    }
+  }
+
   // video controller
   late VideoPlayerController _controller;
 

@@ -1,10 +1,12 @@
-import 'package:Pikanda/frontend/quote_screen.dart';
+import 'package:pikanda/frontend/home_screen.dart';
+import 'package:pikanda/frontend/login_screen.dart';
+import 'package:pikanda/frontend/quote_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
-import 'package:Pikanda/utilities/globalvar.dart' as global;
+import 'package:pikanda/utilities/globalvar.dart' as global;
 
 Future<void> main() async {
   await Supabase.initialize(
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     global.SizeConfig.init(context);
     return CupertinoApp(
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
 
       theme: CupertinoThemeData(
         brightness: Brightness.dark,
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
           textStyle: TextStyle(fontFamily: "SF", fontStyle: FontStyle.normal),
         ),
       ),
-      // title: 'Pikanda',
+      // title: 'pikanda',
       home: Banner(
         message: 'Basic',
         textStyle: TextStyle(
@@ -44,7 +46,7 @@ class MyApp extends StatelessWidget {
         color: CupertinoColors.destructiveRed,
         location: BannerLocation.bottomStart,
 
-        child: QuoteScreen(),
+        child: HomeScreen(),
       ),
     );
   }

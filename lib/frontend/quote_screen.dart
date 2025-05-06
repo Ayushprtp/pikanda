@@ -1,10 +1,12 @@
-import 'package:Pikanda/frontend/devinfo_screen.dart';
-import 'package:Pikanda/utilities/bg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pikanda/frontend/devinfo_screen.dart';
+import 'package:pikanda/utilities/bg.dart';
+import 'package:pikanda/utilities/morphsimcontainer.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:Pikanda/frontend/quote_widget.dart';
-import 'package:Pikanda/frontend/song_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:Pikanda/utilities/globalvar.dart' as global;
+import 'package:pikanda/frontend/quote_widget.dart';
+import 'package:pikanda/frontend/song_widget.dart';
+import 'package:pikanda/utilities/globalvar.dart' as global;
+import 'package:hugeicons/hugeicons.dart';
 
 class QuoteScreen extends StatefulWidget {
   const QuoteScreen({super.key});
@@ -17,26 +19,39 @@ class _QuoteScreenState extends State<QuoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
-      leading: CupertinoNavigationBarBackButton(),
+      leading: GestureDetector(
+        child: HugeIcon(
+          icon: HugeIcons.strokeRoundedAccountSetting03,
+          size: global.SizeConfig.screenHeight * 0.025,
+          color: CupertinoColors.systemGrey,
+        ),
+      ),
+
       middle: Text(
         'Quotesss..!!',
         style: TextStyle(
+          fontFamily: 'Jasmine',
           fontSize: global.SizeConfig.screenHeight * 0.025,
           color: CupertinoColors.white,
         ),
       ),
-      trailing: IconButton(
-        iconSize: global.SizeConfig.screenHeight / 24,
-        onPressed: () {},
-        icon: const Icon(CupertinoIcons.person_solid),
+      trailing: HugeIcon(
+        icon: HugeIcons.strokeRoundedAccountSetting03,
+        color: CupertinoColors.systemGrey,
       ),
+
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Spacer(),
+          MorphedContainer(
+            height: 300,
+            width: double.maxFinite,
+            child: Text('data'),
+          ),
           Align(alignment: Alignment.center, child: QuoteWidget()),
-          Dev(),
           Spacer(),
+          Dev(),
           Align(alignment: Alignment.bottomCenter, child: SongWidget()),
         ],
       ),

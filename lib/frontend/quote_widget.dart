@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:Pikanda/utilities/globalvar.dart' as global;
+import 'package:pikanda/utilities/globalvar.dart' as global;
 
 class QuoteWidget extends StatefulWidget {
   const QuoteWidget({super.key});
@@ -16,7 +16,7 @@ class _QuoteWidgetState extends State<QuoteWidget> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         // decoration: BoxDecoration(image: DecorationImage(image: global.svg1)),
-        child: Center(child: Text('Flipcard')),
+        child: Center(child: Text('{global.Quote().front}')),
         // height: global.SizeConfig.screenWidth * 0.6,
       ),
     );

@@ -19,12 +19,14 @@ class SizeConfig {
   }
 }
 
-// class QuoteId {
-//   final int qid;
-//   late String quote;
+class Quote {
+  late int qid;
+  // late String quote;
+  String quote = 'b';
 
-//   QuoteId({required this.qid});
-// }
+  late String front;
+  late String back;
+}
 
 String song = 'Song Name';
 String artist = 'Artist';
@@ -38,7 +40,7 @@ String dev_mail = 'ayushprtp@outlook.com';
 String dev_phone = '+910126126126';
 String dev_github = 'github.com/ayushprtp';
 String dev_discord = 'discord.com/ayushprtp';
-String dev_facebook = 'facebook.com/ayushprtp';
+String dev_facebook = 'www.facebook.com/ayushprtp';
 String dev_instagram = 'instagram.com/ayushprtp';
 String dev_snapchat = 'snapchat.com/add/ayushprtp';
 String dev_threads = 'threads.com/ayushprtp';

@@ -9,12 +9,14 @@
     pkgs.unzip
   ];
   # Sets environment variables in the workspace
-  env = {};
+  env = { };
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
       "Dart-Code.flutter"
       "Dart-Code.dart-code"
+
+
     ];
     workspace = {
       # Runs when a workspace is first created with this `dev.nix` file
@@ -41,7 +43,7 @@
           # flutter build web --profile --dart-define=Dart2jsOptimization=O0
         '';
       };
-      
+
       # To run something each time the workspace is (re)started, use the `onStart` hook
     };
     # Enable previews and customize configuration
@@ -53,10 +55,10 @@
           manager = "flutter";
         };
         android = {
-          command = ["flutter" "run" "--machine" "-d" "android" "-d" "localhost:5555"];
+          command = [ "flutter" "run" "--machine" "-d" "android" "-d" "emulator-5554" ];
           manager = "flutter";
         };
-      };
     };
   };
+};
 }

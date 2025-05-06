@@ -11,6 +11,12 @@ class Bg extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        border: Border(
+          bottom: BorderSide(
+            color: CupertinoColors.darkBackgroundGray.withOpacity(0.8),
+          ),
+        ),
+        backgroundColor: CupertinoColors.white.withOpacity(0.25),
         leading: leading!,
         middle: middle!,
         trailing: trailing!,
@@ -19,9 +25,9 @@ class Bg extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       child: Container(
         decoration: BoxDecoration(
-          color: CupertinoColors.systemYellow,
+          color: CupertinoColors.activeGreen,
           image: DecorationImage(
-            image: AssetImage('assets/images/bg.png'),
+            image: AssetImage('assets/images/bg_brick.png'),
             fit: BoxFit.fill,
           ),
         ),

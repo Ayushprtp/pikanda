@@ -1,7 +1,9 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:Pikanda/utilities/globalvar.dart' as global;
+import 'package:pikanda/frontend/quote_screen.dart';
+import 'package:pikanda/utilities/globalvar.dart' as global;
 import 'package:geolocator/geolocator.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class Test extends StatefulWidget {
   const Test({super.key});
@@ -34,6 +36,29 @@ class _TestState extends State<Test> {
           style: TextStyle(fontFamily: 'SF', fontSize: 25),
         ),
       ],
+    );
+  }
+}
+
+class TestButton extends StatefulWidget {
+  const TestButton({super.key});
+
+  @override
+  State<TestButton> createState() => TestButtonState();
+}
+
+class TestButtonState extends State<TestButton> {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton.filled(
+      child: HugeIcon(
+        icon: HugeIcons.strokeRoundedHugeicons,
+        color: CupertinoColors.activeOrange,
+      ),
+      onPressed:
+          () => Navigator.of(
+            context,
+          ).push(CupertinoPageRoute(builder: (context) => QuoteScreen())),
     );
   }
 }

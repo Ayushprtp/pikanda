@@ -1,6 +1,7 @@
-import 'package:Pikanda/frontend/song_widget.dart';
+import 'package:pikanda/frontend/song_widget.dart';
+import 'package:pikanda/test.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:Pikanda/utilities/globalvar.dart' as global;
+import 'package:pikanda/utilities/globalvar.dart' as global;
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,7 +19,7 @@ class Dev extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return CupertinoPopupSurface(
-              // blurSigma: 5,
+              blurSigma: 5,
               isSurfacePainted: true,
               child: Container(
                 height: global.SizeConfig.screenHeight * 0.4,
