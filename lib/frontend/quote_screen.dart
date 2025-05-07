@@ -19,24 +19,17 @@ class _QuoteScreenState extends State<QuoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
-      leading: GestureDetector(
-        child: HugeIcon(
-          icon: HugeIcons.strokeRoundedAccountSetting03,
-          size: global.SizeConfig.screenHeight * 0.025,
-          color: CupertinoColors.systemGrey,
-        ),
-      ),
-
+      leading: CupertinoNavigationBarBackButton(previousPageTitle: 'Home'),
       middle: Text(
         'Quotesss..!!',
         style: TextStyle(
-          fontFamily: 'Jasmine',
+          fontFamily: 'Ethnocentric',
           fontSize: global.SizeConfig.screenHeight * 0.025,
           color: CupertinoColors.white,
         ),
       ),
       trailing: HugeIcon(
-        icon: HugeIcons.strokeRoundedAccountSetting03,
+        icon: HugeIcons.strokeRoundedEthereumRectangle,
         color: CupertinoColors.systemGrey,
       ),
 

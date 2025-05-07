@@ -35,7 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
         color: CupertinoColors.activeBlue,
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text('####'),
           Text('####'),

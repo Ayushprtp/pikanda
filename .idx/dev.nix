@@ -7,6 +7,9 @@
   packages = [
     pkgs.jdk17
     pkgs.unzip
+    pkgs.sudo
+    pkgs.screenfetch
+    pkgs.systemd
   ];
   # Sets environment variables in the workspace
   env = { };
@@ -15,6 +18,12 @@
     extensions = [
       "Dart-Code.flutter"
       "Dart-Code.dart-code"
+      "Github.vscode-github-actions"
+      "Github.github-vscode-theme"
+      "Gruntfuggly.todo-tree"
+      "aaron-bond.better-comments"
+      "vscode.image-preview"
+      "Nash.awesome-flutter-snippets"
 
 
     ];
@@ -50,10 +59,10 @@
     previews = {
       enable = true;
       previews = {
-        web = {
-          command = ["flutter" "run" "--machine" "-d" "web-server" "--web-hostname" "0.0.0.0" "--web-port" "$PORT"];
-          manager = "flutter";
-        };
+        # web = {
+        #   command = ["flutter" "run" "--machine" "-d" "web-server" "--web-hostname" "0.0.0.0" "--web-port" "$PORT"];
+        #   manager = "flutter";
+        # };
         android = {
           command = [ "flutter" "run" "--machine" "-d" "android" "-d" "emulator-5554" ];
           manager = "flutter";

@@ -13,14 +13,16 @@ class Bg extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
         border: Border(
           bottom: BorderSide(
-            color: CupertinoColors.darkBackgroundGray.withOpacity(0.8),
+            color: CupertinoColors.black.withValues(alpha: 0.2),
           ),
         ),
-        backgroundColor: CupertinoColors.white.withOpacity(0.25),
+        backgroundColor: CupertinoColors.black.withValues(alpha: 0.2),
+        automaticallyImplyLeading: true,
+        brightness: Brightness.dark,
         leading: leading!,
         middle: middle!,
         trailing: trailing!,
-        automaticBackgroundVisibility: true,
+        automaticBackgroundVisibility: false,
       ),
       resizeToAvoidBottomInset: false,
       child: Container(

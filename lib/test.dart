@@ -50,7 +50,9 @@ class TestButton extends StatefulWidget {
 class TestButtonState extends State<TestButton> {
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton.filled(
+    return CupertinoButton.tinted(
+      color: CupertinoColors.black,
+      pressedOpacity: 0.4,
       child: HugeIcon(
         icon: HugeIcons.strokeRoundedHugeicons,
         color: CupertinoColors.activeOrange,
