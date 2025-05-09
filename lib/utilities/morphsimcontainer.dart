@@ -17,8 +17,8 @@ class MorphedContainer extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Blur strength
           child: Container(
-            width: width!,
-            height: height!,
+            width: width,
+            height: height,
             decoration: BoxDecoration(
               color: CupertinoColors.systemRed.withValues(
                 alpha: 0.2,

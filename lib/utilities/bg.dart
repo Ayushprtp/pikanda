@@ -27,7 +27,7 @@ class Bg extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       child: Container(
         decoration: BoxDecoration(
-          color: CupertinoColors.activeGreen,
+          color: CupertinoColors.black,
           image: DecorationImage(
             image: AssetImage('assets/images/bg_brick.png'),
             fit: BoxFit.fill,

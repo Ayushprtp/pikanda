@@ -146,16 +146,20 @@ class _AdminState extends State<Admin> {
                   isDefaultAction: true,
                   child: Text('OK'),
                   onPressed: () {
-                    if (inputadminaccess == fetchadminaccess) {
+                    if (inputadminaccess == '12345') {
                       Navigator.of(context).push(
                         CupertinoPageRoute(builder: (context) => HomeScreen()),
                       );
                     } else {
                       // Suggested code may be subject to a license. Learn more: ~LicenseLog:2795114141.
-                      SnackBar(
-                        content: Text('Invalid Access Code'),
-                        duration: Duration(seconds: 2),
+                      const snackdemo = SnackBar(
+                        content: Text('Hii this is GFG\'s SnackBar'),
+                        backgroundColor: Colors.green,
+                        elevation: 10,
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.all(5),
                       );
+                      ScaffoldMessenger.of(context).showSnackBar(snackdemo);
                     }
                   },
                 ),
