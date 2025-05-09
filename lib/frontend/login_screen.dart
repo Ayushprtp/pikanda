@@ -1,13 +1,11 @@
-
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:pikanda/frontend/devinfo_screen.dart';
-import 'package:pikanda/frontend/home_screen.dart';``
+import 'package:pikanda/frontend/home_screen.dart';
 import 'package:pikanda/utilities/bg.dart';
 import 'package:pikanda/utilities/morphsimcontainer.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
