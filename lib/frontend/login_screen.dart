@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:pikanda/backend/login_database.dart';
 import 'package:pikanda/frontend/devinfo_screen.dart';
 import 'package:pikanda/frontend/home_screen.dart';
 import 'package:pikanda/utilities/bg.dart';
@@ -104,6 +105,7 @@ class Admin extends StatefulWidget {
 }
 
 class _AdminState extends State<Admin> {
+  late final inputadminaccess = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
@@ -133,14 +135,28 @@ class _AdminState extends State<Admin> {
           context: context,
           builder: (BuildContext context) {
             return CupertinoAlertDialog(
-              title: Text('Alert Dialog'),
-              content: Text('This is a Cupertino Alert Dialog.'),
+              title: Text('Access Code'),
+              content: CupertinoTextField(
+                controller: inputadminaccess,
+                obscureText: true,
+                maxLines: 1,
+              ),
               actions: [
                 CupertinoDialogAction(
                   isDefaultAction: true,
                   child: Text('OK'),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    if (inputadminaccess == fetchadminaccess) {
+                      Navigator.of(context).push(
+                        CupertinoPageRoute(builder: (context) => HomeScreen()),
+                      );
+                    } else {
+                      // Suggested code may be subject to a license. Learn more: ~LicenseLog:2795114141.
+                      SnackBar(
+                        content: Text('Invalid Access Code'),
+                        duration: Duration(seconds: 2),
+                      );
+                    }
                   },
                 ),
               ],
