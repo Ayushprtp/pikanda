@@ -19,7 +19,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
-      leading: CupertinoNavigationBarBackButton(previousPageTitle: 'Home'),
+      leading: null,
       middle: Text(
         'Quotesss..!!',
         style: TextStyle(

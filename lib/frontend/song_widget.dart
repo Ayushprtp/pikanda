@@ -100,6 +100,7 @@ class _SongWidgetState extends State<SongWidget> {
                 ],
               ),
               LinearProgressIndicator(
+                borderRadius: BorderRadius.circular(55),
                 value: 0.5,
                 backgroundColor: CupertinoColors.systemRed,
                 color: CupertinoColors.systemYellow,

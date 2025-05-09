@@ -13,28 +13,27 @@ class MorphedContainer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(45), // Morphed/rounded corners
+        borderRadius: BorderRadius.circular(25), // Morphed/rounded corners
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // Blur strength
-          child: Opacity(
-            opacity: 0.1,
-            child: Container(
-              width: width!,
-              height: height!,
-              decoration: BoxDecoration(
-                color: CupertinoColors.black, // Glass effect
-                borderRadius: BorderRadius.circular(40),
-                border: Border.all(color: CupertinoColors.white, width: 0.5),
-                boxShadow: [
-                  BoxShadow(
-                    color: CupertinoColors.white,
-                    blurRadius: 10,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: child,
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Blur strength
+          child: Container(
+            width: width!,
+            height: height!,
+            decoration: BoxDecoration(
+              color: CupertinoColors.systemRed.withValues(
+                alpha: 0.2,
+              ), // Glass effect
+              borderRadius: BorderRadius.circular(25),
+              border: Border.all(color: CupertinoColors.black, width: 0.5),
+              boxShadow: [
+                BoxShadow(
+                  color: CupertinoColors.white,
+                  blurRadius: 10,
+                  offset: Offset(0, 4),
+                ),
+              ],
             ),
+            child: child,
           ),
         ),
       ),

@@ -23,9 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
         color: CupertinoColors.activeBlue,
       ),
       middle: Text(
-        'Home Screen..!!',
+        'Home..!!',
         style: TextStyle(
-          fontFamily: 'Jasmine',
+          fontFamily: 'Blanka',
           fontSize: global.SizeConfig.screenHeight * 0.025,
           color: CupertinoColors.white,
         ),
@@ -43,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
           TestButton(),
           Text('####'),
           Text('####'),
+          CheckButton(),
           Spacer(),
           Align(alignment: Alignment.bottomCenter, child: Dev()),
         ],

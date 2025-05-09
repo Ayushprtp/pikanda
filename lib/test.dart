@@ -1,5 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pikanda/frontend/login_screen.dart';
 import 'package:pikanda/frontend/quote_screen.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
 import 'package:geolocator/geolocator.dart';
@@ -61,6 +62,31 @@ class TestButtonState extends State<TestButton> {
           () => Navigator.of(
             context,
           ).push(CupertinoPageRoute(builder: (context) => QuoteScreen())),
+    );
+  }
+}
+
+class CheckButton extends StatefulWidget {
+  const CheckButton({super.key});
+
+  @override
+  State<CheckButton> createState() => _CheckButtonState();
+}
+
+class _CheckButtonState extends State<CheckButton> {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton.tinted(
+      color: CupertinoColors.black,
+      pressedOpacity: 0.4,
+      child: HugeIcon(
+        icon: HugeIcons.strokeRoundedHugeicons,
+        color: CupertinoColors.activeOrange,
+      ),
+      onPressed:
+          () => Navigator.of(
+            context,
+          ).push(CupertinoPageRoute(builder: (context) => LoginScreen())),
     );
   }
 }
