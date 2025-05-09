@@ -2,8 +2,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 
 class MorphedContainer extends StatelessWidget {
-  late double? width;
-  late double? height;
+  final double? width;
+  final double? height;
   final Widget? child;
 
   MorphedContainer({Key? key, required this.child, this.height, this.width});
@@ -14,26 +14,26 @@ class MorphedContainer extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25), // Morphed/rounded corners
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Blur strength
-          child: Container(
-            width: width,
-            height: height,
-            decoration: BoxDecoration(
-              color: CupertinoColors.systemRed.withValues(
-                alpha: 0.2,
-              ), // Glass effect
-              borderRadius: BorderRadius.circular(25),
-              border: Border.all(color: CupertinoColors.black, width: 0.5),
-              boxShadow: [
-                BoxShadow(
-                  color: CupertinoColors.white,
-                  blurRadius: 10,
-                  offset: Offset(0, 4),
+        child: Container(
+          width: width,
+          height: height,
+          child: Stack(
+            children: [
+              BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 10,
+                  sigmaY: 10,
+                ), // Blur strength
+                child: Container(),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: CupertinoColors.black.withAlpha(5),
+                  borderRadius: BorderRadius.circular(25),
                 ),
-              ],
-            ),
-            child: child,
+              ),
+              child!,
+            ],
           ),
         ),
       ),

@@ -1,5 +1,7 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pikanda/backend/login_database.dart';
+import 'package:pikanda/frontend/home_screen.dart';
 import 'package:pikanda/frontend/login_screen.dart';
 import 'package:pikanda/frontend/quote_screen.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
@@ -76,17 +78,19 @@ class CheckButton extends StatefulWidget {
 class _CheckButtonState extends State<CheckButton> {
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton.tinted(
+    return CupertinoButton.filled(
       color: CupertinoColors.black,
       pressedOpacity: 0.4,
       child: HugeIcon(
-        icon: HugeIcons.strokeRoundedHugeicons,
+        icon: HugeIcons.strokeRoundedCompass01,
         color: CupertinoColors.activeOrange,
       ),
-      onPressed:
-          () => Navigator.of(
-            context,
-          ).push(CupertinoPageRoute(builder: (context) => LoginScreen())),
+      onPressed: () {
+        print(readData());
+      },
+      // () => Navigator.of(
+      //   context,
+      // ).push(CupertinoPageRoute(builder: (context) => HomePage())),
     );
   }
 }

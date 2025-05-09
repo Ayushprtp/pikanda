@@ -6,6 +6,7 @@ import 'package:pikanda/utilities/bg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -47,6 +48,42 @@ class _HomeScreenState extends State<HomeScreen> {
           Spacer(),
           Align(alignment: Alignment.bottomCenter, child: Dev()),
         ],
+      ),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final _future = Supabase.instance.client.from('profile').select();
+  @override
+  Widget build(BuildContext context) {
+    return Bg(
+      child: FutureBuilder(
+        future: _future,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CupertinoActivityIndicator(
+                color: CupertinoColors.activeBlue,
+                radius: 60,
+              ),
+            );
+          }
+          final profile = snapshot.data!;
+          return ListView.builder(
+            itemCount: profile.length,
+            itemBuilder: ((context, index) {
+              final profiles = profile[index];
+              return ListTile(title: Text(profiles['access_code']));
+            }),
+          );
+        },
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:pikanda/backend/login_database.dart';
 import 'package:pikanda/frontend/devinfo_screen.dart';
 import 'package:pikanda/frontend/home_screen.dart';
+import 'package:pikanda/test.dart';
 import 'package:pikanda/utilities/bg.dart';
 import 'package:pikanda/utilities/morphsimcontainer.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
@@ -90,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Spacer(),
+          CheckButton(),
           Align(alignment: Alignment.bottomCenter, child: Dev()),
         ],
       ),
@@ -143,10 +145,10 @@ class _AdminState extends State<Admin> {
               ),
               actions: [
                 CupertinoDialogAction(
-                  isDefaultAction: true,
+                  // isDefaultAction: true,
                   child: Text('OK'),
                   onPressed: () {
-                    if (inputadminaccess == '12345') {
+                    if (inputadminaccess == fetchadminaccess) {
                       Navigator.of(context).push(
                         CupertinoPageRoute(builder: (context) => HomeScreen()),
                       );

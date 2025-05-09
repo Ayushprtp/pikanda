@@ -30,7 +30,7 @@ class Bg extends StatelessWidget {
           color: CupertinoColors.black,
           image: DecorationImage(
             image: AssetImage('assets/images/bg_brick.png'),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
         ),
         child: SafeArea(bottom: false, child: child!),
