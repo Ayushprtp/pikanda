@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Align(
             alignment: Alignment.center,
             child: MorphedContainer(
-              height: global.SizeConfig.screenHeight * 0.5,
+              height: global.SizeConfig.screenHeight * 0.45,
               width: double.infinity,
               child: Column(
                 children: [

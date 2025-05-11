@@ -79,7 +79,7 @@ flutter:
     - shorebird.yaml
     - assets/videos/
     - assets/fonts/
-    - assets/bcard/    
+#    - assets/bcard/
     - assets/card/
     - assets/fonts/
     - assets/images/

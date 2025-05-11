@@ -85,12 +85,12 @@ class _CheckButtonState extends State<CheckButton> {
         icon: HugeIcons.strokeRoundedCompass01,
         color: CupertinoColors.activeOrange,
       ),
-      onPressed: () {
-        print(readData());
-      },
-      // () => Navigator.of(
-      //   context,
-      // ).push(CupertinoPageRoute(builder: (context) => HomePage())),
+      onPressed:
+        // print(readData());
+
+      () => Navigator.of(
+        context,
+      ).push(CupertinoPageRoute(builder: (context) => HomePage()  ))
     );
   }
 }
