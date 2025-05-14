@@ -2,6 +2,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pikanda/frontend/devinfo_screen.dart';
 import 'package:pikanda/utilities/bg.dart';
 import 'package:pikanda/utilities/morphsimcontainer.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pikanda/frontend/quote_widget.dart';
 import 'package:pikanda/frontend/song_widget.dart';
@@ -19,7 +20,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
-      leading: null,
+      leading: CupertinoNavigationBarBackButton(),
       middle: Text(
         'Quotesss..!!',
         style: TextStyle(
@@ -28,20 +29,20 @@ class _QuoteScreenState extends State<QuoteScreen> {
           color: CupertinoColors.white,
         ),
       ),
-      trailing: HugeIcon(
-        icon: HugeIcons.strokeRoundedEthereumRectangle,
-        color: CupertinoColors.systemGrey,
+      trailing: GestureDetector(
+        child: HugeIcon(
+          icon: HugeIcons.strokeRoundedBookmark02,
+          color: CupertinoColors.systemGrey,
+        ),
+        onTap: (){},
       ),
 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Spacer(),
-          MorphedContainer(
-            height: 300,
-            width: double.maxFinite,
-            child: Text('data'),
-          ),
+
+      // ),
           Align(alignment: Alignment.center, child: QuoteWidget()),
           Spacer(),
           Dev(),

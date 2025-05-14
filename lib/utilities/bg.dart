@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:pikanda/test.dart';
 
 class Bg extends StatelessWidget {
   const Bg({super.key, this.child, this.leading, this.middle, this.trailing});
@@ -11,13 +12,17 @@ class Bg extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        transitionBetweenRoutes: true,
         border: Border(
+
           bottom: BorderSide(
             color: CupertinoColors.black.withValues(alpha: 0.2),
           ),
         ),
         backgroundColor: CupertinoColors.black.withValues(alpha: 0.2),
-        automaticallyImplyLeading: true,
+        // automaticallyImplyLeading: true,
+        enableBackgroundFilterBlur: true,
+        padding:EdgeInsetsDirectional.all(5),
         brightness: Brightness.dark,
         leading: leading,
         middle: middle,
