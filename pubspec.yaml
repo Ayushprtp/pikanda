@@ -49,6 +49,7 @@ dependencies:
   url_launcher: ^6.3.1
   device_preview: ^1.2.0
   package_info_plus: ^8.3.0
+  curved_navigation_bar: ^1.0.6
   share_plus: ^10.1.4
   emoji_picker_flutter: ^4.3.0
 dev_dependencies:

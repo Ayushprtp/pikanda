@@ -1,11 +1,13 @@
 import 'package:hugeicons/hugeicons.dart';
 import 'package:pikanda/frontend/devinfo_screen.dart';
 import 'package:pikanda/frontend/quote_screen.dart';
+import 'package:pikanda/frontend/song_widget.dart';
 import 'package:pikanda/test.dart';
 import 'package:pikanda/utilities/bg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
 import 'package:flutter/material.dart';
+import 'package:pikanda/utilities/morphsimcontainer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,31 +21,24 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
-      leading: HugeIcon(
-        icon: HugeIcons.strokeRoundedRefresh,
-        color: CupertinoColors.activeBlue,
-      ),
+      leading: null,
       middle: Text(
         'Home..!!',
         style: TextStyle(
-          fontFamily: 'Blanka',
+          fontFamily: 'Ethnocentric',
           fontSize: global.SizeConfig.screenHeight * 0.025,
           color: CupertinoColors.white,
         ),
       ),
       trailing: HugeIcon(
-        icon: HugeIcons.strokeRoundedRefresh,
-        color: CupertinoColors.activeBlue,
+        icon: HugeIcons.strokeRoundedAccountSetting03,
+        color: CupertinoColors.systemGrey,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('####'),
-          Text('####'),
           TestButton(),
-          Text('####'),
-          Text('####'),
           CheckButton(),
           Spacer(),
           Align(alignment: Alignment.bottomCenter, child: Dev()),
@@ -53,38 +48,105 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+
+class AdminHomeScreen extends StatefulWidget {
+  const AdminHomeScreen({super.key});
+
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<AdminHomeScreen> createState() => _AdminHomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
-  final _future = Supabase.instance.client.from('profile').select();
+class _AdminHomeScreenState extends State<AdminHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
-      child: FutureBuilder(
-        future: _future,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CupertinoActivityIndicator(
-                color: CupertinoColors.activeBlue,
-                radius: 60,
-              ),
-            );
-          }
-          final profile = snapshot.data!;
-          return ListView.builder(
-            itemCount: profile.length,
-            itemBuilder: ((context, index) {
-              final profiles = profile[index];
-              return ListTile(title: Text(profiles['access_code']));
-            }),
-          );
-        },
+      leading: null,
+        middle: Text(
+        'ADMIN Home..!!',
+        style: TextStyle(
+        fontFamily: 'Ethnocentric',
+        fontSize: global.SizeConfig.screenHeight * 0.025,
+        color: CupertinoColors.white,
+    ),
+    ),
+    trailing: HugeIcon(
+    icon: HugeIcons.strokeRoundedAccountSetting03,
+    color: CupertinoColors.systemGrey,
+    ),
+    child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Flexible(child: MorphedContainer(child: Text('Recnt Quotes List View'))),
+      Flexible(child: MorphedContainer(child: Text('Recnt Quotes Having Reponse List View'))),
+
+    Row(
+      children: [
+        CupertinoButton.filled(child: Row(children: [Text('Users'),HugeIcon(
+          icon: HugeIcons.strokeRoundedPencilEdit02,
+          color: CupertinoColors.systemPurple,
+        )],), onPressed: (){}),
+      ],
+    ),
+    Spacer(),
+    Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Align(
+        alignment: Alignment.bottomRight,
+        child: FloatingActionButton(
+            backgroundColor: CupertinoColors.black,
+            child:HugeIcon(
+          size: 35,
+          icon: HugeIcons.strokeRoundedAdd02,
+          color: CupertinoColors.systemPurple,
+        ) ,onPressed: (){}),
+      ),
+    ),
+    Align(alignment: Alignment.bottomCenter, child: Dev()),
+    ],));
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class QRscan extends StatelessWidget {
+  const QRscan({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Stack(
+        children: [ MorphedContainer(
+          width: double.maxFinite,
+          height: global.SizeConfig.screenHeight*0.08,
+          child:
+          Center(child: Container(
+          height: global.SizeConfig.screenHeight*0.1,width: global.SizeConfig.screenHeight*0.1,decoration: BoxDecoration(shape: BoxShape.circle,color: CupertinoColors.black),child: HugeIcon(icon: HugeIcons.strokeRoundedQrCode, color: CupertinoColors.lightBackgroundGray,size: global.SizeConfig.screenHeight*0.06,))),
+
+        ),]
       ),
     );
   }
 }
+
+
+

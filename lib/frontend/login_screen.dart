@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:pikanda/backend/login_database.dart';
+import 'package:pikanda/backend/database.dart';
 import 'package:pikanda/frontend/devinfo_screen.dart';
 import 'package:pikanda/frontend/home_screen.dart';
 import 'package:pikanda/test.dart';
@@ -50,17 +50,18 @@ class _LoginScreenState extends State<LoginScreen> {
           Align(
             alignment: Alignment.center,
             child: MorphedContainer(
-              height: global.SizeConfig.screenHeight * 0.45,
+              height: global.SizeConfig.screenHeight * 0.48,
               width: double.infinity,
               child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 15),
                     child: Text(
-                      'Select User Type...',
+                      'Select User...',
                       style: TextStyle(
-                        color: CupertinoColors.systemRed,
-                        fontSize: global.SizeConfig.screenHeight * 0.04,
+                        fontFamily: 'Ethnocentric',
+                        color: CupertinoColors.systemGrey,
+                        fontSize: global.SizeConfig.screenHeight * 0.03,
                       ),
                     ),
                   ),
@@ -71,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Admin(),
                         SizedBox(width: global.SizeConfig.screenWidth * 0.05),
-                        Test(),
+                        // Test(),
                       ],
                     ),
                   ),
@@ -80,9 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Pika(),
+                        // Pika(),
                         SizedBox(width: global.SizeConfig.screenWidth * 0.1),
-                        Panda(),
+                        // Panda(),
                       ],
                     ),
                   ),
@@ -107,7 +108,8 @@ class Admin extends StatefulWidget {
 }
 
 class _AdminState extends State<Admin> {
-  late final inputadminaccess = TextEditingController();
+  String fetchadminaccess = '12345';
+  TextEditingController inputadminaccess = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
@@ -116,17 +118,25 @@ class _AdminState extends State<Admin> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CircleAvatar(
-            backgroundColor: CupertinoColors.white,
-            maxRadius: global.SizeConfig.screenHeight * 0.05,
-            minRadius: global.SizeConfig.screenHeight * 0.04,
-            foregroundImage: AssetImage('assets/images/avatar/Ayushprtp.png'),
+          Container(
+            child: Image.asset(
+              'assets/images/avatar/Ayushprtp.png',
+              height: global.SizeConfig.screenHeight * 0.1,
+              fit: BoxFit.cover,
+            ),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/avatar/Ayushprtp.png'),
+              ),
+              color: CupertinoColors.systemGrey4,
+              shape: BoxShape.circle,
+            ),
           ),
           Text(
             'ADMIN',
             style: TextStyle(
               fontFamily: 'Blanka',
-              color: CupertinoColors.black,
+              color: CupertinoColors.white,
               fontSize: global.SizeConfig.screenHeight * 0.03,
             ),
           ),
@@ -139,198 +149,61 @@ class _AdminState extends State<Admin> {
             return CupertinoAlertDialog(
               title: Text('Access Code'),
               content: CupertinoTextField(
+                autocorrect: false,
+                // suffix: HugeIcon(
+                //   icon: HugeIcons.strokeRoundedCheckmarkCircle02,
+                //   color: Colors.black,
+                //   size: 24.0,
+                // ),
+                placeholder: "Enter Access Code",
+                decoration: BoxDecoration(
+                  // color: CupertinoColors.activeGreen,
+                  border: Border.all(
+                    color: CupertinoColors.systemGrey,
+                  ), // Customize the border
+                  borderRadius: BorderRadius.circular(
+                    25,
+                  ), // Customize the border radius
+                ),
                 controller: inputadminaccess,
                 obscureText: true,
                 maxLines: 1,
               ),
               actions: [
                 CupertinoDialogAction(
-                  // isDefaultAction: true,
-                  child: Text('OK'),
+                  isDestructiveAction: true,
+                  child: HugeIcon(
+                    icon: HugeIcons.strokeRoundedCancelCircle,
+                    color: CupertinoColors.destructiveRed,
+                  ),
                   onPressed: () {
-                    if (inputadminaccess == fetchadminaccess) {
-                      Navigator.of(context).push(
+                    Navigator.of(context).pop(context);
+                  },
+                ),
+                CupertinoDialogAction(
+                  isDefaultAction: true,
+                  child: HugeIcon(
+                    icon: HugeIcons.strokeRoundedCheckmarkCircle02,
+                    color: CupertinoColors.systemBlue,
+                    // size: 24.0,
+                  ),
+                  onPressed: () {
+                    if (inputadminaccess.text == fetchadminaccess.toString()) {
+                      // ScaffoldMessenger.of(
+                      // context,
+                      // ).showSnackBar(const SnackBar(content: Text('Authorized..!!')));
+                      Navigator.of(context).pushReplacement(
                         CupertinoPageRoute(builder: (context) => HomeScreen()),
                       );
-                    } else {
-                      // Suggested code may be subject to a license. Learn more: ~LicenseLog:2795114141.
-                      const snackdemo = SnackBar(
-                        content: Text('Hii this is GFG\'s SnackBar'),
-                        backgroundColor: Colors.green,
-                        elevation: 10,
-                        behavior: SnackBarBehavior.floating,
-                        margin: EdgeInsets.all(5),
+                    } else if (inputadminaccess.text !=
+                        fetchadminaccess.toString()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Incorrect Access Code..!!'),
+                        ),
                       );
-                      ScaffoldMessenger.of(context).showSnackBar(snackdemo);
-                    }
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-}
-
-class Pika extends StatefulWidget {
-  Pika({Key? key}) : super(key: key);
-
-  @override
-  _PikaState createState() => _PikaState();
-}
-
-class _PikaState extends State<Pika> {
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoButton(
-      pressedOpacity: 0.5,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundColor: CupertinoColors.white,
-            maxRadius: global.SizeConfig.screenHeight * 0.05,
-            minRadius: global.SizeConfig.screenHeight * 0.04,
-            foregroundImage: AssetImage('assets/images/avatar/Pika.png'),
-          ),
-          Text(
-            'ADMIN',
-            style: TextStyle(
-              fontFamily: 'Blanka',
-              color: CupertinoColors.black,
-              fontSize: global.SizeConfig.screenHeight * 0.03,
-            ),
-          ),
-        ],
-      ),
-      onPressed: () {
-        showCupertinoDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CupertinoAlertDialog(
-              title: Text('Alert Dialog'),
-              content: Text('This is a Cupertino Alert Dialog.'),
-              actions: [
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-}
-
-class Panda extends StatefulWidget {
-  Panda({Key? key}) : super(key: key);
-
-  @override
-  _PandaState createState() => _PandaState();
-}
-
-class _PandaState extends State<Panda> {
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoButton(
-      pressedOpacity: 0.5,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundColor: CupertinoColors.white,
-            maxRadius: global.SizeConfig.screenHeight * 0.05,
-            minRadius: global.SizeConfig.screenHeight * 0.04,
-            foregroundImage: AssetImage('assets/images/avatar/Panda.png'),
-          ),
-          Text(
-            'ADMIN',
-            style: TextStyle(
-              fontFamily: 'Blanka',
-              color: CupertinoColors.black,
-              fontSize: global.SizeConfig.screenHeight * 0.03,
-            ),
-          ),
-        ],
-      ),
-      onPressed: () {
-        showCupertinoDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CupertinoAlertDialog(
-              title: Text('Alert Dialog'),
-              content: Text('This is a Cupertino Alert Dialog.'),
-              actions: [
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-}
-
-class Test extends StatefulWidget {
-  const Test({super.key});
-
-  @override
-  State<Test> createState() => _TestState();
-}
-
-class _TestState extends State<Test> {
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoButton(
-      pressedOpacity: 0.5,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundColor: CupertinoColors.white,
-            maxRadius: global.SizeConfig.screenHeight * 0.05,
-            minRadius: global.SizeConfig.screenHeight * 0.04,
-            foregroundImage: AssetImage('assets/images/avatar/Test.png'),
-          ),
-          Text(
-            'ADMIN',
-            style: TextStyle(
-              fontFamily: 'Blanka',
-              color: CupertinoColors.black,
-              fontSize: global.SizeConfig.screenHeight * 0.03,
-            ),
-          ),
-        ],
-      ),
-      onPressed: () {
-        showCupertinoDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CupertinoAlertDialog(
-              title: Text('Alert Dialog'),
-              content: Text('This is a Cupertino Alert Dialog.'),
-              actions: [
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
+                    } else
+                      () {};
                   },
                 ),
               ],

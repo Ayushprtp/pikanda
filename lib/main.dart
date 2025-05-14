@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: CupertinoThemeData(
         brightness: Brightness.dark,
         textTheme: CupertinoTextThemeData(
-          textStyle: TextStyle(fontFamily: "SF", fontStyle: FontStyle.normal),
+          textStyle: TextStyle(fontFamily: "SF", fontStyle: FontStyle.normal,color: CupertinoColors.white),
         ),
       ),
       // title: 'pikanda',

@@ -1,6 +1,7 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:pikanda/backend/login_database.dart';
+import 'package:flutter/material.dart';
+import 'package:pikanda/backend/database.dart';
 import 'package:pikanda/frontend/home_screen.dart';
 import 'package:pikanda/frontend/login_screen.dart';
 import 'package:pikanda/frontend/quote_screen.dart';
@@ -63,7 +64,7 @@ class TestButtonState extends State<TestButton> {
       onPressed:
           () => Navigator.of(
             context,
-          ).push(CupertinoPageRoute(builder: (context) => QuoteScreen())),
+          ).push(CupertinoPageRoute(builder: (context) => AdminHomeScreen())),
     );
   }
 }
@@ -86,11 +87,11 @@ class _CheckButtonState extends State<CheckButton> {
         color: CupertinoColors.activeOrange,
       ),
       onPressed:
-        // print(readData());
+        // / print(readData());
 
       () => Navigator.of(
         context,
-      ).push(CupertinoPageRoute(builder: (context) => HomePage()  ))
+      ).push(CupertinoPageRoute(builder: (context) => QuoteScreen()  ))
     );
   }
 }
