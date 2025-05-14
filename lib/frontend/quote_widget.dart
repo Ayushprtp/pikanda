@@ -23,10 +23,10 @@ class _QuoteWidgetState extends State<QuoteWidget> {
         direction: FlipDirection.HORIZONTAL,
         speed: 500,
         front: Container(
-          height: global.SizeConfig.screenHeight*0.265,
+          height: global.SizeConfig.screenHeight*0.247,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/card/png/16.webp'),fit: BoxFit.fitWidth),
+            image: DecorationImage(image: AssetImage('assets/card/10.webp'),fit: BoxFit.fitWidth),
             color: CupertinoColors.black,
             borderRadius: BorderRadius.circular(25),
           ),
@@ -38,7 +38,7 @@ class _QuoteWidgetState extends State<QuoteWidget> {
           height: global.SizeConfig.screenHeight*0.25,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/card/2.png'),fit: BoxFit.fitWidth),
+            image: DecorationImage(image: AssetImage('assets/card/dex.webp'),fit: BoxFit.fitWidth),
             // color: CupertinoColors.black,
             borderRadius: BorderRadius.circular(25),
           ),

@@ -81,7 +81,6 @@ flutter:
     - shorebird.yaml
     - assets/videos/
     - assets/fonts/
-    - assets/card/png/
     - assets/card/
     - assets/fonts/
     - assets/images/

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -112,21 +112,19 @@ class _AdminState extends State<Admin> {
   TextEditingController inputadminaccess = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton(
-      pressedOpacity: 0.5,
+    return GestureDetector(
+      // pressedOpacity: 0.5,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            child: Image.asset(
-              'assets/images/avatar/Ayushprtp.png',
-              height: global.SizeConfig.screenHeight * 0.1,
-              fit: BoxFit.cover,
-            ),
+            height: global.SizeConfig.screenHeight*0.1,
+            width: global.SizeConfig.screenHeight*0.1,
             decoration: BoxDecoration(
+              // color:CupertinoColors.systemGrey,
               image: DecorationImage(
-                image: AssetImage('assets/images/avatar/Ayushprtp.png'),
+                image: AssetImage('assets/images/avatar/Ayushprtp.webp'),
               ),
               color: CupertinoColors.systemGrey4,
               shape: BoxShape.circle,
@@ -135,14 +133,15 @@ class _AdminState extends State<Admin> {
           Text(
             'ADMIN',
             style: TextStyle(
-              fontFamily: 'Blanka',
+              // backgroundColor: CupertinoColors.destructiveRed,
+              fontFamily: 'SF',
               color: CupertinoColors.white,
               fontSize: global.SizeConfig.screenHeight * 0.03,
             ),
           ),
         ],
       ),
-      onPressed: () {
+      onTap: () {
         showCupertinoDialog(
           context: context,
           builder: (BuildContext context) {
@@ -197,11 +196,8 @@ class _AdminState extends State<Admin> {
                       );
                     } else if (inputadminaccess.text !=
                         fetchadminaccess.toString()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Incorrect Access Code..!!'),
-                        ),
-                      );
+                      CupertinoPopupSurface(child: HugeIcon(icon: HugeIcons.strokeRoundedCheckmarkBadge04, color: CupertinoColors.black));
+
                     } else
                       () {};
                   },

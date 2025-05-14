@@ -10,7 +10,7 @@ class InsertQuote extends StatefulWidget {
 class _InsertQuoteState extends State<InsertQuote> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return
   }
 }
 
