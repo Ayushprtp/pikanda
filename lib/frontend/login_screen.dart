@@ -49,45 +49,48 @@ class _LoginScreenState extends State<LoginScreen> {
           Spacer(),
           Align(
             alignment: Alignment.center,
-            child: MorphedContainer(
-              height: global.SizeConfig.screenHeight * 0.48,
-              width: double.infinity,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: Text(
-                      'Select User...',
-                      style: TextStyle(
-                        fontFamily: 'Ethnocentric',
-                        color: CupertinoColors.systemGrey,
-                        fontSize: global.SizeConfig.screenHeight * 0.03,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MorphedContainer(
+                height: global.SizeConfig.screenHeight * 0.48,
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Text(
+                        'Select User...',
+                        style: TextStyle(
+                          fontFamily: 'Ethnocentric',
+                          color: CupertinoColors.systemGrey,
+                          fontSize: global.SizeConfig.screenHeight * 0.03,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Admin(),
-                        SizedBox(width: global.SizeConfig.screenWidth * 0.05),
-                        // Test(),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Admin(),
+                          SizedBox(width: global.SizeConfig.screenWidth * 0.05),
+                          // Test(),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Pika(),
-                        SizedBox(width: global.SizeConfig.screenWidth * 0.1),
-                        // Panda(),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Pika(),
+                          SizedBox(width: global.SizeConfig.screenWidth * 0.1),
+                          // Panda(),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

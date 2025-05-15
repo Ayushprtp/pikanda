@@ -78,8 +78,14 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      Flexible(child: MorphedContainer(child: Text('Recnt Quotes List View'))),
-      Flexible(child: MorphedContainer(child: Text('Recnt Quotes Having Reponse List View'))),
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Flexible(child: MorphedContainer(child: Text('Recnt Quotes List View'))),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Flexible(child: MorphedContainer(child: Text('Recnt Quotes Having Reponse List View'))),
+      ),
 
     Row(
       children: [
@@ -96,9 +102,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         alignment: Alignment.bottomRight,
         child: Container(
     child: CupertinoButton.tinted(
+      color: CupertinoColors.white,
     child: HugeIcon(
-    icon: HugeIcons.strokeRoundedHugeicons,
-    color: CupertinoColors.systemYellow,
+    icon: HugeIcons.strokeRoundedAdd02,
+    color: CupertinoColors.black
+      ,
     ),
     // disabledColor: CupertinoColors.activeBlue,
     // focusColor: CupertinoColors.activeGreen,

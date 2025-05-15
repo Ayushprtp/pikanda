@@ -11,7 +11,7 @@ class MorphedContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(0.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25), // Morphed/rounded corners
         child: Container(
