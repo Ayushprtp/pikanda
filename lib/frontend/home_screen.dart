@@ -1,6 +1,7 @@
 import 'package:hugeicons/hugeicons.dart';
 import 'package:pikanda/frontend/devinfo_screen.dart';
 import 'package:pikanda/frontend/quote_screen.dart';
+import 'package:pikanda/frontend/quotes.dart';
 import 'package:pikanda/frontend/song_widget.dart';
 import 'package:pikanda/test.dart';
 import 'package:pikanda/utilities/bg.dart';
@@ -93,15 +94,19 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       padding: const EdgeInsets.all(10.0),
       child: Align(
         alignment: Alignment.bottomRight,
-        child: FloatingActionButton(
-            backgroundColor: CupertinoColors.black,
-            child:HugeIcon(
-          size: 35,
-          icon: HugeIcons.strokeRoundedAdd02,
-          color: CupertinoColors.systemPurple,
-        ) ,onPressed: (){}),
-      ),
+        child: Container(
+    child: CupertinoButton.tinted(
+    child: HugeIcon(
+    icon: HugeIcons.strokeRoundedHugeicons,
+    color: CupertinoColors.systemYellow,
     ),
+    // disabledColor: CupertinoColors.activeBlue,
+    // focusColor: CupertinoColors.activeGreen,
+    onPressed:
+        () => Navigator.of(
+      context,
+    ).push(CupertinoPageRoute(builder: (context) => QuoteInsertScreen())),
+      ),)),),
     Align(alignment: Alignment.bottomCenter, child: Dev()),
     ],));
   }
