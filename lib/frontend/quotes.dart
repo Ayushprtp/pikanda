@@ -149,8 +149,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          height: 450, // Increased height for the picker
+        return MorphedContainer(
           child: Column(
             children: [
               Container(

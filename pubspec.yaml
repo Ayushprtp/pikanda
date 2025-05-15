@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.7.0-209.1.beta
+  sdk: ^3.9.0-100.2.beta
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -35,28 +35,27 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   local_auth: ^2.3.0
+  introduction_screen: ^3.1.17
   supabase_flutter: ^2.8.4
-  video_player: ^2.9.5
-  just_audio: ^0.10.0
   hugeicons: ^0.0.1
-  flutter_svg_provider: ^1.0.7
-  flutter_svg: ^2.1.0
+  video_player: ^2.9.5
+  internet_connection_checker: ^3.0.1
+  just_audio: ^0.10.0
   flip_card: ^0.7.0
-  super_cupertino_navigation_bar: ^2.1.2
   flutter_launcher_icons: ^0.14.3
   firebase_core: ^3.13.0
   geolocator: ^14.0.0
+  slide_countdown: ^2.0.2
   device_info_plus: ^11.3.0
   url_launcher: ^6.3.1
-  device_preview: ^1.2.0
-  package_info_plus: ^8.3.0
+#  device_preview: ^1.2.0
   curved_navigation_bar: ^1.0.6
   flex_color_picker: ^3.7.1
   share_plus: ^10.1.4
   emoji_picker_flutter: ^4.3.0
+#  flutter_onedrive: ^1.7.0
 dev_dependencies:
   flutter_native_splash: ^2.0.5
-  custom_sliding_segmented_control: ^1.8.5
   flutter_test:
     sdk: flutter
 
