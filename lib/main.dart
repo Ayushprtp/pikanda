@@ -1,3 +1,5 @@
+
+import 'package:flutter/services.dart';
 import 'package:pikanda/frontend/home_screen.dart';
 import 'package:pikanda/frontend/login_screen.dart';
 import 'package:pikanda/frontend/quote_screen.dart';
@@ -15,7 +17,15 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // runApp(DevicePreview(builder: (context) => const MyApp()));
-  runApp(const MyApp());
+
+  WidgetsFlutterBinding.ensureInitialized();
+  // Ensure Flutter is initialized
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]).then((_) {
+      runApp(const MyApp());
+    });
 }
 
 final supabase = Supabase.instance.client;

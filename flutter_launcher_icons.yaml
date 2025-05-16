@@ -1,0 +1,4 @@
+flutter_launcher_icons:
+  android: true
+  ios: true # "true" to use image_path
+  image_path: "assets/images/icon.png" # Path to your icon file

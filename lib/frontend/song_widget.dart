@@ -11,11 +11,14 @@ class SongWidget extends StatefulWidget {
 }
 
 class _SongWidgetState extends State<SongWidget> {
+  bool _isSongPlaying = true;
+  bool _isDeviceMute = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(10.0),
       child: Container(
+        // height: global.SizeConfig.screenHeight*0.11
         width: double.maxFinite,
         decoration: BoxDecoration(
           color: CupertinoColors.black,
@@ -70,28 +73,60 @@ class _SongWidgetState extends State<SongWidget> {
                   ),
                   Spacer(),
                   Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: EdgeInsets.all(5.0),
                     child: Row(
                       children: [
-                        IconButton.filledTonal(
-                          highlightColor: CupertinoColors.systemGrey,
-                          onPressed: () {},
-                          icon: HugeIcon(
-                            icon: HugeIcons.strokeRoundedPlay,
-                            color: CupertinoColors.white,
-                          ),
-                        ),
-                        //Yeha Colors ka abhi khel baki hai and funstions add krna
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: IconButton.filledTonal(
-                            highlightColor: CupertinoColors.systemGrey,
 
-                            onPressed: () {},
-                            icon: HugeIcon(
-                              icon: HugeIcons.strokeRoundedHeadsetOff,
-                              color: CupertinoColors.systemRed,
+                      Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child:
+                        GestureDetector(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: CupertinoColors.systemPurple.withValues(alpha: 0.5),
+                              // shape: BoxShape.circle,
+                              borderRadius: BorderRadius.circular(global.SizeConfig.screenWidth*1),),
+                            child:
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: HugeIcon(
+                                icon: _isSongPlaying
+                                    ? HugeIcons.strokeRoundedPlay
+                                    : HugeIcons.strokeRoundedPauseCircle,
+                                color: CupertinoColors.lightBackgroundGray,
+                                size: global.SizeConfig.screenWidth*0.065,
+                              ),
                             ),
+                          ),
+                          onTap: (){
+                            setState(() =>
+                            _isSongPlaying = !_isSongPlaying);},
+                        ),
+                      ),
+                        Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child:
+                          GestureDetector(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: CupertinoColors.systemPurple.withValues(alpha: 0.5),
+                                // shape: BoxShape.circle,
+                                borderRadius: BorderRadius.circular(global.SizeConfig.screenWidth*1),),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: HugeIcon(
+                                  icon: _isDeviceMute
+                                      ? HugeIcons.strokeRoundedHeadset
+                                      : HugeIcons.strokeRoundedHeadsetOff,
+                                  color: CupertinoColors.lightBackgroundGray,
+                                  size: global.SizeConfig.screenWidth*0.065,
+                                ),
+                              ),
+                            ),
+                            onTap: (){
+                              setState(() {
+                                _isDeviceMute = !_isDeviceMute;
+                              });},
                           ),
                         ),
                       ],

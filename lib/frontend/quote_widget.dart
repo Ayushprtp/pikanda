@@ -1,8 +1,8 @@
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pikanda/frontend/quotes.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
 import 'package:flip_card/flip_card.dart';
-
 
 class QuoteWidget extends StatefulWidget {
   const QuoteWidget({super.key});
@@ -12,7 +12,6 @@ class QuoteWidget extends StatefulWidget {
 }
 
 class _QuoteWidgetState extends State<QuoteWidget> {
-
   bool _isQuoteTextItalic = false;
   bool _isQuoteTextBold = false;
   bool _isQuoteTextUnderLined = false;
@@ -23,16 +22,20 @@ class _QuoteWidgetState extends State<QuoteWidget> {
   Color selectedColor = CupertinoColors.black;
   String? fcard = 'assets/card/2.webp';
   String? genre = 'null';
+  // String _QuoteInput='Helo';
   final TextEditingController _QuoteInput = TextEditingController();
   String? bcard = 'assets/card/dex.webp';
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return CupertinoContextMenu.builder(
+      enableHapticFeedback: true,
+      builder: (context,child)=> Padding(
         padding: const EdgeInsets.all(10.0),
-        child: FlipCard(
+        child: SizedBox(
+          child:FlipCard(
           fill: Fill.fillBack,
           flipOnTouch: true,
-
+          // controller: _flipCardController,
           direction: FlipDirection.HORIZONTAL,
           speed: 500,
           front: Container(
@@ -84,7 +87,48 @@ class _QuoteWidgetState extends State<QuoteWidget> {
               borderRadius: BorderRadius.circular(25),
             ),
           ),
+        ),),
+      ),
+      // child:
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(CupertinoIcons.add),
+            Icon(CupertinoIcons.add_circled)
+          ],
         ),
+          CupertinoContextMenuAction(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            isDefaultAction: true,
+            trailingIcon: CupertinoIcons.doc_on_clipboard_fill,
+            child: const Text('Copy'),
+          ),
+          CupertinoContextMenuAction(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            trailingIcon: CupertinoIcons.share,
+            child: const Text('Share'),
+          ),
+          CupertinoContextMenuAction(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            trailingIcon: CupertinoIcons.heart,
+            child: const Text('Favorite'),
+          ),
+          CupertinoContextMenuAction(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            isDestructiveAction: true,
+            trailingIcon: CupertinoIcons.delete,
+            child: const Text('Delete'),
+          ),
+        ],
       );
   }
 }
