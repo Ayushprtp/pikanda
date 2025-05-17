@@ -1,4 +1,9 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:pikanda/utilities/bg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pikanda/frontend/quote_widget.dart';
@@ -6,6 +11,8 @@ import 'package:pikanda/frontend/song_widget.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
 import 'package:hugeicons/hugeicons.dart';
 import 'package:pikanda/utilities/morphsimcontainer.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class QuoteScreen extends StatefulWidget {
   QuoteScreen({super.key});
@@ -15,80 +22,45 @@ class QuoteScreen extends StatefulWidget {
 }
 
 class _QuoteScreenState extends State<QuoteScreen> {
+  final String _sUrl =
+      'https://youtu.be/fWQpb6T89d4?si=GegMKgy3RjyMvTWw';
+      // 'https://music.youtube.com/watch?v=gZ0vHQKfNH8&si=6vcVbUSFrqNxsWch';
+      // 'https://music.youtube.com/watch?v=_9FyH8PmRSU&si=HZdrsG380n2PjIsM';
   final FocusNode _urlFocusNode = FocusNode();
   String? _currentUrl;
   @override
   Widget build(BuildContext context) {
-    return
-    // Bg(
-    // child:
-    Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: CupertinoColors.black,
-            image: DecorationImage(
-              image: AssetImage('assets/images/bg_brick.png'),
-              fit: BoxFit.cover,
-            ),
-          ),
+    return BgMaterial(
+      leading: CupertinoNavigationBarBackButton(),
+      middle: Text(
+        'Quotesss..!!',
+        style: TextStyle(
+          fontFamily: 'Ethnocentric',
+          fontSize: global.SizeConfig.screenHeight * 0.025,
+          color: CupertinoColors.white,
         ),
-        Scaffold(
-          appBar: CupertinoNavigationBar(
-            leading: CupertinoNavigationBarBackButton(),
-            middle: Text(
-              'Quotesss..!!',
-              style: TextStyle(
-                fontFamily: 'Ethnocentric',
-                fontSize: global.SizeConfig.screenHeight * 0.025,
-                color: CupertinoColors.white,
-              ),
-            ),
-            trailing: GestureDetector(
-              child: HugeIcon(
-                icon: HugeIcons.strokeRoundedBookmark02,
-                color: CupertinoColors.systemGrey,
-              ),
-              onTap: () {},
-            ),
-
-            transitionBetweenRoutes: true,
-            border: Border(
-              bottom: BorderSide(
-                color: CupertinoColors.black.withValues(alpha: 0.6),
-              ),
-            ),
-            backgroundColor: CupertinoColors.black.withValues(alpha: 0.4),
-            automaticallyImplyLeading: false,
-            enableBackgroundFilterBlur: true,
-            padding: EdgeInsetsDirectional.all(5),
-            brightness: Brightness.dark,
-            automaticBackgroundVisibility: false,
-          ),
-          backgroundColor: CupertinoColors.black.withAlpha(0),
-          resizeToAvoidBottomInset: true,
-          body: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Spacer(),
-              Align(alignment: Alignment.center, child: QuoteWidget()),
-              // Align(alignment: Alignment.bottomCenter,child: Response()),
-              Spacer(),
-              Response(),
-
-              // Spacer(),
-            ],
-          ),
-          // bottomNavigationBar: Align(alignment: Alignment.bottomCenter, child: SizedBox(child: SongWidget())),
-          bottomNavigationBar: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [SongWidget()],
-          ),
+      ),
+      trailing: GestureDetector(
+        child: HugeIcon(
+          icon: HugeIcons.strokeRoundedBookmark02,
+          color: CupertinoColors.systemGrey,
         ),
-      ],
+        onTap: () {},
+      ),
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Spacer(),
+          Align(alignment: Alignment.center, child: QuoteWidget()),
+          // Align(alignment: Alignment.bottomCenter,child: Response()),
+          Spacer(),
+          // Response(),
+
+          // Spacer(),
+        ],
+      ),
+      bottomWidget: SongWidget(sUrl: '$_sUrl'),
     );
-
-    // ))
   }
 }
 
@@ -108,6 +80,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
 //     });
 //   }
 // }
+
 class Response extends StatefulWidget {
   const Response({super.key});
 
@@ -179,6 +152,247 @@ class _ResponseState extends State<Response> {
               maxLines: 8,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class SongWidget extends StatefulWidget {
+  late String sUrl = _SongWidgetState()._surl;
+  SongWidget({Key? key, required this.sUrl});
+  @override
+  State<SongWidget> createState() => _SongWidgetState();
+}
+
+class _SongWidgetState extends State<SongWidget> {
+  bool _isSongPlaying = false;
+  bool _isDeviceMute = false;
+  final player = AudioPlayer();
+  String _surl = _QuoteScreenState()._sUrl;
+
+  String? title;
+  String? artist;
+  String? audioUrl;
+  String? thumbnailUrl;
+  bool loading = true;
+  String? error;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMeta();
+  }
+  Future<void> fetchMeta() async {
+    setState(() {
+      loading = true;
+      error = null;
+    });
+    final yt = YoutubeExplode();
+    try {
+      final song = await yt.videos.get(_surl);
+      final manifest = await yt.videos.streamsClient.getManifest(_surl);
+
+      // Filter for m4a (audio/mp4) streams
+      final m4aStreams = manifest.audioOnly
+          .where((s) => s.codec.mimeType == 'audio/mp4')
+          .toList();
+
+      String? directUrl;
+      if (m4aStreams.isNotEmpty) {
+        // Take the highest bitrate m4a stream
+        m4aStreams.sort((a, b) => b.bitrate.compareTo(a.bitrate));
+        directUrl = m4aStreams.first.url.toString();
+      }
+
+      setState(() {
+        title = song.title;
+        artist = song.author;
+        thumbnailUrl = song.thumbnails.highResUrl;
+        audioUrl = directUrl; // <-- this is your direct m4a audio link
+        loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        error = e.toString();
+        loading = false;
+      });
+    } finally {
+      yt.close();
+    }
+  }
+
+  @override
+  void initstate() {
+    player.setUrl('$audioUrl');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (loading) {
+      return const Center(child: CupertinoActivityIndicator());
+    }
+    if (error != null) {
+      return Center(child: Text('Error: $error'));
+    }
+    return Padding(
+      padding: EdgeInsets.all(10.0),
+      child: Container(
+        height: global.SizeConfig.screenHeight*0.1,
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+          color: CupertinoColors.destructiveRed,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 5.0),
+                    child: Container(
+                      width: global.SizeConfig.screenWidth * 0.3,
+                      height: global.SizeConfig.screenWidth * 0.2,
+                      decoration: BoxDecoration(
+
+                        border: Border.all(color: CupertinoColors.black),
+                        borderRadius: BorderRadius.circular(25),
+                        color: CupertinoColors.white,
+                      ),
+                      child: CachedNetworkImage(
+                        // width: global.SizeConfig.screenWidth * 0.1,
+                        // height: global.SizeConfig.screenWidth * 0.1,
+                        imageUrl: thumbnailUrl!,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            const Center(child: CupertinoActivityIndicator()),
+                        errorWidget: (context, url, error) =>
+                            const Center(child: Icon(Icons.error)),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection:Axis.horizontal,
+                            child: Text(
+                              '${title}',
+                              style: TextStyle(
+                                fontSize: global.SizeConfig.screenHeight * 0.025,
+                                color: CupertinoColors.systemGrey4,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          '${artist}',
+                          style: TextStyle(
+                            fontSize: global.SizeConfig.screenHeight * 0.022,
+                            color: CupertinoColors.systemGrey2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: GestureDetector(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: CupertinoColors.systemPurple.withValues(
+                                  alpha: 0.5,
+                                ),
+                                // shape: BoxShape.circle,
+                                borderRadius: BorderRadius.circular(
+                                  global.SizeConfig.screenWidth * 1,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: HugeIcon(
+                                  icon: _isSongPlaying
+                                      ? HugeIcons.strokeRoundedPlay
+                                      : HugeIcons.strokeRoundedPause,
+                                  color: CupertinoColors.lightBackgroundGray,
+                                  size: global.SizeConfig.screenWidth * 0.065,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              if (player.playing) {
+                                player.pause();
+                                setState(() {
+                                  _isSongPlaying = !_isSongPlaying;
+                                });
+                                print('$_surl');
+                                print('${player.playing}');
+                              } else {
+                                player.play();
+                                setState(() {
+                                  _isSongPlaying = !_isSongPlaying;
+                                });
+                                print('$_surl');
+                                print('${artist}');
+                                print('${title}');
+                                print('$audioUrl');
+                                print('${thumbnailUrl}');
+                                print('${player.playing}');
+                              }
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: GestureDetector(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: CupertinoColors.systemPurple.withValues(
+                                  alpha: 0.5,
+                                ),
+                                // shape: BoxShape.circle,
+                                borderRadius: BorderRadius.circular(
+                                  global.SizeConfig.screenWidth * 1,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: HugeIcon(
+                                  icon: _isDeviceMute
+                                      ? HugeIcons.strokeRoundedHeadset
+                                      : HugeIcons.strokeRoundedHeadsetOff,
+                                  color: CupertinoColors.lightBackgroundGray,
+                                  size: global.SizeConfig.screenWidth * 0.065,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                _isDeviceMute = !_isDeviceMute;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
