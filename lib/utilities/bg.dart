@@ -69,7 +69,7 @@ class BgMaterial extends StatelessWidget {
           Scaffold(
             appBar: CupertinoNavigationBar(
 
-              transitionBetweenRoutes: true,
+              // transitionBetweenRoutes: true,
               border: Border(
 
                 bottom: BorderSide(
