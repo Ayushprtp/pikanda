@@ -59,29 +59,10 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
 
   Color selectedColor = CupertinoColors.black;
   String? fcard = 'assets/card/2.webp';
+  String? selectedcard = 'assets/card/2.webp';
   String? genre = 'null';
   String? bcard = 'assets/card/dex.webp';
-  Color _isBackCardSelcted1 = CupertinoColors.black;
-  Color _isBackCardSelcted2 = CupertinoColors.black;
-  Color _isBackCardSelcted3 = CupertinoColors.black;
-  Color _isFrontCardSelcted1 = CupertinoColors.black;
-  Color _isFrontCardSelcted2 = CupertinoColors.black;
-  Color _isFrontCardSelcted3 = CupertinoColors.black;
-  Color _isFrontCardSelcted4 = CupertinoColors.black;
-  Color _isFrontCardSelcted5 = CupertinoColors.black;
-  Color _isFrontCardSelcted6 = CupertinoColors.black;
-  Color _isFrontCardSelcted7 = CupertinoColors.black;
-  Color _isFrontCardSelcted8 = CupertinoColors.black;
-  Color _isFrontCardSelcted9 = CupertinoColors.black;
-  Color _isFrontCardSelcted10 = CupertinoColors.black;
-  Color _isFrontCardSelcted11 = CupertinoColors.black;
-  Color _isFrontCardSelcted12 = CupertinoColors.black;
-  Color _isFrontCardSelcted13 = CupertinoColors.black;
-  Color _isFrontCardSelcted14 = CupertinoColors.black;
-  Color _isFrontCardSelcted15 = CupertinoColors.black;
-  Color _isFrontCardSelcted16 = CupertinoColors.black;
-  Color _isFrontCardSelcted17 = CupertinoColors.black;
-  Color _isFrontCardSelcted18 = CupertinoColors.black;
+  String? selectedbcard = 'assets/card/dex.webp';
 
   void _showGenreDialog() {
     showCupertinoDialog(
@@ -145,52 +126,54 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
       },
     );
   }
+
   void _showColorPicker(BuildContext context) {
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext context) {
         return MorphedContainer(
-          child: Column(
-            children: [
-              Container(
-                //use a Material widget here, as the color picker from the package is a Material widget.
-                child: Material(
-                  child: ColorPicker(
-                    color: selectedColor,
-                    onColorChanged: (Color color) {
-                      setState(() {
-                        selectedColor = color;
-                      });
-                    },
-                    pickersEnabled: <ColorPickerType, bool>{
-                      ColorPickerType.both: true,
-                      ColorPickerType.primary: true,
-                      ColorPickerType.accent: true,
-                      ColorPickerType.wheel: true,
-                    },
-                    // displayThumbColor: true,
-                    // enableAlpha: false,
+          height: global.SizeConfig.screenHeight * 0.5,
+          Colors: CupertinoColors.destructiveRed,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Container(
+                  //use a Material widget here, as the color picker from the package is a Material widget.
+                  child: Material(
+                    child: SizedBox(
+                      width: double.maxFinite,
+                      child: ColorPicker(
+                        color: selectedColor,
+                        onColorChanged: (Color color) {
+                          setState(() {
+                            selectedColor = color;
+                          });
+                        },
+                        pickersEnabled: <ColorPickerType, bool>{
+                          ColorPickerType.both: true,
+                          ColorPickerType.primary: true,
+                          ColorPickerType.accent: true,
+                          ColorPickerType.wheel: true,
+                        },
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              CupertinoButton(
-                // A Cupertino button to fit in with the design
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Done'),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
     );
   }
+
+  @override
   Widget build(BuildContext context) {
     return Bg(
-      leading: null,
+      leading: CupertinoNavigationBarBackButton(),
       middle: Text(
-        'Quote Insert..!!',
+        'Quote Upload..!!',
         style: TextStyle(
           fontFamily: 'Ethnocentric',
           fontSize: global.SizeConfig.screenHeight * 0.025,
@@ -224,25 +207,28 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                 ),
                 child: Align(
                   alignment: alignment,
-                  child: Text(
-                    textAlign: textAlign,
-                    '${_QuoteInput.text}',
-                    style: TextStyle(
-                      fontFamily: fontFamily,
-                      fontSize: global.SizeConfig.screenHeight * fontSize,
-                      color: selectedColor,
-                      fontStyle:
-                          _isQuoteTextItalic
-                              ? FontStyle.italic
-                              : FontStyle.normal,
-                      decoration:
-                          _isQuoteTextUnderLined
-                              ? TextDecoration.underline
-                              : TextDecoration.none,
-                      fontWeight:
-                          _isQuoteTextBold
-                              ? FontWeight.normal
-                              : FontWeight.normal,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      textAlign: textAlign,
+                      '${_QuoteInput.text}',
+                      style: TextStyle(
+                        fontFamily: fontFamily,
+                        fontSize: global.SizeConfig.screenHeight * fontSize,
+                        color: selectedColor,
+                        fontStyle:
+                            _isQuoteTextItalic
+                                ? FontStyle.italic
+                                : FontStyle.normal,
+                        decoration:
+                            _isQuoteTextUnderLined
+                                ? TextDecoration.underline
+                                : TextDecoration.none,
+                        fontWeight:
+                            _isQuoteTextBold
+                                ? FontWeight.normal
+                                : FontWeight.normal,
+                      ),
                     ),
                   ),
                 ),
@@ -270,9 +256,13 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                   child: Column(
                     children: [
                       CupertinoTextField(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 10.0,
+                        ),
                         suffix: GestureDetector(
                           child: Padding(
-                            padding: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: HugeIcon(
                               icon: HugeIcons.strokeRoundedAiEditing,
                               color: CupertinoColors.white,
@@ -301,7 +291,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                   : FontWeight.normal,
                         ),
                         autocorrect: true,
-                        minLines: 2,
+                        minLines: 1,
                         onChanged: (value) => setState(() {}),
                         placeholder: "Enter Quote",
                         decoration: BoxDecoration(
@@ -321,10 +311,10 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: MorphedContainer(
-                            width: double.maxFinite,
+                            Colors: CupertinoColors.black.withAlpha(150),
+                            height: global.SizeConfig.screenHeight * 0.04,
                             child: Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -339,8 +329,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                               : HugeIcons
                                                   .strokeRoundedTextItalic,
                                       color:
-                                          CupertinoColors
-                                              .lightBackgroundGray,
+                                          CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       setState(() {
@@ -358,18 +347,14 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                     child: HugeIcon(
                                       icon:
                                           _isQuoteTextBold
-                                              ? HugeIcons
-                                                  .strokeRoundedTextBold
-                                              : HugeIcons
-                                                  .strokeRoundedTextBold,
+                                              ? HugeIcons.strokeRoundedTextBold
+                                              : HugeIcons.strokeRoundedTextBold,
                                       color:
-                                          CupertinoColors
-                                              .lightBackgroundGray,
+                                          CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       setState(() {
-                                        _isQuoteTextBold =
-                                            !_isQuoteTextBold;
+                                        _isQuoteTextBold = !_isQuoteTextBold;
                                       });
                                     },
                                   ),
@@ -387,8 +372,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                               : HugeIcons
                                                   .strokeRoundedTextUnderline,
                                       color:
-                                          CupertinoColors
-                                              .lightBackgroundGray,
+                                          CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       setState(() {
@@ -404,19 +388,15 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                   ),
                                   child: GestureDetector(
                                     child: HugeIcon(
-                                      icon:
-                                          HugeIcons.strokeRoundedTextFont,
+                                      icon: HugeIcons.strokeRoundedTextFont,
                                       color:
-                                          CupertinoColors
-                                              .lightBackgroundGray,
+                                          CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       showCupertinoModalPopup(
                                         context: context,
                                         builder:
-                                            (
-                                              context,
-                                            ) => CupertinoActionSheet(
+                                            (context) => CupertinoActionSheet(
                                               actions:
                                                   _fontFamilies.map((
                                                     String family,
@@ -424,18 +404,23 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                     return CupertinoActionSheetAction(
                                                       onPressed: () {
                                                         setState(() {
-                                                          fontFamily =
-                                                              family;
+                                                          fontFamily = family;
                                                           Navigator.of(
                                                             context,
                                                           ).pop();
                                                         });
                                                       },
-                                                      child: Text(family),
+                                                      child: Text(
+                                                        family,
+                                                        style: TextStyle(
+                                                          fontFamily: family,
+                                                        ),
+                                                      ),
                                                     );
                                                   }).toList(),
                                               cancelButton:
                                                   CupertinoActionSheetAction(
+                                                    isDestructiveAction: true,
                                                     onPressed: () {
                                                       Navigator.of(
                                                         context,
@@ -449,13 +434,10 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                  ),
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
                                   child: SizedBox(
                                     width:
-                                        global.SizeConfig.screenWidth *
-                                        0.125,
+                                        global.SizeConfig.screenWidth * 0.125,
                                     child: CupertinoTextField(
                                       placeholder: "Size",
                                       controller: _FontSize,
@@ -466,8 +448,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                       decoration: BoxDecoration(
                                         // color: CupertinoColors.activeGreen,
                                         border: Border.all(
-                                          color:
-                                              CupertinoColors.systemGrey,
+                                          color: CupertinoColors.systemGrey,
                                         ), // Customize the border
                                         borderRadius: BorderRadius.circular(
                                           25,
@@ -475,8 +456,9 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                       ),
                                       onChanged: (_FontSize) {
                                         setState(() {
-                                          final parsedValue =
-                                              double.tryParse(_FontSize);
+                                          final parsedValue = double.tryParse(
+                                            _FontSize,
+                                          );
                                           if (parsedValue != null &&
                                               parsedValue > 0) {
                                             fontSize = parsedValue;
@@ -496,17 +478,14 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                           HugeIcons
                                               .strokeRoundedAlignBoxTopCenter,
                                       color:
-                                          CupertinoColors
-                                              .lightBackgroundGray,
+                                          CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       setState(() {
                                         showCupertinoModalPopup(
                                           context: context,
                                           builder:
-                                              (
-                                                context,
-                                              ) => CupertinoActionSheet(
+                                              (context) => CupertinoActionSheet(
                                                 actions:
                                                     _containerAlignments.map((
                                                       Alignment alignment,
@@ -531,14 +510,13 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                     }).toList(),
                                                 cancelButton:
                                                     CupertinoActionSheetAction(
+                                                      isDestructiveAction: true,
                                                       onPressed: () {
                                                         Navigator.of(
                                                           context,
                                                         ).pop();
                                                       },
-                                                      child: Text(
-                                                        'Cancel',
-                                                      ),
+                                                      child: Text('Cancel'),
                                                     ),
                                               ),
                                         );
@@ -556,17 +534,14 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                           HugeIcons
                                               .strokeRoundedTextAlignRight01,
                                       color:
-                                          CupertinoColors
-                                              .lightBackgroundGray,
+                                          CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       setState(() {
                                         showCupertinoModalPopup(
                                           context: context,
                                           builder:
-                                              (
-                                                context,
-                                              ) => CupertinoActionSheet(
+                                              (context) => CupertinoActionSheet(
                                                 actions:
                                                     _alignments.map((
                                                       TextAlign alignment,
@@ -591,14 +566,13 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                     }).toList(),
                                                 cancelButton:
                                                     CupertinoActionSheetAction(
+                                                      isDestructiveAction: true,
                                                       onPressed: () {
                                                         Navigator.of(
                                                           context,
                                                         ).pop();
                                                       },
-                                                      child: Text(
-                                                        'Cancel',
-                                                      ),
+                                                      child: Text('Cancel'),
                                                     ),
                                               ),
                                         );
@@ -607,13 +581,18 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                  ),
                                   child: GestureDetector(
                                     child: HugeIcon(
                                       icon: HugeIcons.strokeRoundedPaintBoard,
-                                      color: CupertinoColors.lightBackgroundGray,
+                                      color:
+                                          CupertinoColors.lightBackgroundGray,
                                     ),
-                                    onTap: () =>_showColorPicker,
+                                    onTap: () {
+                                      _showColorPicker(context);
+                                    },
                                   ),
                                 ),
                               ],
@@ -641,6 +620,11 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                 child: MorphedContainer(
                   child: CupertinoTextField(
                     autocorrect: false,
+
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                      vertical: 10.0,
+                    ),
                     placeholder: "Enter Song Url From YT",
                     decoration: BoxDecoration(
                       // color: CupertinoColors.activeGreen,
@@ -652,8 +636,8 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                       ), // Customize the border radius
                     ),
                     controller: _SongInput,
-                    minLines: 2,
-                    maxLines: 100,
+                    minLines: 1,
+                    maxLines: 1000,
                   ),
                 ),
               ),
@@ -689,641 +673,545 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                       ),
                       Visibility(
                         visible: _isFrontCardVisible,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
-
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/1.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted1,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted1 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/1.webp';
-                                      });
-                                    },
+                        child: Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: MorphedContainer(
+                            Colors: CupertinoColors.black.withAlpha(150),
+                            height: global.SizeConfig.screenHeight * 0.15,
+                            child: GridView(
+                              padding: EdgeInsetsDirectional.all(10),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent:
+                                        global.SizeConfig.screenWidth *
+                                        0.39, // cell width
+                                    mainAxisExtent:
+                                        global.SizeConfig.screenHeight * 0.075,
+                                    mainAxisSpacing:
+                                        5, // vertical space between cells
+                                    crossAxisSpacing: 5, // cell height
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                              children: [
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/2.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted2,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/card/1.webp'),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/1.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted2 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/2.webp';
-                                      });
-                                    },
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/1.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/3.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted3,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/card/2.webp'),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/2.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted3 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/3.webp';
-                                      });
-                                    },
                                   ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/2.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/4.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted4,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/card/3.webp'),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/3.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted4 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/4.webp';
-                                      });
-                                    },
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/3.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/5.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted5,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/card/4.webp'),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/4.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted5 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/5.webp';
-                                      });
-                                    },
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/4.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/6.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted6,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/card/5.webp'),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/5.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted6 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/6.webp';
-                                      });
-                                    },
                                   ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/5.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/7.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted7,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/card/6.webp'),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/6.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted7 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/7.webp';
-                                      });
-                                    },
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/6.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/8.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted8,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/card/7.webp'),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/7.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted3 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/8.webp';
-                                      });
-                                    },
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/7.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/9.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted9,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/card/8.webp'),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/8.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted9 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/9.webp';
-                                      });
-                                    },
                                   ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/8.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/10.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted10,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/card/9.webp'),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/9.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted10 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/10.webp';
-                                      });
-                                    },
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/9.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/11.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          'assets/card/10.webp',
                                         ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted11,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/10.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted11 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/11.webp';
-                                      });
-                                    },
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/10.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/12.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          'assets/card/11.webp',
                                         ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted12,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/11.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted12 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/12.webp';
-                                      });
-                                    },
                                   ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/11.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/13.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          'assets/card/12.webp',
                                         ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted13,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/12.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted13 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/13.webp';
-                                      });
-                                    },
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/12.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/14.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          'assets/card/13.webp',
                                         ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted14,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/13.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted3 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/14.webp';
-                                      });
-                                    },
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/13.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/15.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          'assets/card/14.webp',
                                         ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted15,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/14.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted15 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/15.webp';
-                                      });
-                                    },
                                   ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/14.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/16.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          'assets/card/15.webp',
                                         ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted16,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/15.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted16 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/16.webp';
-                                      });
-                                    },
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/15.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/17.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          'assets/card/16.webp',
                                         ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted17,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/16.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted17 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/17.webp';
-                                      });
-                                    },
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      // child: Text(''),
-                                      // child: ,
-                                      height:
-                                          global.SizeConfig.screenWidth * 0.17,
-                                      width:
-                                          global.SizeConfig.screenWidth * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: CupertinoColors.black,
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/16.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
 
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/card/18.webp',
-                                          ),
-                                          fit: BoxFit.fitWidth,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          'assets/card/17.webp',
                                         ),
-                                        border: Border.all(
-                                          width: 2,
-                                          color: _isFrontCardSelcted18,
-                                        ),
-                                        // color: CupertinoColors.black,
-                                        borderRadius: BorderRadius.circular(25),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      border:
+                                          selectedcard == 'assets/card/17.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        _isFrontCardSelcted18 =
-                                            CupertinoColors.systemRed;
-                                        fcard = 'assets/card/18.webp';
-                                      });
-                                    },
                                   ),
-                                ],
-                              ),
-                            ],
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/17.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    //
+                                    decoration: BoxDecoration(
+                                      color: CupertinoColors.transparent,
+
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          'assets/card/18.webp',
+                                        ),
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                      border:
+                                          selectedcard == 'assets/card/18.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      fcard = 'assets/card/18.webp';
+                                      selectedcard = fcard;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -1334,7 +1222,6 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: MorphedContainer(
-                  // color: CupertinoColors.black,
                   width: double.maxFinite,
                   child: Column(
                     children: [
@@ -1343,11 +1230,9 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(5.0),
-                              child: Center(
-                                child: Text(
-                                  'Back Quote Card',
-                                  style: TextStyle(fontSize: 25),
-                                ),
+                              child: Text(
+                                'Back Quote Card',
+                                style: TextStyle(fontSize: 25),
                               ),
                             ),
                             Spacer(),
@@ -1365,23 +1250,31 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                       ),
                       Visibility(
                         visible: _isBackCardVisible,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                        child: Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: MorphedContainer(
+                            Colors: CupertinoColors.black.withAlpha(150),
+                            height: global.SizeConfig.screenHeight * 0.1,
+                            child: GridView(
+                              padding: EdgeInsetsDirectional.all(10),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent:
+                                        global.SizeConfig.screenWidth *
+                                        0.39, // cell width
+                                    mainAxisExtent:
+                                        global.SizeConfig.screenHeight * 0.075,
+                                    mainAxisSpacing:
+                                        5, // vertical space between cells
+                                    crossAxisSpacing: 5, // cell height
+                                  ),
                               children: [
                                 GestureDetector(
                                   child: Container(
-                                    // child: Text(''),
-                                    // child: ,
-                                    height:
-                                        global.SizeConfig.screenWidth * 0.17,
-                                    width:
-                                        global.SizeConfig.screenWidth * 0.28,
+                                    //
                                     decoration: BoxDecoration(
-                                      color: CupertinoColors.black,
+                                      color: CupertinoColors.transparent,
 
                                       image: DecorationImage(
                                         image: AssetImage(
@@ -1389,32 +1282,29 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                         ),
                                         fit: BoxFit.fitWidth,
                                       ),
-                                      border: Border.all(
-                                        width: 2,
-                                        color: _isBackCardSelcted1,
-                                      ),
-                                      // color: CupertinoColors.black,
+                                      border:
+                                          selectedbcard == 'assets/card/ayu.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                   ),
                                   onTap: () {
                                     setState(() {
-                                      _isBackCardSelcted1 =
-                                          CupertinoColors.systemRed;
                                       bcard = 'assets/card/ayu.webp';
+                                      selectedbcard = bcard;
                                     });
                                   },
                                 ),
                                 GestureDetector(
                                   child: Container(
-                                    // child: Text(''),
-                                    // child: ,
-                                    height:
-                                        global.SizeConfig.screenWidth * 0.17,
-                                    width:
-                                        global.SizeConfig.screenWidth * 0.28,
+                                    //
                                     decoration: BoxDecoration(
-                                      color: CupertinoColors.black,
+                                      color: CupertinoColors.transparent,
 
                                       image: DecorationImage(
                                         image: AssetImage(
@@ -1422,32 +1312,29 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                         ),
                                         fit: BoxFit.fitWidth,
                                       ),
-                                      border: Border.all(
-                                        width: 2,
-                                        color: _isBackCardSelcted2,
-                                      ),
-                                      // color: CupertinoColors.black,
+                                      border:
+                                          selectedbcard == 'assets/card/dex.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                   ),
                                   onTap: () {
                                     setState(() {
-                                      _isBackCardSelcted2 =
-                                          CupertinoColors.systemRed;
                                       bcard = 'assets/card/dex.webp';
+                                      selectedbcard = bcard;
                                     });
                                   },
                                 ),
                                 GestureDetector(
                                   child: Container(
-                                    // child: Text(''),
-                                    // child: ,
-                                    height:
-                                        global.SizeConfig.screenWidth * 0.17,
-                                    width:
-                                        global.SizeConfig.screenWidth * 0.28,
+                                    //
                                     decoration: BoxDecoration(
-                                      color: CupertinoColors.black,
+                                      color: CupertinoColors.transparent,
 
                                       image: DecorationImage(
                                         image: AssetImage(
@@ -1455,31 +1342,37 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                         ),
                                         fit: BoxFit.fitWidth,
                                       ),
-                                      border: Border.all(
-                                        width: 2,
-                                        color: _isBackCardSelcted3,
-                                      ),
-                                      // color: CupertinoColors.black,
+                                      border:
+                                          selectedbcard ==
+                                                  'assets/card/pika.webp'
+                                              ? Border.all(
+                                                width: 2,
+                                                color:
+                                                    CupertinoColors.activeBlue,
+                                              )
+                                              : null,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                   ),
                                   onTap: () {
                                     setState(() {
-                                      _isBackCardSelcted3 =
-                                          CupertinoColors.systemRed;
                                       bcard = 'assets/card/pika.webp';
+                                      selectedbcard = bcard;
                                     });
                                   },
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
+                // ],
               ),
+              // ),
+              // ),
               // Spacer(),
               Align(
                 alignment: Alignment.bottomCenter,

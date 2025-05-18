@@ -234,7 +234,7 @@ class _SongWidgetState extends State<SongWidget> {
                     padding: EdgeInsets.only(left: 5.0),
                     child: ClipRRect(
 
-                      borderRadius: BorderRadiusGeometry.circular(25),
+                      borderRadius: BorderRadius.circular(25),
                       child: Container(
                         width: global.SizeConfig.screenWidth * 0.15,
                         height: global.SizeConfig.screenWidth * 0.15,

@@ -80,7 +80,8 @@ class _CheckButtonState extends State<CheckButton> {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton.filled(
-      color: CupertinoColors.black,
+
+      // color: CupertinoColors.black,
       pressedOpacity: 0.4,
       child: HugeIcon(
         icon: HugeIcons.strokeRoundedCompass01,

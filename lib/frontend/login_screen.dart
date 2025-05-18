@@ -22,6 +22,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+
   void _showLoginDailogue() {
     TextEditingController _username = TextEditingController();
     showCupertinoDialog(
@@ -64,27 +65,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   maxLines: 1,
                 ),
               ),
-              // CupertinoTextField(
-              //   autocorrect: false,
-              //   // suffix: HugeIcon(
-              //   //   icon: HugeIcons.strokeRoundedCheckmarkCircle02,
-              //   //   color: Colors.black,
-              //   //   size: 24.0,
-              //   // ),
-              //   placeholder: "Enter Access Code",
-              //   decoration: BoxDecoration(
-              //     // color: CupertinoColors.activeGreen,
-              //     border: Border.all(
-              //       color: CupertinoColors.systemGrey,
-              //     ), // Customize the border
-              //     borderRadius: BorderRadius.circular(
-              //       25,
-              //     ), // Customize the border radius
-              //   ),
-              //   controller: _acceescode,
-              //   obscureText: true,
-              //   maxLines: 1,
-              // ),
             ],
           ),
           actions: [
@@ -98,29 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.of(context).pop(context);
               },
             ),
-            // CupertinoDialogAction(
-            //   isDefaultAction: true,
-            //   child: HugeIcon(
-            //     icon: HugeIcons.strokeRoundedCheckmarkCircle02,
-            //     color: CupertinoColors.systemBlue,
-            //     // size: 24.0,
-            //   ),
-            //   onPressed: () {
-            //     if (inputadminaccess.text == fetchadminaccess.toString()) {
-            //       // ScaffoldMessenger.of(
-            //       // context,
-            //       // ).showSnackBar(const SnackBar(content: Text('Authorized..!!')));
-            //       Navigator.of(context).pushReplacement(
-            //         CupertinoPageRoute(builder: (context) => HomeScreen()),
-            //       );
-            //     } else if (inputadminaccess.text !=
-            //         fetchadminaccess.toString()) {
-            //       CupertinoPopupSurface(child: HugeIcon(icon: HugeIcons.strokeRoundedCheckmarkBadge04, color: CupertinoColors.black));
-            //
-            //     } else
-            //           () {};
-            //   },
-            // ),
 
           ],
         );
@@ -165,7 +122,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: MorphedContainer(
                 height: global.SizeConfig.screenHeight * 0.48,
                 width: double.infinity,
-                child: Column(
+                child:
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Padding(
@@ -179,44 +137,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-              // GridView.count(
-              //   primary: false,
-              //   padding: const EdgeInsets.all(20),
-              //   crossAxisSpacing: 10,
-              //   mainAxisSpacing: 10,
-              //   crossAxisCount: 2,
-              //   children: <Widget>[
-              //     Pika(),
-              //     Panda(),
-              //     Admin(),
-              //     Test(),
-              //
-              //   ]),
+                    SizedBox(
+                      height: global.SizeConfig.screenHeight * 0.4,
+                      child: GridView.count(crossAxisCount: 2,
 
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Pika(),
-                          SizedBox(width: global.SizeConfig.screenWidth * 0.05),
-                          Panda()
-                        ],
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
+                          // Pika(),
+                          // Panda(),
                           Admin(),
-                          SizedBox(width: global.SizeConfig.screenWidth * 0.05),
                           Test(),
                         ],
+
                       ),
-                    ),
-                  ],
+                    )
+                        ],
+                      // ),
+                    // ),
+                  // ],
                 ),
               ),
             ),
@@ -231,15 +168,21 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 
-
+final Map<String, String> usernameToRole = {
+  "ayushprtp": "admin",
+  "panda": "pikanda",
+  "pika": "pikanda",
+  "test": "test",
+  "john": "user",
+};
 
 class LoginPrompt extends StatefulWidget {
   final String? username;
 
   const LoginPrompt({
-    Key? key,
+    super.key,
     this.username,
-  }) : super(key: key);
+  });
 
   @override
   State<LoginPrompt> createState() => _LoginPromptState();
@@ -247,11 +190,17 @@ class LoginPrompt extends StatefulWidget {
 class _LoginPromptState extends State<LoginPrompt> {
   late TextEditingController _usernameController;
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
+  String? _role;
+  String? _errorText;
 
   @override
   void initState() {
     super.initState();
     _usernameController = TextEditingController(text: widget.username ?? "");
+    if (widget.username != null) {
+      _role = usernameToRole[widget.username!];
+    }
   }
 
   @override
@@ -261,13 +210,54 @@ class _LoginPromptState extends State<LoginPrompt> {
     super.dispose();
   }
 
+  void _onUsernameChanged(String value) {
+    setState(() {
+      _role = usernameToRole[value.trim()];
+      _errorText = null;
+    });
+  }
+
+  void _handleLogin(BuildContext context) {
+    final username = (widget.username ?? _usernameController.text).trim();
+    final role = _role ?? usernameToRole[username];
+
+    if (username.isEmpty) {
+      setState(() => _errorText = "Username required!");
+      return;
+    }
+    if (role == null) {
+      setState(() => _errorText = "Username not found!");
+      return;
+    }
+
+    Navigator.of(context).pop(); // Close dialog
+
+    if (role == "admin") {
+      Navigator.of(context).pushReplacement(
+        CupertinoPageRoute(builder: (_) => AdminHomeScreen()),
+      );
+    } else if (role == "pikanda") {
+      Navigator.of(context).pushReplacement(
+        CupertinoPageRoute(builder: (_) => PikandaHomeScreen()),
+      );
+    } else if (role == "test") {
+      Navigator.of(context).pushReplacement(
+        CupertinoPageRoute(builder: (_) => TestHomeScreen()),
+      );
+    } else {
+      Navigator.of(context).pushReplacement(
+        CupertinoPageRoute(builder: (_) => HomeScreen()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
       title: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Text(
-          'Welcome..!!'+'${_usernameController.text}'+'..!!',
+          'Welcome..!! ${_usernameController.text}..!!',
           style: TextStyle(
             fontFamily: 'Ethnocentric',
             fontSize: global.SizeConfig.screenHeight * 0.020,
@@ -278,22 +268,14 @@ class _LoginPromptState extends State<LoginPrompt> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (widget.username == null) ...[
+          if (widget.username == null)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: MorphedContainer(
                 width: double.maxFinite,
                 child: CupertinoTextField(
-                  onChanged: (value) => setState(() {}),
-                  onTapOutside: (value) {
-                    setState(() {
-                    });
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  },
-                  onEditingComplete: () {
-                    setState(() {
-                    });
-                  },
+                  onChanged: _onUsernameChanged,
+                  onTapOutside: (value) => FocusManager.instance.primaryFocus?.unfocus(),
                   style: TextStyle(
                     fontFamily: 'SF',
                     fontSize: 16,
@@ -301,42 +283,42 @@ class _LoginPromptState extends State<LoginPrompt> {
                   ),
                   autocorrect: true,
                   minLines: 1,
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                  maxLength: 16,
+                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                   placeholder: 'Enter Username',
                   decoration: BoxDecoration(
-                    color: CupertinoColors.darkBackgroundGray.withValues(
-                      alpha: 0.5,
-                    ),
+                    color: CupertinoColors.darkBackgroundGray.withAlpha(127),
                     border: Border.all(
                       color: CupertinoColors.systemGrey,
-                    ), // Customize the border
-                    borderRadius: BorderRadius.circular(
-                      25,
-                    ), // Customize the border radius
+                    ),
+                    borderRadius: BorderRadius.circular(25),
                   ),
                   controller: _usernameController,
                   textInputAction: TextInputAction.next,
-                  maxLines: 8,
+                  maxLines: 1,
                 ),
               ),
             ),
-          ],
-          // Spacer(),
           Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: MorphedContainer(
               width: double.maxFinite,
               child: CupertinoTextField(
-                onChanged: (value) => setState(() {}),
-                onTapOutside: (value) {
-                  setState(() {
-                  });
-                  FocusManager.instance.primaryFocus?.unfocus();
-                },
-                onEditingComplete: () {
-                  setState(() {
-                  });
-                },
+                suffixMode: OverlayVisibilityMode.editing,
+                suffix: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: GestureDetector(
+                    child: HugeIcon(
+                        icon: _obscurePassword ? HugeIcons.strokeRoundedView : HugeIcons.strokeRoundedViewOff,
+                        color: CupertinoColors.white),
+                    onTap: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
+                ),
+                onTapOutside: (value) => FocusManager.instance.primaryFocus?.unfocus(),
                 style: TextStyle(
                   fontFamily: 'SF',
                   fontSize: 16,
@@ -344,30 +326,47 @@ class _LoginPromptState extends State<LoginPrompt> {
                 ),
                 controller: _passwordController,
                 placeholder: 'Enter password',
-                obscureText: true,
+                obscureText: _obscurePassword,
                 textInputAction: TextInputAction.done,
                 minLines: 1,
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                // placeholder: 'Enter Username',
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                 decoration: BoxDecoration(
-                  color: CupertinoColors.darkBackgroundGray.withValues(
-                    alpha: 0.5,
-                  ),
+                  color: CupertinoColors.darkBackgroundGray.withAlpha(127),
                   border: Border.all(
                     color: CupertinoColors.systemGrey,
-                  ), // Customize the border
-                  borderRadius: BorderRadius.circular(
-                    25,
-                  ), // Customize the border radius
+                  ),
+                  borderRadius: BorderRadius.circular(25),
                 ),
                 maxLines: 1,
               ),
             ),
           ),
+          // if (_role != null)
+          //   Padding(
+          //     padding: const EdgeInsets.symmetric(vertical: 4.0),
+          //     child: Text(
+          //       "Role: $_role",
+          //       style: TextStyle(
+          //         color: CupertinoColors.activeBlue,
+          //         fontWeight: FontWeight.bold,
+          //         fontSize: 16,
+          //       ),
+          //     ),
+          //   ),
+          if (_errorText != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Text(
+                _errorText!,
+                style: TextStyle(
+                  color: CupertinoColors.destructiveRed,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
         ],
-
       ),
-
       actions: [
         CupertinoDialogAction(
           isDestructiveAction: true,
@@ -384,28 +383,14 @@ class _LoginPromptState extends State<LoginPrompt> {
           child: HugeIcon(
             icon: HugeIcons.strokeRoundedCheckmarkCircle02,
             color: CupertinoColors.systemBlue,
-            // size: 24.0,
           ),
           onPressed: () {
-            // if (inputadminaccess.text == fetchadminaccess.toString()) {
-              Navigator.of(context).pushReplacement(
-                CupertinoPageRoute(builder: (context) => HomeScreen()),
-              );
-            }
-            // else if
-            // (inputadminaccess.text !=
-            //     fetchadminaccess.toString()) {
-            //   CupertinoPopupSurface(child: HugeIcon(icon: HugeIcons.strokeRoundedCheckmarkBadge04, color: CupertinoColors.black));
-            //
-            // } else
-            //       () {};
-          // },
+            _handleLogin(context);},
         ),
       ],
     );
   }
 }
-
 
 class Admin extends StatefulWidget {
   Admin({Key? key}) : super(key: key);
@@ -603,4 +588,8 @@ class _TestState extends State<Test> {
     );
   }
 }
+
+
+
+
 

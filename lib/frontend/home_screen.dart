@@ -121,6 +121,38 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 }
 
 
+class TestHomeScreen extends StatefulWidget {
+  const TestHomeScreen({super.key});
+
+  @override
+  State<TestHomeScreen> createState() => _TestHomeScreenState();
+}
+
+class _TestHomeScreenState extends State<TestHomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Bg(
+      child: Text('Testing Closed..Wait Untill We Start Testing For Next Major Feature'),
+    );
+  }
+}
+
+class PikandaHomeScreen extends StatefulWidget {
+  const PikandaHomeScreen({super.key});
+
+  @override
+  State<PikandaHomeScreen> createState() => _PikandaHomeScreenState();
+}
+
+class _PikandaHomeScreenState extends State<PikandaHomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+
+
 
 
 
