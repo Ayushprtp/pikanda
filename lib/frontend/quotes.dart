@@ -427,14 +427,14 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                     context,
                                                     index,
                                                   ) {
-                                                    bool isFontSelected = fontFamily == _fontFamilies[index];
                                                     return GestureDetector(
-
                                                       child: MorphedContainer(
                                                         Colors: CupertinoColors
                                                             .black
                                                             .withAlpha(150),
-                                                        border: isFontSelected
+                                                        border:
+                                                            fontFamily ==
+                                                                    _fontFamilies[index]
                                                                 ? Border.all(
                                                                   width: 2,
                                                                   color:

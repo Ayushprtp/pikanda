@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "512863634059",
-    "project_id": "pikanda1648",
-    "storage_bucket": "pikanda1648.firebasestorage.app"
+    "project_number": "395243212042",
+    "project_id": "pika-panda",
+    "storage_bucket": "pika-panda.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:512863634059:android:a3afff24e389b2dfba4a8e",
+        "mobilesdk_app_id": "1:395243212042:android:0fe70ce6ff511394ee7ef3",
         "android_client_info": {
           "package_name": "com.example.myapp"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDZK7DpyXmbN0xEK8YR0QfwzPgX-oMxArg"
+          "current_key": "AIzaSyCSEFLdAvbDrPb6-Q292f7FqoLCaxDD_Gk"
         }
       ],
       "services": {

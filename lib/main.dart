@@ -10,16 +10,13 @@ import 'firebase_options.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Supabase.initialize(
     url: global.supabaseUrl,
-    anonKey: global.supabaseUrl,
-  );
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    anonKey: global.supabaseUrl);
 
-  // runApp(DevicePreview(builder: (context) => const MyApp()));
-
-  WidgetsFlutterBinding.ensureInitialized();
-  // Ensure Flutter is initialized
+  // runApp(DevicePreview(builder: (context) => const MyApp()))
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

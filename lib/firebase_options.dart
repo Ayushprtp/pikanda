@@ -41,48 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAzu1w7auhyM-o1fIxivzC2WnIoRYZtJt4',
-    appId: '1:512863634059:web:12a910ff8d5d5f9dba4a8e',
-    messagingSenderId: '512863634059',
-    projectId: 'pikanda1648',
-    authDomain: 'pikanda1648.firebaseapp.com',
-    storageBucket: 'pikanda1648.firebasestorage.app',
-    measurementId: 'G-Q0S6291ZN2',
+    apiKey: 'AIzaSyCKWXI5NaYpEptx1VieDvjKp9ecnppSdxA',
+    appId: '1:395243212042:web:abbe30be8b7d94caee7ef3',
+    messagingSenderId: '395243212042',
+    projectId: 'pika-panda',
+    authDomain: 'pika-panda.firebaseapp.com',
+    storageBucket: 'pika-panda.firebasestorage.app',
+    measurementId: 'G-52TF0FTT3G',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDZK7DpyXmbN0xEK8YR0QfwzPgX-oMxArg',
-    appId: '1:512863634059:android:a3afff24e389b2dfba4a8e',
-    messagingSenderId: '512863634059',
-    projectId: 'pikanda1648',
-    storageBucket: 'pikanda1648.firebasestorage.app',
+    apiKey: 'AIzaSyCSEFLdAvbDrPb6-Q292f7FqoLCaxDD_Gk',
+    appId: '1:395243212042:android:0fe70ce6ff511394ee7ef3',
+    messagingSenderId: '395243212042',
+    projectId: 'pika-panda',
+    storageBucket: 'pika-panda.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD6EHSJ1yrt89kva5Z7wf9tiuaDYg0CzC0',
-    appId: '1:512863634059:ios:0da9896534d5d67eba4a8e',
-    messagingSenderId: '512863634059',
-    projectId: 'pikanda1648',
-    storageBucket: 'pikanda1648.firebasestorage.app',
+    apiKey: 'AIzaSyCsdNUgEKzVDTOhQeeV6-j-X4Z9qUnZbQc',
+    appId: '1:395243212042:ios:51bebd2003bc18b0ee7ef3',
+    messagingSenderId: '395243212042',
+    projectId: 'pika-panda',
+    storageBucket: 'pika-panda.firebasestorage.app',
     iosBundleId: 'com.ayushprtp.pikanda.ios',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyD6EHSJ1yrt89kva5Z7wf9tiuaDYg0CzC0',
-    appId: '1:512863634059:ios:d62c66c47a9098d2ba4a8e',
-    messagingSenderId: '512863634059',
-    projectId: 'pikanda1648',
-    storageBucket: 'pikanda1648.firebasestorage.app',
+    apiKey: 'AIzaSyCsdNUgEKzVDTOhQeeV6-j-X4Z9qUnZbQc',
+    appId: '1:395243212042:ios:3744ef53fe083f83ee7ef3',
+    messagingSenderId: '395243212042',
+    projectId: 'pika-panda',
+    storageBucket: 'pika-panda.firebasestorage.app',
     iosBundleId: 'com.ayushprtp.pikanda.macos',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyAzu1w7auhyM-o1fIxivzC2WnIoRYZtJt4',
-    appId: '1:512863634059:web:7a00941aea519d49ba4a8e',
-    messagingSenderId: '512863634059',
-    projectId: 'pikanda1648',
-    authDomain: 'pikanda1648.firebaseapp.com',
-    storageBucket: 'pikanda1648.firebasestorage.app',
-    measurementId: 'G-WP9KNFB2EG',
+    apiKey: 'AIzaSyCKWXI5NaYpEptx1VieDvjKp9ecnppSdxA',
+    appId: '1:395243212042:web:3b0feaef0273ad99ee7ef3',
+    messagingSenderId: '395243212042',
+    projectId: 'pika-panda',
+    authDomain: 'pika-panda.firebaseapp.com',
+    storageBucket: 'pika-panda.firebasestorage.app',
+    measurementId: 'G-0ZD94N02FJ',
   );
+
 }

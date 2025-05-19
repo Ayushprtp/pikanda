@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.myapp"
+    namespace = "com.ayushprtp.pikanda"
     compileSdk = flutter.compileSdkVersion
 //     ndkVersion = flutter.ndkVersion
     ndkVersion = "29.0.13113456"

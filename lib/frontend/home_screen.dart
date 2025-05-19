@@ -132,7 +132,11 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
-      child: Text('Testing Closed..Wait Untill We Start Testing For Next Major Feature',style: TextStyle(color: CupertinoColors.destructiveRed),),
+      child: Column(
+        children: [
+          MorphedContainer(child: Text('Testing Closed..Wait Untill We Start Testing For Next Major Feature',style: TextStyle(color: CupertinoColors.destructiveRed),))
+        ],
+      ),
     );
   }
 }
