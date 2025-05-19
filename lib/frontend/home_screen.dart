@@ -61,7 +61,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
-      leading: null,
+      // leading: CupertinoNavigationBarBackButton(),
         middle: Text(
         'ADMIN Home..!!',
         style: TextStyle(
@@ -80,11 +80,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     children: [
       Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Flexible(child: MorphedContainer(child: Text('Recnt Quotes List View'))),
+        child: MorphedContainer(child: Text('Recnt Quotes List View')),
       ),
       Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Flexible(child: MorphedContainer(child: Text('Recnt Quotes Having Reponse List View'))),
+        child: MorphedContainer(child: Text('Recnt Quotes Having Reponse List View')),
       ),
 
     Row(
@@ -132,7 +132,7 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
-      child: Text('Testing Closed..Wait Untill We Start Testing For Next Major Feature'),
+      child: Text('Testing Closed..Wait Untill We Start Testing For Next Major Feature',style: TextStyle(color: CupertinoColors.destructiveRed),),
     );
   }
 }

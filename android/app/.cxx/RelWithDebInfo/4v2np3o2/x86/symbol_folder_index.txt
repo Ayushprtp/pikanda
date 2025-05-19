@@ -1,0 +1,1 @@
+/home/user/StudioProjects/pikanda/build/app/intermediates/cxx/RelWithDebInfo/4v2np3o2/obj/x86

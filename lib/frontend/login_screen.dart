@@ -142,8 +142,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: GridView.count(crossAxisCount: 2,
 
                         children: [
-                          // Pika(),
-                          // Panda(),
+                          Pika(),
+                          Panda(),
                           Admin(),
                           Test(),
                         ],
@@ -159,6 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Spacer(),
+          TestButton(),
           CheckButton(),
           Align(alignment: Alignment.bottomCenter, child: Dev()),
         ],
@@ -257,7 +258,7 @@ class _LoginPromptState extends State<LoginPrompt> {
       title: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Text(
-          'Welcome..!! ${_usernameController.text}..!!',
+          'Welcome..!! ${_role}..!!',
           style: TextStyle(
             fontFamily: 'Ethnocentric',
             fontSize: global.SizeConfig.screenHeight * 0.020,
@@ -341,18 +342,6 @@ class _LoginPromptState extends State<LoginPrompt> {
               ),
             ),
           ),
-          // if (_role != null)
-          //   Padding(
-          //     padding: const EdgeInsets.symmetric(vertical: 4.0),
-          //     child: Text(
-          //       "Role: $_role",
-          //       style: TextStyle(
-          //         color: CupertinoColors.activeBlue,
-          //         fontWeight: FontWeight.bold,
-          //         fontSize: 16,
-          //       ),
-          //     ),
-          //   ),
           if (_errorText != null)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),

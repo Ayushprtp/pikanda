@@ -7,8 +7,10 @@ class MorphedContainer extends StatelessWidget {
   final Widget? child;
   final BorderRadiusGeometry borderRadius;
   final Color? Colors;
+  final Border? Borders;
 
-  MorphedContainer({Key? key, required this.child, this.height, this.width, BorderRadius? borderRadius,Color? Colors}):Colors= Colors ?? CupertinoColors.black.withAlpha(5),borderRadius = borderRadius ?? BorderRadius.circular(25);
+
+  MorphedContainer({Key? key, required this.child, this.height, this.width, Border? border,BorderRadius? borderRadius,Color? Colors}):Borders=Border.all(color: CupertinoColors.black.withAlpha(50),width: 1),Colors= Colors ?? CupertinoColors.black.withAlpha(5),borderRadius = borderRadius ?? BorderRadius.circular(25);
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,8 @@ class MorphedContainer extends StatelessWidget {
       child: ClipRRect(
         borderRadius: borderRadius, // Morphed/rounded corners
         child: Container(
+          decoration: BoxDecoration(
+          border: Borders,),
           width: width,
           height: height,
           child: Stack(
@@ -30,7 +34,6 @@ class MorphedContainer extends StatelessWidget {
               ),
               Container(
                 decoration: BoxDecoration(
-                  border:Border.all(color: CupertinoColors.black.withAlpha(50),width: 1),
                   color: Colors,
                   borderRadius: borderRadius,
                 ),

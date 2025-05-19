@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -394,40 +396,92 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                     ),
                                     onTap: () {
                                       showCupertinoModalPopup(
+                                        barrierDismissible: true,
+                                        filter: ImageFilter.blur(
+                                          sigmaX: 0,
+                                          sigmaY: 0,
+                                        ),
                                         context: context,
                                         builder:
-                                            (context) => CupertinoActionSheet(
-                                              actions:
-                                                  _fontFamilies.map((
-                                                    String family,
+                                            (context) => MorphedContainer(
+                                              height:
+                                                  global
+                                                      .SizeConfig
+                                                      .screenHeight *
+                                                  0.4,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(
+                                                  10.0,
+                                                ),
+                                                child: GridView.builder(
+                                                  gridDelegate:
+                                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                                        crossAxisCount: 3,
+                                                        childAspectRatio:
+                                                            1 / 0.4,
+                                                        mainAxisSpacing:
+                                                            5, // vertical space between cells
+                                                        crossAxisSpacing: 5,
+                                                      ),
+                                                  itemBuilder: (
+                                                    context,
+                                                    index,
                                                   ) {
-                                                    return CupertinoActionSheetAction(
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          fontFamily = family;
-                                                          Navigator.of(
-                                                            context,
-                                                          ).pop();
-                                                        });
-                                                      },
-                                                      child: Text(
-                                                        family,
-                                                        style: TextStyle(
-                                                          fontFamily: family,
+                                                    bool isFontSelected = fontFamily == _fontFamilies[index];
+                                                    return GestureDetector(
+
+                                                      child: MorphedContainer(
+                                                        Colors: CupertinoColors
+                                                            .black
+                                                            .withAlpha(150),
+                                                        border: isFontSelected
+                                                                ? Border.all(
+                                                                  width: 2,
+                                                                  color:
+                                                                      CupertinoColors
+                                                                          .activeBlue,
+                                                                )
+                                                                : null,
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              25,
+                                                            ),
+                                                        child: Align(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.symmetric(
+                                                                  horizontal:
+                                                                      5.0,
+                                                                ),
+                                                            child: Text(
+                                                              'Font',
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    global
+                                                                        .SizeConfig
+                                                                        .screenHeight *
+                                                                    0.03,
+                                                                fontFamily:
+                                                                    _fontFamilies[index],
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
+                                                      onTap: () {
+                                                        setState(() {
+                                                          fontFamily =
+                                                              _fontFamilies[index];
+                                                        });
+                                                      },
                                                     );
-                                                  }).toList(),
-                                              cancelButton:
-                                                  CupertinoActionSheetAction(
-                                                    isDestructiveAction: true,
-                                                    onPressed: () {
-                                                      Navigator.of(
-                                                        context,
-                                                      ).pop();
-                                                    },
-                                                    child: Text('Cancel'),
-                                                  ),
+                                                  },
+                                                  itemCount:
+                                                      _fontFamilies.length,
+                                                ),
+                                              ),
                                             ),
                                       );
                                     },
@@ -607,12 +661,12 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: GestureDetector(
+                  onTap: _showGenreDialog,
                   child: HugeIcon(
                     icon: HugeIcons.strokeRoundedFaceId,
                     size: global.SizeConfig.screenHeight * 0.04,
                     color: CupertinoColors.lightBackgroundGray,
                   ),
-                  onTap: _showGenreDialog,
                 ),
               ),
               Padding(
@@ -1283,7 +1337,8 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                         fit: BoxFit.fitWidth,
                                       ),
                                       border:
-                                          selectedbcard == 'assets/card/ayu.webp'
+                                          selectedbcard ==
+                                                  'assets/card/ayu.webp'
                                               ? Border.all(
                                                 width: 2,
                                                 color:
@@ -1313,7 +1368,8 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                         fit: BoxFit.fitWidth,
                                       ),
                                       border:
-                                          selectedbcard == 'assets/card/dex.webp'
+                                          selectedbcard ==
+                                                  'assets/card/dex.webp'
                                               ? Border.all(
                                                 width: 2,
                                                 color:

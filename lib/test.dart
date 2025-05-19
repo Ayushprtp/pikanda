@@ -64,7 +64,7 @@ class TestButtonState extends State<TestButton> {
       onPressed:
           () => Navigator.of(
             context,
-          ).push(CupertinoPageRoute(builder: (context) => AdminHomeScreen())),
+          ).push(CupertinoPageRoute(builder: (context) => TestHomeScreen())),
     );
   }
 }
@@ -92,7 +92,7 @@ class _CheckButtonState extends State<CheckButton> {
 
       () => Navigator.of(
         context,
-      ).push(CupertinoPageRoute(builder: (context) => QuoteScreen()  ))
+      ).push(CupertinoPageRoute(builder: (context) => AdminHomeScreen()  ))
     );
   }
 }
