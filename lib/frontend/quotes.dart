@@ -46,7 +46,6 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
     'Pandastudio',
     'Pandalovelybaby',
     'Monkeyact',
-    'Ios',
     'Feelwithme',
     'Faisaljnnkyaw',
     'Montserrat',

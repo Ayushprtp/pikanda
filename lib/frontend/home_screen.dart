@@ -86,6 +86,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         padding: const EdgeInsets.all(10.0),
         child: MorphedContainer(child: Text('Recnt Quotes Having Reponse List View')),
       ),
+    Text('❤️‍🩹❤️‍🔥🥹🥺',style: TextStyle(fontFamily: 'Ios',fontSize: 60),),
 
     Row(
       children: [
