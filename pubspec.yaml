@@ -138,6 +138,48 @@ flutter:
     - family: Jasmine
       fonts:
         - asset: assets/fonts/Jasmine.ttf
+    - family: Unitedlovehello
+      fonts:
+        - asset: assets/fonts/unitedlovehello.ttf
+    - family: Thisfeelings
+      fonts:
+        - asset: assets/fonts/thisfeelings.ttf
+    - family: Tamalikamerge
+      fonts:
+        - asset: assets/fonts/tamalikamerge.ttf
+    - family: Skylight
+      fonts:
+        - asset: assets/fonts/skylight.ttf
+    - family: Qualityoflove
+      fonts:
+        - asset: assets/fonts/qualityoflove.ttf
+    - family: Purplemystery
+      fonts:
+        - asset: assets/fonts/purplemystery.ttf
+    - family: Pandastudio
+      fonts:
+        - asset: assets/fonts/pandastudio.ttf
+    - family: Pandalovelybaby
+      fonts:
+        - asset: assets/fonts/pandalovelybaby.ttf
+    - family: Monkeyact
+      fonts:
+        - asset: assets/fonts/monkeyact.otf
+    - family: Ios
+      fonts:
+        - asset: assets/fonts/iosemoji.ttf
+    - family: Feelwithme
+      fonts:
+        - asset: assets/fonts/feelwithme.ttf
+    - family: Faisaljnnkyaw
+      fonts:
+        - asset: assets/fonts/faisaljnnkyaw.ttf
+    - family: Kaushanscript
+      fonts:
+        - asset: assets/fonts/kaushanscript.ttf
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

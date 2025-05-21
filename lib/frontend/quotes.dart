@@ -37,13 +37,29 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
     'Jasmine',
     'Blanka',
     'Ethnocentric',
+    'Unitedlovehello',
+    'Thisfeelings',
+    'Tamalikamerge',
+    'Skylight',
+    'Qualityoflove',
+    'Purplemystery',
+    'Pandastudio',
+    'Pandalovelybaby',
+    'Monkeyact',
+    'Ios',
+    'Feelwithme',
+    'Faisaljnnkyaw',
+    'Montserrat',
+    'kaushanscript',
   ];
   // List of available alignments
-  final List<TextAlign> _alignments = [
+  late final List<TextAlign> _alignments = [
     TextAlign.left,
     TextAlign.center,
     TextAlign.right,
     TextAlign.justify,
+    TextAlign.end,
+    TextAlign.start,
   ];
 
   final List<Alignment> _containerAlignments = [
@@ -57,6 +73,39 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
     Alignment.bottomLeft,
     Alignment.bottomCenter,
     Alignment.bottomRight,
+  ];
+  String alignmentLabel(Alignment alignment) {
+    if (alignment == Alignment.topLeft) return "Top Left";
+    if (alignment == Alignment.topCenter) return "Top Center";
+    if (alignment == Alignment.topRight) return "Top Right";
+    if (alignment == Alignment.centerLeft) return "Center Left";
+    if (alignment == Alignment.center) return "Center";
+    if (alignment == Alignment.centerRight) return "Center Right";
+    if (alignment == Alignment.bottomLeft) return "Bottom Left";
+    if (alignment == Alignment.bottomCenter) return "Bottom Center";
+    if (alignment == Alignment.bottomRight) return "Bottom Right";
+    return alignment.toString();
+  }
+
+  final List<String> _frontquotecrads = [
+    'assets/card/1.webp',
+    'assets/card/2.webp',
+    'assets/card/3.webp',
+    'assets/card/4.webp',
+    'assets/card/5.webp',
+    'assets/card/6.webp',
+    'assets/card/7.webp',
+    'assets/card/8.webp',
+    'assets/card/9.webp',
+    'assets/card/10.webp',
+    'assets/card/11.webp',
+    'assets/card/12.webp',
+    'assets/card/13.webp',
+    'assets/card/14.webp',
+    'assets/card/15.webp',
+    'assets/card/16.webp',
+    'assets/card/17.webp',
+    'assets/card/18.webp',
   ];
 
   Color selectedColor = CupertinoColors.black;
@@ -135,7 +184,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
       builder: (BuildContext context) {
         return MorphedContainer(
           height: global.SizeConfig.screenHeight * 0.5,
-          Colors: CupertinoColors.destructiveRed,
+          color: CupertinoColors.destructiveRed,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -313,7 +362,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: MorphedContainer(
-                            Colors: CupertinoColors.black.withAlpha(150),
+                            color: CupertinoColors.black.withAlpha(150),
                             height: global.SizeConfig.screenHeight * 0.04,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -395,95 +444,128 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                           CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
-                                      showCupertinoModalPopup(
-                                        barrierDismissible: true,
-                                        filter: ImageFilter.blur(
-                                          sigmaX: 0,
-                                          sigmaY: 0,
-                                        ),
-                                        context: context,
-                                        builder:
-                                            (context) => MorphedContainer(
-                                              height:
-                                                  global
-                                                      .SizeConfig
-                                                      .screenHeight *
-                                                  0.4,
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(
-                                                  10.0,
-                                                ),
-                                                child: GridView.builder(
-                                                  gridDelegate:
-                                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                                        crossAxisCount: 3,
-                                                        childAspectRatio:
-                                                            1 / 0.4,
-                                                        mainAxisSpacing:
-                                                            5, // vertical space between cells
-                                                        crossAxisSpacing: 5,
-                                                      ),
-                                                  itemBuilder: (
-                                                    context,
-                                                    index,
-                                                  ) {
-                                                    return GestureDetector(
-                                                      child: MorphedContainer(
-                                                        Colors: CupertinoColors
-                                                            .black
-                                                            .withAlpha(150),
-                                                        border:
-                                                            fontFamily ==
-                                                                    _fontFamilies[index]
-                                                                ? Border.all(
-                                                                  width: 2,
-                                                                  color:
-                                                                      CupertinoColors
-                                                                          .activeBlue,
-                                                                )
-                                                                : null,
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              25,
-                                                            ),
-                                                        child: Align(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsets.symmetric(
-                                                                  horizontal:
-                                                                      5.0,
+                                      setState(() {
+                                        showCupertinoModalPopup(
+                                          context: context,
+                                          builder: (context) {
+                                            String selectedFontFamily =
+                                                fontFamily; // local mutable state
+
+                                            return CupertinoActionSheet(
+                                              actions: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                    5.0,
+                                                  ),
+                                                  child: MorphedContainer(
+                                                    height:
+                                                        global
+                                                            .SizeConfig
+                                                            .screenHeight *
+                                                        0.4,
+                                                    child: StatefulBuilder(
+                                                      builder:
+                                                          (
+                                                            context,
+                                                            modalSetState,
+                                                          ) => GridView.builder(
+                                                            gridDelegate:
+                                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                                                  crossAxisCount:
+                                                                      3,
+                                                                  childAspectRatio:
+                                                                      1 / 0.4,
+                                                                  mainAxisSpacing:
+                                                                      5,
+                                                                  crossAxisSpacing:
+                                                                      5,
                                                                 ),
-                                                            child: Text(
-                                                              'Font',
-                                                              style: TextStyle(
-                                                                fontSize:
-                                                                    global
-                                                                        .SizeConfig
-                                                                        .screenHeight *
-                                                                    0.03,
-                                                                fontFamily:
-                                                                    _fontFamilies[index],
-                                                              ),
-                                                            ),
+                                                            itemCount:
+                                                                _fontFamilies
+                                                                    .length,
+                                                            itemBuilder: (
+                                                              context,
+                                                              index,
+                                                            ) {
+                                                              return GestureDetector(
+                                                                onTap: () {
+                                                                  // Update local state to trigger border update in popup
+                                                                  modalSetState(() {
+                                                                    selectedFontFamily =
+                                                                        _fontFamilies[index];
+                                                                  });
+                                                                  // Optionally, update your main state too
+                                                                  setState(() {
+                                                                    fontFamily =
+                                                                        _fontFamilies[index];
+                                                                  });
+                                                                  // Optionally, dismiss the popup after selection
+                                                                  Navigator.of(
+                                                                    context,
+                                                                  ).pop();
+                                                                },
+                                                                child: Container(
+                                                                  decoration: BoxDecoration(
+                                                                    color: CupertinoColors
+                                                                        .black
+                                                                        .withAlpha(
+                                                                          150,
+                                                                        ),
+                                                                    border:
+                                                                        selectedFontFamily ==
+                                                                                _fontFamilies[index]
+                                                                            ? Border.all(
+                                                                              width:
+                                                                                  2,
+                                                                              color:
+                                                                                  CupertinoColors.activeBlue,
+                                                                            )
+                                                                            : null,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                          25,
+                                                                        ),
+                                                                  ),
+                                                                  child: Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                          5.0,
+                                                                        ),
+                                                                    child: Center(
+                                                                      child: Text(
+                                                                        'Font',
+                                                                        style: TextStyle(
+                                                                          fontSize:
+                                                                              global.SizeConfig.screenWidth *
+                                                                              0.07,
+                                                                          fontFamily:
+                                                                              _fontFamilies[index],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
                                                           ),
-                                                        ),
-                                                      ),
-                                                      onTap: () {
-                                                        setState(() {
-                                                          fontFamily =
-                                                              _fontFamilies[index];
-                                                        });
-                                                      },
-                                                    );
-                                                  },
-                                                  itemCount:
-                                                      _fontFamilies.length,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                      );
+                                              ],
+                                              cancelButton:
+                                                  CupertinoActionSheetAction(
+                                                    isDestructiveAction: true,
+                                                    onPressed: () {
+                                                      Navigator.of(
+                                                        context,
+                                                      ).pop();
+                                                    },
+                                                    child: Text('Cancel'),
+                                                  ),
+                                            );
+                                          },
+                                        );
+                                      });
                                     },
                                   ),
                                 ),
@@ -530,7 +612,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                     child: HugeIcon(
                                       icon:
                                           HugeIcons
-                                              .strokeRoundedAlignBoxTopCenter,
+                                              .strokeRoundedAlignBoxMiddleCenter,
                                       color:
                                           CupertinoColors.lightBackgroundGray,
                                     ),
@@ -538,41 +620,120 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                       setState(() {
                                         showCupertinoModalPopup(
                                           context: context,
-                                          builder:
-                                              (context) => CupertinoActionSheet(
-                                                actions:
-                                                    _containerAlignments.map((
-                                                      Alignment alignment,
-                                                    ) {
-                                                      return CupertinoActionSheetAction(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            this.alignment =
-                                                                alignment;
-                                                            Navigator.of(
+                                          builder: (context) {
+                                            Alignment selectedAlignment =
+                                                alignment;
+                                            return CupertinoActionSheet(
+                                              actions: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                    5.0,
+                                                  ),
+                                                  child: MorphedContainer(
+                                                    height:
+                                                        global
+                                                            .SizeConfig
+                                                            .screenHeight *
+                                                        0.2,
+                                                    child: StatefulBuilder(
+                                                      builder:
+                                                          (
+                                                            context,
+                                                            modalSetState,
+                                                          ) => GridView.builder(
+                                                            gridDelegate:
+                                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                                                  crossAxisCount:
+                                                                      3,
+                                                                  childAspectRatio:
+                                                                      1/0.4,
+                                                                  mainAxisSpacing:
+                                                                      5,
+                                                                  crossAxisSpacing:
+                                                                      5,
+                                                                ),
+                                                            itemCount:
+                                                                _containerAlignments
+                                                                    .length,
+                                                            itemBuilder: (
                                                               context,
-                                                            ).pop();
-                                                          });
-                                                        },
-                                                        child: Text(
-                                                          alignment
-                                                              .toString()
-                                                              .split('.')
-                                                              .last,
-                                                        ),
-                                                      );
-                                                    }).toList(),
-                                                cancelButton:
-                                                    CupertinoActionSheetAction(
-                                                      isDestructiveAction: true,
-                                                      onPressed: () {
-                                                        Navigator.of(
-                                                          context,
-                                                        ).pop();
-                                                      },
-                                                      child: Text('Cancel'),
+                                                              index,
+                                                            ) {
+                                                              final itemAlignment =
+                                                                  _containerAlignments[index];
+                                                              return GestureDetector(
+                                                                onTap: () {
+                                                                  modalSetState(() {
+                                                                    selectedAlignment =
+                                                                        itemAlignment;
+                                                                  });
+                                                                  setState(() {
+                                                                    alignment =
+                                                                        itemAlignment;
+                                                                  });
+                                                                  Navigator.of(
+                                                                    context,
+                                                                  ).pop();
+                                                                },
+                                                                child: Container(
+                                                                  decoration: BoxDecoration(
+                                                                    color: CupertinoColors
+                                                                        .black
+                                                                        .withAlpha(
+                                                                          150,
+                                                                        ),
+                                                                    border:
+                                                                        selectedAlignment ==
+                                                                                itemAlignment
+                                                                            ? Border.all(
+                                                                              width:
+                                                                                  2,
+                                                                              color:
+                                                                                  CupertinoColors.activeBlue,
+                                                                            )
+                                                                            : null,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                          25,
+                                                                        ),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      alignmentLabel(
+                                                                        itemAlignment,
+                                                                      ),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                        color:
+                                                                            CupertinoColors.white,
+                                                                        fontSize:
+                                                                            global.SizeConfig.screenWidth *
+                                                                            0.045,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
                                                     ),
-                                              ),
+                                                  ),
+                                                ),
+                                              ],
+                                              cancelButton:
+                                                  CupertinoActionSheetAction(
+                                                    isDestructiveAction: true,
+                                                    onPressed: () {
+                                                      Navigator.of(
+                                                        context,
+                                                      ).pop();
+                                                    },
+                                                    child: Text('Cancel'),
+                                                  ),
+                                            );
+                                          },
                                         );
                                       });
                                     },
@@ -586,7 +747,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                     child: HugeIcon(
                                       icon:
                                           HugeIcons
-                                              .strokeRoundedTextAlignRight01,
+                                              .strokeRoundedTextAlignCenter,
                                       color:
                                           CupertinoColors.lightBackgroundGray,
                                     ),
@@ -596,28 +757,104 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                           context: context,
                                           builder:
                                               (context) => CupertinoActionSheet(
-                                                actions:
-                                                    _alignments.map((
-                                                      TextAlign alignment,
-                                                    ) {
-                                                      return CupertinoActionSheetAction(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            textAlign =
-                                                                alignment;
-                                                            Navigator.of(
+                                                actions: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          5.0,
+                                                        ),
+                                                    child: MorphedContainer(
+                                                      height:
+                                                          global
+                                                              .SizeConfig
+                                                              .screenHeight *
+                                                          0.2,
+                                                      child: StatefulBuilder(
+                                                        builder:
+                                                            (
                                                               context,
-                                                            ).pop();
-                                                          });
-                                                        },
-                                                        child: Text(
-                                                          alignment
-                                                              .toString()
-                                                              .split('.')
-                                                              .last,
-                                                        ), // Show alignment name
-                                                      );
-                                                    }).toList(),
+                                                              modalSetState,
+                                                            ) => GridView.builder(
+                                                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                                                crossAxisCount:
+                                                                    2,
+                                                                childAspectRatio:
+                                                                    1 / 0.4,
+                                                                mainAxisSpacing:
+                                                                    5,
+                                                                crossAxisSpacing:
+                                                                    5,
+                                                              ),
+                                                              itemCount:
+                                                                  _alignments
+                                                                      .length,
+                                                              itemBuilder: (
+                                                                context,
+                                                                index,
+                                                              ) {
+                                                                final alignment =
+                                                                    _alignments[index];
+                                                                return GestureDetector(
+                                                                  onTap: () {
+                                                                    modalSetState(() {
+                                                                      textAlign =
+                                                                          alignment;
+                                                                    });
+                                                                    setState(() {
+                                                                      textAlign =
+                                                                          alignment;
+                                                                    });
+                                                                    Navigator.of(
+                                                                      context,
+                                                                    ).pop();
+                                                                  },
+                                                                  child: Container(
+                                                                    decoration: BoxDecoration(
+                                                                      color: CupertinoColors
+                                                                          .black
+                                                                          .withAlpha(
+                                                                            150,
+                                                                          ),
+                                                                      border:
+                                                                          textAlign ==
+                                                                                  alignment
+                                                                              ? Border.all(
+                                                                                width:
+                                                                                    2,
+                                                                                color:
+                                                                                    CupertinoColors.activeBlue,
+                                                                              )
+                                                                              : null,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                            25,
+                                                                          ),
+                                                                    ),
+                                                                    child: Center(
+                                                                      child: Text(
+                                                                        alignment
+                                                                            .toString()
+                                                                            .split(
+                                                                              '.',
+                                                                            )
+                                                                            .last,
+                                                                        style: TextStyle(
+                                                                          color:
+                                                                              CupertinoColors.white,
+                                                                          fontSize:
+                                                                              global.SizeConfig.screenWidth *
+                                                                              0.06,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                                 cancelButton:
                                                     CupertinoActionSheetAction(
                                                       isDestructiveAction: true,
@@ -730,541 +967,49 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                         child: Padding(
                           padding: EdgeInsets.all(5.0),
                           child: MorphedContainer(
-                            Colors: CupertinoColors.black.withAlpha(150),
+                            color: CupertinoColors.black.withAlpha(150),
                             height: global.SizeConfig.screenHeight * 0.15,
-                            child: GridView(
-                              padding: EdgeInsetsDirectional.all(10),
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent:
-                                        global.SizeConfig.screenWidth *
-                                        0.39, // cell width
-                                    mainAxisExtent:
-                                        global.SizeConfig.screenHeight * 0.075,
-                                    mainAxisSpacing:
-                                        5, // vertical space between cells
-                                    crossAxisSpacing: 5, // cell height
-                                  ),
-                              children: [
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/card/1.webp'),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/1.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      childAspectRatio: 1 / 0.5,
+                                      mainAxisSpacing:
+                                          5, // vertical space between cells
+                                      crossAxisSpacing: 5,
                                     ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/1.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/card/2.webp'),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/2.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/2.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/card/3.webp'),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/3.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/3.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/card/4.webp'),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/4.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/4.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/card/5.webp'),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/5.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/5.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/card/6.webp'),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/6.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/6.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/card/7.webp'),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/7.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/7.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/card/8.webp'),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/8.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/8.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/card/9.webp'),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/9.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/9.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/10.webp',
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            _frontquotecrads[index],
+                                          ),
+                                          fit: BoxFit.fitWidth,
                                         ),
-                                        fit: BoxFit.fitWidth,
+                                        border:
+                                            fcard == _frontquotecrads[index]
+                                                ? Border.all(
+                                                  width: 2,
+                                                  color:
+                                                      CupertinoColors.activeBlue,
+                                                )
+                                                : null,
+                                        borderRadius: BorderRadius.circular(25),
                                       ),
-                                      border:
-                                          selectedcard == 'assets/card/10.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/10.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/11.webp',
-                                        ),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/11.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/11.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/12.webp',
-                                        ),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/12.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/12.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/13.webp',
-                                        ),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/13.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/13.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/14.webp',
-                                        ),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/14.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/14.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/15.webp',
-                                        ),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/15.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/15.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/16.webp',
-                                        ),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/16.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/16.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/17.webp',
-                                        ),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/17.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/17.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/18.webp',
-                                        ),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedcard == 'assets/card/18.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      fcard = 'assets/card/18.webp';
-                                      selectedcard = fcard;
-                                    });
-                                  },
-                                ),
-                              ],
+                                    onTap: () {
+                                      setState(() {
+                                        fcard = _frontquotecrads[index];
+                                      });
+                                    },
+                                  );
+                                },
+                                itemCount: _frontquotecrads.length,
+                              ),
                             ),
                           ),
                         ),
@@ -1307,7 +1052,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                         child: Padding(
                           padding: EdgeInsets.all(5.0),
                           child: MorphedContainer(
-                            Colors: CupertinoColors.black.withAlpha(150),
+                            color: CupertinoColors.black.withAlpha(150),
                             height: global.SizeConfig.screenHeight * 0.1,
                             child: GridView(
                               padding: EdgeInsetsDirectional.all(10),
