@@ -7,6 +7,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:pikanda/backend/database.dart';
 import 'package:pikanda/frontend/devinfo_screen.dart';
 import 'package:pikanda/frontend/home_screen.dart';
+import 'package:pikanda/frontend/version_screen.dart';
 import 'package:pikanda/test.dart';
 import 'package:pikanda/utilities/bg.dart';
 import 'package:pikanda/utilities/morphsimcontainer.dart';
@@ -120,30 +121,32 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: MorphedContainer(
-                height: global.SizeConfig.screenHeight * 0.48,
+                height: global.SizeConfig.screenHeight * 0.4,
                 width: double.infinity,
                 child:
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding: const EdgeInsets.only(top: 10),
                       child: Text(
                         'Select User...',
                         style: TextStyle(
                           fontFamily: 'Ethnocentric',
                           color: CupertinoColors.systemGrey,
-                          fontSize: global.SizeConfig.screenHeight * 0.03,
+                          fontSize: global.SizeConfig.screenHeight * 0.035,
                         ),
                       ),
                     ),
                     SizedBox(
-                      height: global.SizeConfig.screenHeight * 0.4,
+                      height: global.SizeConfig.screenHeight * 0.2,
                       child: GridView.count(crossAxisCount: 2,
-
-                        children: [
-                          Pika(),
-                          Panda(),
+                        mainAxisSpacing: 5,
+                        crossAxisSpacing: 5,
+                        childAspectRatio:1/1,
+                          children: [
+                          // Pika(),
+                          // Panda(),
                           Admin(),
                           Test(),
                         ],
@@ -161,6 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Spacer(),
           TestButton(),
           CheckButton(),
+          Align(alignment: Alignment.bottomCenter, child: Ver()),
           Align(alignment: Alignment.bottomCenter, child: Dev()),
         ],
       ),

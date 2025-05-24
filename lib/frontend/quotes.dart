@@ -26,7 +26,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
   bool _isQuoteTextItalic = false;
   bool _isQuoteTextBold = false;
   bool _isQuoteTextUnderLined = false;
-  double fontSize = 0.025; // Default font size
+  double fontSize = 0.02; // Default font size
   String fontFamily = 'Jasmine'; // Default font family
   Alignment alignment = Alignment.center;
   TextAlign textAlign = TextAlign.center; // Default text alignment
@@ -778,7 +778,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                                 crossAxisCount:
                                                                     2,
                                                                 childAspectRatio:
-                                                                    1 / 0.4,
+                                                                    1 / 0.25,
                                                                 mainAxisSpacing:
                                                                     5,
                                                                 crossAxisSpacing:

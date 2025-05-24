@@ -20,11 +20,23 @@ class SizeConfig {
 class Quote {
   late int qid;
   // late String quote;
-  String quote = 'b';
-
-  late String front;
-  late String back;
 }
+class User {
+  late String username;
+}
+
+class Version {
+  // var ver ='$';
+  String mame ='Anaconda';
+  double number=2025.5;
+  String desc='Soon To Be Published';
+  String img='https://cdn-icons-png.flaticon.com/512/3196/3196026.png';
+
+}
+
+
+
+
 
 String song = 'Song Name';
 String artist = 'Artist';
