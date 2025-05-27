@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: MorphedContainer(
-                height: global.SizeConfig.screenHeight * 0.48,
+                height: global.SizeConfig.screenHeight * 0.3,
                 width: double.infinity,
                 child:
                 Column(
@@ -138,12 +138,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: global.SizeConfig.screenHeight * 0.4,
+                      height: global.SizeConfig.screenHeight * 0.2,
                       child: GridView.count(crossAxisCount: 2,
 
                         children: [
-                          Pika(),
-                          Panda(),
+                          // Pika(),
+                          // Panda(),
                           Admin(),
                           Test(),
                         ],
