@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -107,12 +105,20 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
     'assets/card/18.webp',
   ];
 
+  final List<String> _backquotecards = [
+    'assets/card/ayu.webp',
+    'assets/card/dex.webp',
+    'assets/card/pika.webp',
+  ];
+
   Color selectedColor = CupertinoColors.black;
   String? fcard = 'assets/card/2.webp';
   String? selectedcard = 'assets/card/2.webp';
   String? genre = 'null';
   String? bcard = 'assets/card/dex.webp';
-  String? selectedbcard = 'assets/card/dex.webp';
+  // String? selectedbcard = 'assets/card/dex.webp';
+  int selectedfcard = 1;
+  int selectedbcard = 1;
 
   void _showGenreDialog() {
     showCupertinoDialog(
@@ -249,7 +255,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                 width: double.maxFinite,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('$fcard'),
+                    image: AssetImage('${_frontquotecrads[selectedfcard]}'),
                     fit: BoxFit.fitWidth,
                   ),
                   color: CupertinoColors.black,
@@ -267,17 +273,17 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                         fontSize: global.SizeConfig.screenHeight * fontSize,
                         color: selectedColor,
                         fontStyle:
-                            _isQuoteTextItalic
-                                ? FontStyle.italic
-                                : FontStyle.normal,
+                        _isQuoteTextItalic
+                            ? FontStyle.italic
+                            : FontStyle.normal,
                         decoration:
-                            _isQuoteTextUnderLined
-                                ? TextDecoration.underline
-                                : TextDecoration.none,
+                        _isQuoteTextUnderLined
+                            ? TextDecoration.underline
+                            : TextDecoration.none,
                         fontWeight:
-                            _isQuoteTextBold
-                                ? FontWeight.normal
-                                : FontWeight.normal,
+                        _isQuoteTextBold
+                            ? FontWeight.normal
+                            : FontWeight.normal,
                       ),
                     ),
                   ),
@@ -289,7 +295,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                 width: double.maxFinite,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('$bcard'),
+                    image: AssetImage('${_backquotecards[selectedbcard]}'),
                     fit: BoxFit.fitWidth,
                   ),
                   // color: CupertinoColors.black,
@@ -328,17 +334,17 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                           fontFamily: 'SF',
                           fontSize: 16,
                           fontStyle:
-                              _isQuoteTextItalic
-                                  ? FontStyle.italic
-                                  : FontStyle.normal,
+                          _isQuoteTextItalic
+                              ? FontStyle.italic
+                              : FontStyle.normal,
                           decoration:
-                              _isQuoteTextUnderLined
-                                  ? TextDecoration.underline
-                                  : TextDecoration.none,
+                          _isQuoteTextUnderLined
+                              ? TextDecoration.underline
+                              : TextDecoration.none,
                           fontWeight:
-                              _isQuoteTextBold
-                                  ? FontWeight.normal
-                                  : FontWeight.normal,
+                          _isQuoteTextBold
+                              ? FontWeight.normal
+                              : FontWeight.normal,
                         ),
                         autocorrect: true,
                         minLines: 1,
@@ -373,18 +379,18 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                   child: GestureDetector(
                                     child: HugeIcon(
                                       icon:
-                                          _isQuoteTextItalic
-                                              ? HugeIcons
-                                                  .strokeRoundedTextItalicSlash
-                                              : HugeIcons
-                                                  .strokeRoundedTextItalic,
+                                      _isQuoteTextItalic
+                                          ? HugeIcons
+                                          .strokeRoundedTextItalicSlash
+                                          : HugeIcons
+                                          .strokeRoundedTextItalic,
                                       color:
-                                          CupertinoColors.lightBackgroundGray,
+                                      CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       setState(() {
                                         _isQuoteTextItalic =
-                                            !_isQuoteTextItalic;
+                                        !_isQuoteTextItalic;
                                       });
                                     },
                                   ),
@@ -396,11 +402,11 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                   child: GestureDetector(
                                     child: HugeIcon(
                                       icon:
-                                          _isQuoteTextBold
-                                              ? HugeIcons.strokeRoundedTextBold
-                                              : HugeIcons.strokeRoundedTextBold,
+                                      _isQuoteTextBold
+                                          ? HugeIcons.strokeRoundedTextBold
+                                          : HugeIcons.strokeRoundedTextBold,
                                       color:
-                                          CupertinoColors.lightBackgroundGray,
+                                      CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       setState(() {
@@ -416,18 +422,18 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                   child: GestureDetector(
                                     child: HugeIcon(
                                       icon:
-                                          _isQuoteTextUnderLined
-                                              ? HugeIcons
-                                                  .strokeRoundedTextUnderline
-                                              : HugeIcons
-                                                  .strokeRoundedTextUnderline,
+                                      _isQuoteTextUnderLined
+                                          ? HugeIcons
+                                          .strokeRoundedTextUnderline
+                                          : HugeIcons
+                                          .strokeRoundedTextUnderline,
                                       color:
-                                          CupertinoColors.lightBackgroundGray,
+                                      CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       setState(() {
                                         _isQuoteTextUnderLined =
-                                            !_isQuoteTextUnderLined;
+                                        !_isQuoteTextUnderLined;
                                       });
                                     },
                                   ),
@@ -440,7 +446,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                     child: HugeIcon(
                                       icon: HugeIcons.strokeRoundedTextFont,
                                       color:
-                                          CupertinoColors.lightBackgroundGray,
+                                      CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       setState(() {
@@ -458,109 +464,109 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                   ),
                                                   child: MorphedContainer(
                                                     height:
-                                                        global
-                                                            .SizeConfig
-                                                            .screenHeight *
+                                                    global
+                                                        .SizeConfig
+                                                        .screenHeight *
                                                         0.4,
                                                     child: StatefulBuilder(
                                                       builder:
                                                           (
-                                                            context,
-                                                            modalSetState,
+                                                          context,
+                                                          modalSetState,
                                                           ) => GridView.builder(
-                                                            gridDelegate:
-                                                                SliverGridDelegateWithFixedCrossAxisCount(
-                                                                  crossAxisCount:
-                                                                      3,
-                                                                  childAspectRatio:
-                                                                      1 / 0.4,
-                                                                  mainAxisSpacing:
-                                                                      5,
-                                                                  crossAxisSpacing:
-                                                                      5,
-                                                                ),
-                                                            itemCount:
-                                                                _fontFamilies
-                                                                    .length,
-                                                            itemBuilder: (
-                                                              context,
-                                                              index,
+                                                        gridDelegate:
+                                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                                          crossAxisCount:
+                                                          3,
+                                                          childAspectRatio:
+                                                          1 / 0.4,
+                                                          mainAxisSpacing:
+                                                          5,
+                                                          crossAxisSpacing:
+                                                          5,
+                                                        ),
+                                                        itemCount:
+                                                        _fontFamilies
+                                                            .length,
+                                                        itemBuilder: (
+                                                            context,
+                                                            index,
                                                             ) {
-                                                              return GestureDetector(
-                                                                onTap: () {
-                                                                  // Update local state to trigger border update in popup
-                                                                  modalSetState(() {
-                                                                    selectedFontFamily =
-                                                                        _fontFamilies[index];
-                                                                  });
-                                                                  // Optionally, update your main state too
-                                                                  setState(() {
-                                                                    fontFamily =
-                                                                        _fontFamilies[index];
-                                                                  });
-                                                                  // Optionally, dismiss the popup after selection
-                                                                  Navigator.of(
-                                                                    context,
-                                                                  ).pop();
-                                                                },
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                    color: CupertinoColors
-                                                                        .black
-                                                                        .withAlpha(
-                                                                          150,
-                                                                        ),
-                                                                    border:
-                                                                        selectedFontFamily ==
-                                                                                _fontFamilies[index]
-                                                                            ? Border.all(
-                                                                              width:
-                                                                                  2,
-                                                                              color:
-                                                                                  CupertinoColors.activeBlue,
-                                                                            )
-                                                                            : null,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                          25,
-                                                                        ),
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                          5.0,
-                                                                        ),
-                                                                    child: Center(
-                                                                      child: Text(
-                                                                        'Font',
-                                                                        style: TextStyle(
-                                                                          fontSize:
-                                                                              global.SizeConfig.screenWidth *
-                                                                              0.07,
-                                                                          fontFamily:
-                                                                              _fontFamilies[index],
-                                                                        ),
-                                                                      ),
+                                                          return GestureDetector(
+                                                            onTap: () {
+                                                              // Update local state to trigger border update in popup
+                                                              modalSetState(() {
+                                                                selectedFontFamily =
+                                                                _fontFamilies[index];
+                                                              });
+                                                              // Optionally, update your main state too
+                                                              setState(() {
+                                                                fontFamily =
+                                                                _fontFamilies[index];
+                                                              });
+                                                              // Optionally, dismiss the popup after selection
+                                                              Navigator.of(
+                                                                context,
+                                                              ).pop();
+                                                            },
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                color: CupertinoColors
+                                                                    .black
+                                                                    .withAlpha(
+                                                                  150,
+                                                                ),
+                                                                border:
+                                                                selectedFontFamily ==
+                                                                    _fontFamilies[index]
+                                                                    ? Border.all(
+                                                                  width:
+                                                                  2,
+                                                                  color:
+                                                                  CupertinoColors.activeBlue,
+                                                                )
+                                                                    : null,
+                                                                borderRadius:
+                                                                BorderRadius.circular(
+                                                                  25,
+                                                                ),
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
+                                                                const EdgeInsets.all(
+                                                                  5.0,
+                                                                ),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    'Font',
+                                                                    style: TextStyle(
+                                                                      fontSize:
+                                                                      global.SizeConfig.screenWidth *
+                                                                          0.07,
+                                                                      fontFamily:
+                                                                      _fontFamilies[index],
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              );
-                                                            },
-                                                          ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ],
                                               cancelButton:
-                                                  CupertinoActionSheetAction(
-                                                    isDestructiveAction: true,
-                                                    onPressed: () {
-                                                      Navigator.of(
-                                                        context,
-                                                      ).pop();
-                                                    },
-                                                    child: Text('Cancel'),
-                                                  ),
+                                              CupertinoActionSheetAction(
+                                                isDestructiveAction: true,
+                                                onPressed: () {
+                                                  Navigator.of(
+                                                    context,
+                                                  ).pop();
+                                                },
+                                                child: Text('Cancel'),
+                                              ),
                                             );
                                           },
                                         );
@@ -572,7 +578,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                   padding: EdgeInsets.symmetric(horizontal: 10),
                                   child: SizedBox(
                                     width:
-                                        global.SizeConfig.screenWidth * 0.125,
+                                    global.SizeConfig.screenWidth * 0.125,
                                     child: CupertinoTextField(
                                       placeholder: "Size",
                                       controller: _FontSize,
@@ -610,10 +616,10 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                   child: GestureDetector(
                                     child: HugeIcon(
                                       icon:
-                                          HugeIcons
-                                              .strokeRoundedAlignBoxMiddleCenter,
+                                      HugeIcons
+                                          .strokeRoundedAlignBoxMiddleCenter,
                                       color:
-                                          CupertinoColors.lightBackgroundGray,
+                                      CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       setState(() {
@@ -630,107 +636,107 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                   ),
                                                   child: MorphedContainer(
                                                     height:
-                                                        global
-                                                            .SizeConfig
-                                                            .screenHeight *
+                                                    global
+                                                        .SizeConfig
+                                                        .screenHeight *
                                                         0.2,
                                                     child: StatefulBuilder(
                                                       builder:
                                                           (
-                                                            context,
-                                                            modalSetState,
+                                                          context,
+                                                          modalSetState,
                                                           ) => GridView.builder(
-                                                            gridDelegate:
-                                                                SliverGridDelegateWithFixedCrossAxisCount(
-                                                                  crossAxisCount:
-                                                                      3,
-                                                                  childAspectRatio:
-                                                                      1/0.4,
-                                                                  mainAxisSpacing:
-                                                                      5,
-                                                                  crossAxisSpacing:
-                                                                      5,
-                                                                ),
-                                                            itemCount:
-                                                                _containerAlignments
-                                                                    .length,
-                                                            itemBuilder: (
-                                                              context,
-                                                              index,
+                                                        gridDelegate:
+                                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                                          crossAxisCount:
+                                                          3,
+                                                          childAspectRatio:
+                                                          1 / 0.4,
+                                                          mainAxisSpacing:
+                                                          5,
+                                                          crossAxisSpacing:
+                                                          5,
+                                                        ),
+                                                        itemCount:
+                                                        _containerAlignments
+                                                            .length,
+                                                        itemBuilder: (
+                                                            context,
+                                                            index,
                                                             ) {
-                                                              final itemAlignment =
-                                                                  _containerAlignments[index];
-                                                              return GestureDetector(
-                                                                onTap: () {
-                                                                  modalSetState(() {
-                                                                    selectedAlignment =
-                                                                        itemAlignment;
-                                                                  });
-                                                                  setState(() {
-                                                                    alignment =
-                                                                        itemAlignment;
-                                                                  });
-                                                                  Navigator.of(
-                                                                    context,
-                                                                  ).pop();
-                                                                },
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                    color: CupertinoColors
-                                                                        .black
-                                                                        .withAlpha(
-                                                                          150,
-                                                                        ),
-                                                                    border:
-                                                                        selectedAlignment ==
-                                                                                itemAlignment
-                                                                            ? Border.all(
-                                                                              width:
-                                                                                  2,
-                                                                              color:
-                                                                                  CupertinoColors.activeBlue,
-                                                                            )
-                                                                            : null,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                          25,
-                                                                        ),
+                                                          final itemAlignment =
+                                                          _containerAlignments[index];
+                                                          return GestureDetector(
+                                                            onTap: () {
+                                                              modalSetState(() {
+                                                                selectedAlignment =
+                                                                    itemAlignment;
+                                                              });
+                                                              setState(() {
+                                                                alignment =
+                                                                    itemAlignment;
+                                                              });
+                                                              Navigator.of(
+                                                                context,
+                                                              ).pop();
+                                                            },
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                color: CupertinoColors
+                                                                    .black
+                                                                    .withAlpha(
+                                                                  150,
+                                                                ),
+                                                                border:
+                                                                selectedAlignment ==
+                                                                    itemAlignment
+                                                                    ? Border.all(
+                                                                  width:
+                                                                  2,
+                                                                  color:
+                                                                  CupertinoColors.activeBlue,
+                                                                )
+                                                                    : null,
+                                                                borderRadius:
+                                                                BorderRadius.circular(
+                                                                  25,
+                                                                ),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  alignmentLabel(
+                                                                    itemAlignment,
                                                                   ),
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      alignmentLabel(
-                                                                        itemAlignment,
-                                                                      ),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                      style: TextStyle(
-                                                                        color:
-                                                                            CupertinoColors.white,
-                                                                        fontSize:
-                                                                            global.SizeConfig.screenWidth *
-                                                                            0.045,
-                                                                      ),
-                                                                    ),
+                                                                  textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                                  style: TextStyle(
+                                                                    color:
+                                                                    CupertinoColors.white,
+                                                                    fontSize:
+                                                                    global.SizeConfig.screenWidth *
+                                                                        0.045,
                                                                   ),
                                                                 ),
-                                                              );
-                                                            },
-                                                          ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ],
                                               cancelButton:
-                                                  CupertinoActionSheetAction(
-                                                    isDestructiveAction: true,
-                                                    onPressed: () {
-                                                      Navigator.of(
-                                                        context,
-                                                      ).pop();
-                                                    },
-                                                    child: Text('Cancel'),
-                                                  ),
+                                              CupertinoActionSheetAction(
+                                                isDestructiveAction: true,
+                                                onPressed: () {
+                                                  Navigator.of(
+                                                    context,
+                                                  ).pop();
+                                                },
+                                                child: Text('Cancel'),
+                                              ),
                                             );
                                           },
                                         );
@@ -745,10 +751,10 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                   child: GestureDetector(
                                     child: HugeIcon(
                                       icon:
-                                          HugeIcons
-                                              .strokeRoundedTextAlignCenter,
+                                      HugeIcons
+                                          .strokeRoundedTextAlignCenter,
                                       color:
-                                          CupertinoColors.lightBackgroundGray,
+                                      CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       setState(() {
@@ -756,115 +762,115 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                           context: context,
                                           builder:
                                               (context) => CupertinoActionSheet(
-                                                actions: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                          5.0,
-                                                        ),
-                                                    child: MorphedContainer(
-                                                      height:
-                                                          global
-                                                              .SizeConfig
-                                                              .screenHeight *
-                                                          0.2,
-                                                      child: StatefulBuilder(
-                                                        builder:
-                                                            (
-                                                              context,
-                                                              modalSetState,
-                                                            ) => GridView.builder(
-                                                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                                                crossAxisCount:
-                                                                    2,
-                                                                childAspectRatio:
-                                                                    1 / 0.25,
-                                                                mainAxisSpacing:
-                                                                    5,
-                                                                crossAxisSpacing:
-                                                                    5,
-                                                              ),
-                                                              itemCount:
-                                                                  _alignments
-                                                                      .length,
-                                                              itemBuilder: (
-                                                                context,
-                                                                index,
-                                                              ) {
-                                                                final alignment =
-                                                                    _alignments[index];
-                                                                return GestureDetector(
-                                                                  onTap: () {
-                                                                    modalSetState(() {
-                                                                      textAlign =
-                                                                          alignment;
-                                                                    });
-                                                                    setState(() {
-                                                                      textAlign =
-                                                                          alignment;
-                                                                    });
-                                                                    Navigator.of(
-                                                                      context,
-                                                                    ).pop();
-                                                                  },
-                                                                  child: Container(
-                                                                    decoration: BoxDecoration(
-                                                                      color: CupertinoColors
-                                                                          .black
-                                                                          .withAlpha(
-                                                                            150,
-                                                                          ),
-                                                                      border:
-                                                                          textAlign ==
-                                                                                  alignment
-                                                                              ? Border.all(
-                                                                                width:
-                                                                                    2,
-                                                                                color:
-                                                                                    CupertinoColors.activeBlue,
-                                                                              )
-                                                                              : null,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                            25,
-                                                                          ),
-                                                                    ),
-                                                                    child: Center(
-                                                                      child: Text(
-                                                                        alignment
-                                                                            .toString()
-                                                                            .split(
-                                                                              '.',
-                                                                            )
-                                                                            .last,
-                                                                        style: TextStyle(
-                                                                          color:
-                                                                              CupertinoColors.white,
-                                                                          fontSize:
-                                                                              global.SizeConfig.screenWidth *
-                                                                              0.06,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ),
+                                            actions: [
+                                              Padding(
+                                                padding:
+                                                const EdgeInsets.all(
+                                                  5.0,
+                                                ),
+                                                child: MorphedContainer(
+                                                  height:
+                                                  global
+                                                      .SizeConfig
+                                                      .screenHeight *
+                                                      0.2,
+                                                  child: StatefulBuilder(
+                                                    builder:
+                                                        (
+                                                        context,
+                                                        modalSetState,
+                                                        ) => GridView.builder(
+                                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                                        crossAxisCount:
+                                                        2,
+                                                        childAspectRatio:
+                                                        1 / 0.25,
+                                                        mainAxisSpacing:
+                                                        5,
+                                                        crossAxisSpacing:
+                                                        5,
                                                       ),
+                                                      itemCount:
+                                                      _alignments
+                                                          .length,
+                                                      itemBuilder: (
+                                                          context,
+                                                          index,
+                                                          ) {
+                                                        final alignment =
+                                                        _alignments[index];
+                                                        return GestureDetector(
+                                                          onTap: () {
+                                                            modalSetState(() {
+                                                              textAlign =
+                                                                  alignment;
+                                                            });
+                                                            setState(() {
+                                                              textAlign =
+                                                                  alignment;
+                                                            });
+                                                            Navigator.of(
+                                                              context,
+                                                            ).pop();
+                                                          },
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                              color: CupertinoColors
+                                                                  .black
+                                                                  .withAlpha(
+                                                                150,
+                                                              ),
+                                                              border:
+                                                              textAlign ==
+                                                                  alignment
+                                                                  ? Border.all(
+                                                                width:
+                                                                2,
+                                                                color:
+                                                                CupertinoColors.activeBlue,
+                                                              )
+                                                                  : null,
+                                                              borderRadius:
+                                                              BorderRadius.circular(
+                                                                25,
+                                                              ),
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                alignment
+                                                                    .toString()
+                                                                    .split(
+                                                                  '.',
+                                                                )
+                                                                    .last,
+                                                                style: TextStyle(
+                                                                  color:
+                                                                  CupertinoColors.white,
+                                                                  fontSize:
+                                                                  global.SizeConfig.screenWidth *
+                                                                      0.06,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
                                                     ),
                                                   ),
-                                                ],
-                                                cancelButton:
-                                                    CupertinoActionSheetAction(
-                                                      isDestructiveAction: true,
-                                                      onPressed: () {
-                                                        Navigator.of(
-                                                          context,
-                                                        ).pop();
-                                                      },
-                                                      child: Text('Cancel'),
-                                                    ),
+                                                ),
                                               ),
+                                            ],
+                                            cancelButton:
+                                            CupertinoActionSheetAction(
+                                              isDestructiveAction: true,
+                                              onPressed: () {
+                                                Navigator.of(
+                                                  context,
+                                                ).pop();
+                                              },
+                                              child: Text('Cancel'),
+                                            ),
+                                          ),
                                         );
                                       });
                                     },
@@ -878,7 +884,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                     child: HugeIcon(
                                       icon: HugeIcons.strokeRoundedPaintBoard,
                                       color:
-                                          CupertinoColors.lightBackgroundGray,
+                                      CupertinoColors.lightBackgroundGray,
                                     ),
                                     onTap: () {
                                       _showColorPicker(context);
@@ -972,13 +978,13 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                               padding: const EdgeInsets.all(5.0),
                               child: GridView.builder(
                                 gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3,
-                                      childAspectRatio: 1 / 0.5,
-                                      mainAxisSpacing:
-                                          5, // vertical space between cells
-                                      crossAxisSpacing: 5,
-                                    ),
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  childAspectRatio: 1 / 0.5,
+                                  mainAxisSpacing:
+                                  5, // vertical space between cells
+                                  crossAxisSpacing: 5,
+                                ),
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     child: Container(
@@ -990,19 +996,20 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                           fit: BoxFit.fitWidth,
                                         ),
                                         border:
-                                            fcard == _frontquotecrads[index]
-                                                ? Border.all(
-                                                  width: 2,
-                                                  color:
-                                                      CupertinoColors.activeBlue,
-                                                )
-                                                : null,
+                                        selectedfcard == index
+                                            ? Border.all(
+                                          width: 2,
+                                          color:
+                                          CupertinoColors
+                                              .activeBlue,
+                                        )
+                                            : null,
                                         borderRadius: BorderRadius.circular(25),
                                       ),
                                     ),
                                     onTap: () {
                                       setState(() {
-                                        fcard = _frontquotecrads[index];
+                                        selectedfcard = index;
                                       });
                                     },
                                   );
@@ -1053,115 +1060,48 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                           child: MorphedContainer(
                             color: CupertinoColors.black.withAlpha(150),
                             height: global.SizeConfig.screenHeight * 0.1,
-                            child: GridView(
-                              padding: EdgeInsetsDirectional.all(10),
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent:
-                                        global.SizeConfig.screenWidth *
-                                        0.39, // cell width
-                                    mainAxisExtent:
-                                        global.SizeConfig.screenHeight * 0.075,
-                                    mainAxisSpacing:
-                                        5, // vertical space between cells
-                                    crossAxisSpacing: 5, // cell height
-                                  ),
-                              children: [
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/ayu.webp',
-                                        ),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedbcard ==
-                                                  'assets/card/ayu.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      bcard = 'assets/card/ayu.webp';
-                                      selectedbcard = bcard;
-                                    });
-                                  },
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: GridView.builder(
+                                gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  childAspectRatio: 1 / 0.6,
+                                  mainAxisSpacing:
+                                  5, // vertical space between cells
+                                  crossAxisSpacing: 5,
                                 ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/dex.webp',
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            _backquotecards[index],
+                                          ),
+                                          fit: BoxFit.fitWidth,
                                         ),
-                                        fit: BoxFit.fitWidth,
+                                        border:
+                                        selectedbcard == index
+                                            ? Border.all(
+                                          width: 2,
+                                          color:
+                                          CupertinoColors
+                                              .activeBlue,
+                                        )
+                                            : null,
+                                        borderRadius: BorderRadius.circular(25),
                                       ),
-                                      border:
-                                          selectedbcard ==
-                                                  'assets/card/dex.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
                                     ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      bcard = 'assets/card/dex.webp';
-                                      selectedbcard = bcard;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    //
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.transparent,
-
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/card/pika.webp',
-                                        ),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                      border:
-                                          selectedbcard ==
-                                                  'assets/card/pika.webp'
-                                              ? Border.all(
-                                                width: 2,
-                                                color:
-                                                    CupertinoColors.activeBlue,
-                                              )
-                                              : null,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      bcard = 'assets/card/pika.webp';
-                                      selectedbcard = bcard;
-                                    });
-                                  },
-                                ),
-                              ],
+                                    onTap: () {
+                                      setState(() {
+                                        selectedbcard = index;
+                                      });
+                                    },
+                                  );
+                                },
+                                itemCount: _backquotecards.length,
+                              ),
                             ),
                           ),
                         ),
@@ -1198,7 +1138,8 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                           color: CupertinoColors.activeGreen,
                         ),
                         onPressed: () {
-                          print(fcard);
+                          print(selectedfcard);
+                          print(selectedbcard);
                           print(bcard);
                           print(genre);
                           print(_QuoteInput.text);
