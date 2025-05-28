@@ -38,7 +38,7 @@ class Bg extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: SafeArea(bottom: false, child: Stack(children: [
+        child: SafeArea(bottom: true, child: Stack(children: [
           child!
     ],),),)
     );

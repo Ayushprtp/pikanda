@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:pikanda/frontend/devinfo_screen.dart';
 import 'package:pikanda/frontend/song_widget.dart';
 import 'package:pikanda/test.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,7 +30,7 @@ class Ver extends StatelessWidget {
                     vertical: 5,
                   ),
                   child: MorphedContainer(
-                    height: global.SizeConfig.screenHeight * 0.235,
+                    height: global.SizeConfig.screenHeight * 0.25,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -40,8 +41,8 @@ class Ver extends StatelessWidget {
                               // image: DecorationImage(image: )
                               child: CachedNetworkImage(
                                 imageUrl: global.Version().img,
-                                height: global.SizeConfig.screenHeight * 0.1,
-                                width: global.SizeConfig.screenHeight * 0.1,
+                                height: global.SizeConfig.screenHeight * 0.08,
+                                width: global.SizeConfig.screenHeight * 0.08,
                               ),
                             ),
                             Column(
@@ -71,7 +72,7 @@ class Ver extends StatelessWidget {
                           ],
                         ),
                         MorphedContainer(
-                          height: global.SizeConfig.screenHeight * 0.1,
+                          height: global.SizeConfig.screenHeight * 0.09,
                           width: double.maxFinite,
                           color: CupertinoColors.black.withAlpha(150),
                           child: Padding(
@@ -83,7 +84,13 @@ class Ver extends StatelessWidget {
                     ),
                   ),
                 ),
+
+                GestureDetector(child: Dev(),onTap: (){
+
+                  Navigator.of(context).pop();
+                },)
               ],
+
               message: Text('Shows Current App Version'),
               title: Text('Version Info',style: TextStyle(fontSize: global.SizeConfig.screenHeight*0.02),),
               cancelButton: CupertinoActionSheetAction(

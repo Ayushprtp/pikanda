@@ -7,6 +7,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:pikanda/backend/database.dart';
 import 'package:pikanda/frontend/devinfo_screen.dart';
 import 'package:pikanda/frontend/home_screen.dart';
+import 'package:pikanda/frontend/version_screen.dart';
 import 'package:pikanda/test.dart';
 import 'package:pikanda/utilities/bg.dart';
 import 'package:pikanda/utilities/morphsimcontainer.dart';
@@ -161,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Spacer(),
           TestButton(),
           CheckButton(),
-          Align(alignment: Alignment.bottomCenter, child: Dev()),
+          Align(alignment: Alignment.bottomCenter, child: Ver()),
         ],
       ),
     );
