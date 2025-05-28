@@ -260,35 +260,19 @@ class _SongWidgetState extends State<SongWidget> {
                       // Thumbnail
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: CachedNetworkImage(
-                          filterQuality: FilterQuality.high,
-                          imageBuilder: (context, imageProvider) => Container(
+                        child: Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               color: CupertinoColors.destructiveRed,
                               image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.fitHeight
+                                  image: NetworkImage(thumbnailUrl!),filterQuality: FilterQuality.high,
+                                  fit: BoxFit.cover
                               ),
                             ),
-                          ),
-                          imageUrl: thumbnailUrl!,
+                          
                           width: global.SizeConfig.screenWidth * 0.13,
                           height: global.SizeConfig.screenWidth * 0.13,
-                          fit: BoxFit.fitWidth,
-                          placeholder:
-                              (context, url) => Container(
-                                color: CupertinoColors.systemGrey4,
-                                child: Center(
-                                  child: CupertinoActivityIndicator(
-                                    radius:
-                                        global.SizeConfig.screenWidth * 0.02,
-                                  ),
-                                ),
-                              ),
-                          errorWidget:
-                              (context, url, error) =>
-                                  const Icon(Icons.music_note),
+                          
                         ),
                       ),
 
