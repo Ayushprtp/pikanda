@@ -59,7 +59,8 @@ class _QuoteScreenState extends State<QuoteScreen> {
           Response(),
         ],
       ),
-      bottomWidget: SongWidget(sUrl: '$_sUrl'),
+      bottomWidget: SongWidget(sUrl: '${_ResponseState()._response.text}'),
+      // bottomWidget: SongWidget(sUrl: '${_sUrl}'),
     );
   }
 }
@@ -99,36 +100,34 @@ class _ResponseState extends State<Response> {
         // height: double.maxFinite,
         child: Row(
           children: [
-            Flexible(
-              child: CupertinoTextField(
-                onTapOutside: (value) {
-                  setState(() {});
-                  FocusManager.instance.primaryFocus?.unfocus();
-                },
-                style: TextStyle(
-                  fontFamily: 'SF',
-                  fontSize: 16,
-                  fontStyle: FontStyle.normal,
-                ),
-                autocorrect: true,
-                minLines: 1,
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                onChanged: (value) => setState(() {}),
-                placeholder: "Express Your Feelingsss..!!",
-                decoration: BoxDecoration(
-                  color: CupertinoColors.darkBackgroundGray.withValues(
-                    alpha: 0.5,
-                  ),
-                  border: Border.all(
-                    color: CupertinoColors.systemGrey,
-                  ), // Customize the border
-                  borderRadius: BorderRadius.circular(
-                    25,
-                  ), // Customize the border radius
-                ),
-                controller: _response,
-                maxLines: 8,
+            CupertinoTextField(
+              onTapOutside: (value) {
+                setState(() {});
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              style: TextStyle(
+                fontFamily: 'SF',
+                fontSize: 16,
+                fontStyle: FontStyle.normal,
               ),
+              autocorrect: true,
+              minLines: 1,
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+              onChanged: (value) => setState(() {}),
+              placeholder: "Express Your Feelingsss..!!",
+              decoration: BoxDecoration(
+                color: CupertinoColors.darkBackgroundGray.withValues(
+                  alpha: 0.5,
+                ),
+                border: Border.all(
+                  color: CupertinoColors.systemGrey,
+                ), // Customize the border
+                borderRadius: BorderRadius.circular(
+                  25,
+                ), // Customize the border radius
+              ),
+              controller: _response,
+              maxLines: 8,
             ),
             // HugeIcon(icon: icon, color: color)
           ],
