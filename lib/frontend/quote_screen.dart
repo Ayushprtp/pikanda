@@ -23,12 +23,12 @@ class QuoteScreen extends StatefulWidget {
 
 class _QuoteScreenState extends State<QuoteScreen> {
   final String _sUrl =
-      // 'https://www.youtube.com/watch?v=VuG7ge_8I2Y';
-      // 'https://youtu.be/E9zWVQypoSM?si=okOOTKDudYr8hli5';
-      // 'https://youtu.be/0RHjkD-htWQ?si=kKn_NCIBjErZtQuH';
-      'https://youtu.be/fWQpb6T89d4?si=GegMKgy3RjyMvTWw';
-      // 'https://music.youtube.com/watch?v=gZ0vHQKfNH8&si=6vcVbUSFrqNxsWch';
-      // 'https://music.youtube.com/watch?v=_9FyH8PmRSU&si=HZdrsG380n2PjIsM';
+  'https://www.youtube.com/watch?v=VuG7ge_8I2Y';
+  // 'https://youtu.be/E9zWVQypoSM?si=okOOTKDudYr8hli5';
+  // 'https://youtu.be/0RHjkD-htWQ?si=kKn_NCIBjErZtQuH';
+  //     'https://youtu.be/fWQpb6T89d4?si=GegMKgy3RjyMvTWw';
+  // 'https://music.youtube.com/watch?v=gZ0vHQKfNH8&si=6vcVbUSFrqNxsWch';
+  // 'https://music.youtube.com/watch?v=_9FyH8PmRSU&si=HZdrsG380n2PjIsM';
   final FocusNode _urlFocusNode = FocusNode();
   String? _currentUrl;
   @override
@@ -59,8 +59,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
           Response(),
         ],
       ),
-      bottomWidget: SongWidget(sUrl: '${_ResponseState()._response.text}'),
-      // bottomWidget: SongWidget(sUrl: '${_sUrl}'),
+      bottomWidget: SongWidget(sUrl: '$_sUrl'),
     );
   }
 }
@@ -100,34 +99,36 @@ class _ResponseState extends State<Response> {
         // height: double.maxFinite,
         child: Row(
           children: [
-            CupertinoTextField(
-              onTapOutside: (value) {
-                setState(() {});
-                FocusManager.instance.primaryFocus?.unfocus();
-              },
-              style: TextStyle(
-                fontFamily: 'SF',
-                fontSize: 16,
-                fontStyle: FontStyle.normal,
-              ),
-              autocorrect: true,
-              minLines: 1,
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-              onChanged: (value) => setState(() {}),
-              placeholder: "Express Your Feelingsss..!!",
-              decoration: BoxDecoration(
-                color: CupertinoColors.darkBackgroundGray.withValues(
-                  alpha: 0.5,
+            Flexible(
+              child: CupertinoTextField(
+                onTapOutside: (value) {
+                  setState(() {});
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
+                style: TextStyle(
+                  fontFamily: 'SF',
+                  fontSize: 16,
+                  fontStyle: FontStyle.normal,
                 ),
-                border: Border.all(
-                  color: CupertinoColors.systemGrey,
-                ), // Customize the border
-                borderRadius: BorderRadius.circular(
-                  25,
-                ), // Customize the border radius
+                autocorrect: true,
+                minLines: 1,
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                onChanged: (value) => setState(() {}),
+                placeholder: "Express Your Feelingsss..!!",
+                decoration: BoxDecoration(
+                  color: CupertinoColors.darkBackgroundGray.withValues(
+                    alpha: 0.5,
+                  ),
+                  border: Border.all(
+                    color: CupertinoColors.systemGrey,
+                  ), // Customize the border
+                  borderRadius: BorderRadius.circular(
+                    25,
+                  ), // Customize the border radius
+                ),
+                controller: _response,
+                maxLines: 8,
               ),
-              controller: _response,
-              maxLines: 8,
             ),
             // HugeIcon(icon: icon, color: color)
           ],
