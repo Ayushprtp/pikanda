@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
 import 'package:flip_card/flip_card.dart';
+import 'package:pikanda/utilities/morphsimcontainer.dart';
 
 class QuoteWidget extends StatefulWidget {
   const QuoteWidget({super.key});
@@ -10,10 +11,10 @@ class QuoteWidget extends StatefulWidget {
 }
 
 class _QuoteWidgetState extends State<QuoteWidget> {
-  final emojiList = ["🙂", "☹️", "🥲", "👉🏻👈🏻", "🔥", "❤️‍🩹", "❤️‍🔥"];
   bool _isQuoteTextItalic = false;
   bool _isQuoteTextBold = false;
   bool _isQuoteTextUnderLined = false;
+  int? reacted =null;
   double fontSize = 0.025; // Default font size
   String fontFamily = 'Jasmine'; // Default font family
   Alignment alignment = Alignment.center;
@@ -21,9 +22,22 @@ class _QuoteWidgetState extends State<QuoteWidget> {
   Color selectedColor = CupertinoColors.black;
   String? fcard = 'assets/card/2.webp';
   String? genre = 'null';
-  // String _QuoteInput='Helo';
   final TextEditingController _QuoteInput = TextEditingController();
   String? bcard = 'assets/card/dex.webp';
+  final List<String> _ios = [
+    'assets/ios/smiling.webp',
+    'assets/ios/upsidedownsmiling.webp',
+    'assets/ios/crying.webp',
+    'assets/ios/shocked.webp',
+    'assets/ios/joker.webp',
+    'assets/ios/sunglass.webp',
+    // 'assets/ios/rightpointing.webp',
+    // 'assets/ios/leftpointing.webp',
+    'assets/ios/pleading.webp',
+    'assets/ios/faceholdingtears.webp',
+    'assets/ios/heartonfire.webp',
+    'assets/ios/bandagedheart.webp',
+  ];
   @override
   Widget build(BuildContext context) {
     return CupertinoContextMenu.builder(
@@ -91,34 +105,58 @@ class _QuoteWidgetState extends State<QuoteWidget> {
             ),
           ),
       // child:
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Wrap(
-            children:
-                  emojiList
-                      .map(
-                        (emoji) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              // Handle emoji reaction here
-                              print('Reacted with $emoji');
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              emoji,
-                              style: TextStyle(
-                                fontFamily:
-                                    'Ios', // Your custom font
-                                fontSize: global.SizeConfig.screenWidth*0.07,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
-            )
+      actions: [
+        StatefulBuilder(
+    builder: (context, setLocalState) {
+      return MorphedContainer(
+        height: global.SizeConfig.screenHeight*0.105,
+        child: GridView.builder(
+          gridDelegate:
+          SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 5,
+            childAspectRatio: 1 /1,
+            mainAxisSpacing:
+            5, // vertical space between cells
+            crossAxisSpacing: 5,
+          ),
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      _ios[index],
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                  border:
+                  reacted == index
+                      ? Border.all(
+                    width: 2,
+                    color:
+                    CupertinoColors
+                        .activeBlue,
+                  )
+                      : null,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                setLocalState(() {
+                  reacted = index;
+                });
+                setState(() {
+                  reacted = index;
+                });
+              },
+            );
+          },
+          itemCount: _ios.length,
+        ),
+      );
+
+    },
         ),
         CupertinoContextMenuAction(
           onPressed: () {
@@ -150,7 +188,7 @@ class _QuoteWidgetState extends State<QuoteWidget> {
           trailingIcon: CupertinoIcons.delete,
           child: const Text('Delete'),
         ),
-      ],
-    );
+          ],
+        );
   }
 }

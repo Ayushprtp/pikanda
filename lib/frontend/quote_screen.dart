@@ -98,7 +98,7 @@ class _ResponseState extends State<Response> {
         // height: double.maxFinite,
         child: Row(
           children: [
-            Flexible(
+            Expanded(
               child: CupertinoTextField(
                 onTapOutside: (value) {
                   setState(() {});
@@ -129,6 +129,7 @@ class _ResponseState extends State<Response> {
                 maxLines: 8,
               ),
             ),
+            GestureDetector(child: HugeIcon(icon: CupertinoIcons.hurricane, color: CupertinoColors.activeBlue,size: 50,),)
             // HugeIcon(icon: icon, color: color)
           ],
         ),
@@ -236,11 +237,12 @@ class _SongWidgetState extends State<SongWidget> {
           color: CupertinoColors.black,
           borderRadius: BorderRadius.circular(25),
           boxShadow: [
+
             BoxShadow(
-              color: CupertinoColors.systemPurple.withAlpha(100),
-              blurRadius: 5,
-              spreadRadius: 2,
-              blurStyle: BlurStyle.outer,
+              color: CupertinoColors.black.withAlpha(100),
+              blurRadius: 25,
+              spreadRadius: 1,
+              blurStyle: BlurStyle.normal,
             ),
           ],
         ),

@@ -99,6 +99,7 @@ flutter:
     - assets/card/
     - assets/fonts/
     - assets/images/
+    - assets/ios/
     - assets/images/avatar/
     - assets/
 
@@ -165,9 +166,6 @@ flutter:
     - family: Monkeyact
       fonts:
         - asset: assets/fonts/monkeyact.otf
-    - family: Ios
-      fonts:
-        - asset: assets/fonts/iosemoji.ttf
     - family: Feelwithme
       fonts:
         - asset: assets/fonts/feelwithme.ttf

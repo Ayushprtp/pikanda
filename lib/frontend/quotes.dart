@@ -103,6 +103,18 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
     'assets/card/16.webp',
     'assets/card/17.webp',
     'assets/card/18.webp',
+    'assets/card/19.webp',
+    'assets/card/20.webp',
+    'assets/card/21.webp',
+    'assets/card/22.webp',
+    'assets/card/23.webp',
+    'assets/card/24.webp',
+    'assets/card/25.webp',
+    'assets/card/26.webp',
+    'assets/card/27.webp',
+    'assets/card/28.webp',
+    'assets/card/29.webp',
+    'assets/card/30.webp',
   ];
 
   final List<String> _backquotecards = [
@@ -185,39 +197,40 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
 
   void _showColorPicker(BuildContext context) {
     showCupertinoModalPopup(
+      barrierDismissible: true,
+      barrierColor: CupertinoColors.transparent,
       context: context,
       builder: (BuildContext context) {
-        return MorphedContainer(
-          height: global.SizeConfig.screenHeight * 0.5,
-          color: CupertinoColors.destructiveRed,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Container(
-                  //use a Material widget here, as the color picker from the package is a Material widget.
-                  child: Material(
-                    child: SizedBox(
-                      width: double.maxFinite,
-                      child: ColorPicker(
-                        color: selectedColor,
-                        onColorChanged: (Color color) {
-                          setState(() {
-                            selectedColor = color;
-                          });
-                        },
-                        pickersEnabled: <ColorPickerType, bool>{
-                          ColorPickerType.both: true,
-                          ColorPickerType.primary: true,
-                          ColorPickerType.accent: true,
-                          ColorPickerType.wheel: true,
-                        },
-                      ),
-                    ),
-                  ),
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Material(
+
+                child: ColorPicker(
+                  tonalPaletteFixedMinChroma: true,
+                  enableOpacity: true,
+                  enableShadesSelection: true,
+                  enableTonalPalette: true,
+                  enableTooltips: true,
+
+                  color: selectedColor,
+                  onColorChanged: (Color color) {
+                    setState(() {
+                      selectedColor = color;
+                    });
+                  },
+                  pickersEnabled: <ColorPickerType, bool>{
+                    ColorPickerType.wheel: true,
+                    ColorPickerType.both: true,
+                    ColorPickerType.primary: true,
+                    ColorPickerType.custom: true,
+                    ColorPickerType.accent: true,
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
