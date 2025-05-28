@@ -230,16 +230,17 @@ class _SongWidgetState extends State<SongWidget> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
-        height: global.SizeConfig.screenHeight * 0.1,
+        height: global.SizeConfig.screenHeight * 0.08,
         width: double.maxFinite,
         decoration: BoxDecoration(
           color: CupertinoColors.black,
           borderRadius: BorderRadius.circular(25),
           boxShadow: [
             BoxShadow(
-              color: CupertinoColors.systemRed.withAlpha(1),
-              blurRadius: 8,
-              spreadRadius: 1,
+              color: CupertinoColors.systemPurple.withAlpha(100),
+              blurRadius: 5,
+              spreadRadius: 2,
+              blurStyle: BlurStyle.outer,
             ),
           ],
         ),
@@ -260,13 +261,24 @@ class _SongWidgetState extends State<SongWidget> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: CachedNetworkImage(
+                          filterQuality: FilterQuality.high,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              color: CupertinoColors.destructiveRed,
+                              image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.fitHeight
+                              ),
+                            ),
+                          ),
                           imageUrl: thumbnailUrl!,
                           width: global.SizeConfig.screenWidth * 0.13,
                           height: global.SizeConfig.screenWidth * 0.13,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fitWidth,
                           placeholder:
                               (context, url) => Container(
-                                color: Colors.grey[300],
+                                color: CupertinoColors.systemGrey4,
                                 child: Center(
                                   child: CupertinoActivityIndicator(
                                     radius:
@@ -343,7 +355,7 @@ class _SongWidgetState extends State<SongWidget> {
                                       child: Center(
                                         child: HugeIcon(
                                           icon:
-                                              isPlaying
+                                              _isSongPlaying
                                                   ? HugeIcons.strokeRoundedPause
                                                   : HugeIcons
                                                       .strokeRoundedPlay,
