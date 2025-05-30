@@ -30,7 +30,7 @@ class Ver extends StatelessWidget {
                     vertical: 5,
                   ),
                   child: MorphedContainer(
-                    height: global.SizeConfig.screenHeight * 0.25,
+                    height: global.SizeConfig.screenHeight * 0.2,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -41,29 +41,67 @@ class Ver extends StatelessWidget {
                               // image: DecorationImage(image: )
                               child: CachedNetworkImage(
                                 imageUrl: global.Version().img,
-                                height: global.SizeConfig.screenHeight * 0.08,
-                                width: global.SizeConfig.screenHeight * 0.08,
+                                height: global.SizeConfig.screenHeight * 0.06,
+                                width: global.SizeConfig.screenHeight * 0.06,
                               ),
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  '${global.Version().mame}',
-                                  style: TextStyle(
-                                    color: CupertinoColors.white,
-                                    fontSize:
-                                        global.SizeConfig.screenHeight * 0.03,
-                                    fontFamily: 'Ethnocentric',
+                                RichText(
+                                  text: TextSpan(
+                                    text: '${global.Version().mame}',
+                                    style: TextStyle(
+                                      color: CupertinoColors.white,
+                                      fontSize: global.SizeConfig.screenHeight * 0.02,
+                                      fontFamily: 'Ethnocentric',
+                                      decorationStyle: TextDecorationStyle.double,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: '//',
+                                        style: TextStyle(
+                                          fontFamily: 'Ethnocentric',
+                                          color: CupertinoColors.systemRed,
+                                          fontSize: global.SizeConfig.screenHeight * 0.03,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: '${global.Version().number}',
+                                        style: TextStyle(
+                                          fontFamily: 'Ethnocentric',
+                                          color: CupertinoColors.black,
+                                          fontSize: global.SizeConfig.screenHeight * 0.02,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+                                // Text(
+                                //   '${global.Version().mame}',
+                                //   style: TextStyle(
+                                //     color: CupertinoColors.white,
+                                //     fontSize:
+                                //         global.SizeConfig.screenHeight * 0.03,
+                                //     fontFamily: 'Ethnocentric',
+                                //   ),
+                                // ),
+                                // Text(
+                                //   '${global.Version().number}',
+                                //   style: TextStyle(
+                                //     color: CupertinoColors.black,
+                                //     fontSize:
+                                //         global.SizeConfig.screenHeight * 0.03,
+                                //     fontFamily: 'Ethnocentric',
+                                //   ),
+                                // ),
                                 Text(
-                                  '${global.Version().number}',
+                                  'Patch: ${global.Version().patch}',
                                   style: TextStyle(
-                                    color: CupertinoColors.black,
+                                    color: CupertinoColors.destructiveRed,
                                     fontSize:
-                                        global.SizeConfig.screenHeight * 0.03,
+                                    global.SizeConfig.screenHeight * 0.015,
                                     fontFamily: 'Ethnocentric',
                                   ),
                                 ),

@@ -1,18 +1,30 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
+// Removed unused imports: geolocator, database, test
 import 'package:hugeicons/hugeicons.dart';
-import 'package:pikanda/backend/database.dart';
 import 'package:pikanda/frontend/devinfo_screen.dart';
 import 'package:pikanda/frontend/home_screen.dart';
+import 'package:pikanda/frontend/quote_screen.dart';
 import 'package:pikanda/frontend/version_screen.dart';
-import 'package:pikanda/test.dart';
 import 'package:pikanda/utilities/bg.dart';
 import 'package:pikanda/utilities/morphsimcontainer.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
+import 'package:shared_preferences/shared_preferences.dart'; // Added for shared_preferences
+import 'dart:convert';
 
+import '../test.dart'; // Added for jsonEncode/jsonDecode
+
+// Define your usernameToRole map (can be moved to global.dart if preferred)
+final Map<String, String> usernameToRole = {
+  "ayushprtp": "admin",
+  "panda": "pikanda",
+  "pika": "pikanda",
+  "test": "test",
+  "john": "user",
+};
+
+// --- LoginScreen remains largely the same, but _showLoginDailogue is removed ---
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -20,77 +32,16 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-
 class _LoginScreenState extends State<LoginScreen> {
-
-
-  void _showLoginDailogue() {
-    TextEditingController _username = TextEditingController();
-    showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return
-
-          CupertinoAlertDialog(
-          title: Text('Fill Required Details'),
-          content: Column(
-            children: [
-              Flexible(
-                child: CupertinoTextField(
-                  onTapOutside: (value) {
-                    setState(() {});
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  },
-                  style: TextStyle(
-                    fontFamily: 'SF',
-                    fontSize: 16,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  autocorrect: true,
-                  minLines: 1,
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                  onChanged: (value) => setState(() {}),
-                  placeholder: "Enter Username",
-                  decoration: BoxDecoration(
-                    color: CupertinoColors.darkBackgroundGray.withValues(
-                      alpha: 0.5,
-                    ),
-                    border: Border.all(
-                      color: CupertinoColors.systemGrey,
-                    ), // Customize the border
-                    borderRadius: BorderRadius.circular(
-                      25,
-                    ), // Customize the border radius
-                  ),
-                  controller: _username,
-                  maxLines: 1,
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            CupertinoDialogAction(
-              isDestructiveAction: true,
-              child: HugeIcon(
-                icon: HugeIcons.strokeRoundedCancelCircle,
-                color: CupertinoColors.destructiveRed,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop(context);
-              },
-            ),
-
-          ],
-        );
-      },
-    );
-  }
-
-
-
+  // Removed _showLoginDailogue as LoginPrompt will handle all login input
 
   @override
   Widget build(BuildContext context) {
+    // Make sure SizeConfig is initialized somewhere, typically in main.dart or a wrapper
+    // For this example, we assume it's initialized correctly before LoginScreen is built.
+    // If not, you might get errors like "screenHeight not initialized".
+    // Example: global.SizeConfig().init(context);
+
     return Bg(
       leading: GestureDetector(
         child: HugeIcon(
@@ -115,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       child: Column(
         children: [
-          Spacer(),
+          const Spacer(),
           Align(
             alignment: Alignment.center,
             child: Padding(
@@ -123,8 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: MorphedContainer(
                 height: global.SizeConfig.screenHeight * 0.3,
                 width: double.infinity,
-                child:
-                Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Padding(
@@ -140,44 +90,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(
                       height: global.SizeConfig.screenHeight * 0.2,
-                      child: GridView.count(crossAxisCount: 2,
-
+                      child: GridView.count(
+                        crossAxisCount: 2,
                         children: [
+                          Admin(),
                           // Pika(),
                           // Panda(),
-                          Admin(),
                           Test(),
                         ],
-
                       ),
                     )
-                        ],
-                      // ),
-                    // ),
-                  // ],
+                  ],
                 ),
               ),
             ),
           ),
-          Spacer(),
-          TestButton(),
-          CheckButton(),
-          Align(alignment: Alignment.bottomCenter, child: Ver()),
+           Spacer(),
+           TestButton(), // Assuming TestButton and CheckButton are still relevant
+           CheckButton(),
+           Align(alignment: Alignment.bottomCenter, child: Ver()),
         ],
       ),
     );
   }
 }
 
-
-final Map<String, String> usernameToRole = {
-  "ayushprtp": "admin",
-  "panda": "pikanda",
-  "pika": "pikanda",
-  "test": "test",
-  "john": "user",
-};
-
+// --- MODIFIED LoginPrompt ---
 class LoginPrompt extends StatefulWidget {
   final String? username;
 
@@ -189,6 +127,7 @@ class LoginPrompt extends StatefulWidget {
   @override
   State<LoginPrompt> createState() => _LoginPromptState();
 }
+
 class _LoginPromptState extends State<LoginPrompt> {
   late TextEditingController _usernameController;
   final TextEditingController _passwordController = TextEditingController();
@@ -219,7 +158,8 @@ class _LoginPromptState extends State<LoginPrompt> {
     });
   }
 
-  void _handleLogin(BuildContext context) {
+  // MODIFIED _handleLogin to save user data and navigate
+  Future<void> _handleLogin(BuildContext context) async {
     final username = (widget.username ?? _usernameController.text).trim();
     final role = _role ?? usernameToRole[username];
 
@@ -232,25 +172,49 @@ class _LoginPromptState extends State<LoginPrompt> {
       return;
     }
 
-    Navigator.of(context).pop(); // Close dialog
+    // --- Authentication Logic Here ---
+    // For now, we assume successful authentication.
+    // You would typically verify username and password against a backend or local database here.
+    // Example: if (_passwordController.text != "correct_password") { /* set error */ return; }
 
-    if (role == "admin") {
-      Navigator.of(context).pushReplacement(
-        CupertinoPageRoute(builder: (_) => AdminHomeScreen()),
-      );
-    } else if (role == "pikanda") {
-      Navigator.of(context).pushReplacement(
-        CupertinoPageRoute(builder: (_) => PikandaHomeScreen()),
-      );
-    } else if (role == "test") {
-      Navigator.of(context).pushReplacement(
-        CupertinoPageRoute(builder: (_) => TestHomeScreen()),
-      );
-    } else {
-      Navigator.of(context).pushReplacement(
-        CupertinoPageRoute(builder: (_) => HomeScreen()),
-      );
+    // 1. Create a User object with username AND role
+    final user = global.User(username: username, role: role);
+
+    // 2. Update global user object
+    global.Global.currentUser = user;
+
+    // 3. Save user data to SharedPreferences (includes role)
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('currentUser', jsonEncode(user.toJson()));
+
+    // Close the dialog
+    if (mounted) {
+      Navigator.of(context).pop();
     }
+
+    // 4. Navigate to the appropriate screen based on role
+    if (mounted) {
+      _navigateToAppropriateScreen(role);
+    }
+  }
+
+  // Helper method to navigate based on role (shared with SplashScreen)
+  void _navigateToAppropriateScreen(String role) {
+    Widget targetScreen;
+    if (role == "admin") {
+      targetScreen = AdminHomeScreen();
+    } else if (role == "pikanda") {
+      targetScreen = PikandaHomeScreen();
+    } else if (role == "test") {
+      targetScreen = QuoteScreen();
+    } else {
+      // Default for "user" role or unknown roles
+      targetScreen = HomeScreen();
+    }
+
+    Navigator.of(context).pushReplacement(
+      CupertinoPageRoute(builder: (context) => targetScreen),
+    );
   }
 
   @override
@@ -259,7 +223,7 @@ class _LoginPromptState extends State<LoginPrompt> {
       title: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Text(
-          'Welcome..!! ${_role}..!!',
+          'Welcome..!! ${_role ?? ''}..!!', // Display role if available
           style: TextStyle(
             fontFamily: 'Ethnocentric',
             fontSize: global.SizeConfig.screenHeight * 0.020,
@@ -270,7 +234,7 @@ class _LoginPromptState extends State<LoginPrompt> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (widget.username == null)
+          if (widget.username == null) // Show username input only if not pre-filled
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: MorphedContainer(
@@ -278,7 +242,7 @@ class _LoginPromptState extends State<LoginPrompt> {
                 child: CupertinoTextField(
                   onChanged: _onUsernameChanged,
                   onTapOutside: (value) => FocusManager.instance.primaryFocus?.unfocus(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'SF',
                     fontSize: 16,
                     fontStyle: FontStyle.normal,
@@ -286,7 +250,7 @@ class _LoginPromptState extends State<LoginPrompt> {
                   autocorrect: true,
                   minLines: 1,
                   maxLength: 16,
-                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                   placeholder: 'Enter Username',
                   decoration: BoxDecoration(
                     color: CupertinoColors.darkBackgroundGray.withAlpha(127),
@@ -321,7 +285,7 @@ class _LoginPromptState extends State<LoginPrompt> {
                   ),
                 ),
                 onTapOutside: (value) => FocusManager.instance.primaryFocus?.unfocus(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'SF',
                   fontSize: 16,
                   fontStyle: FontStyle.normal,
@@ -331,7 +295,7 @@ class _LoginPromptState extends State<LoginPrompt> {
                 obscureText: _obscurePassword,
                 textInputAction: TextInputAction.done,
                 minLines: 1,
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                 decoration: BoxDecoration(
                   color: CupertinoColors.darkBackgroundGray.withAlpha(127),
                   border: Border.all(
@@ -348,7 +312,7 @@ class _LoginPromptState extends State<LoginPrompt> {
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: Text(
                 _errorText!,
-                style: TextStyle(
+                style: const TextStyle(
                   color: CupertinoColors.destructiveRed,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -360,34 +324,37 @@ class _LoginPromptState extends State<LoginPrompt> {
       actions: [
         CupertinoDialogAction(
           isDestructiveAction: true,
-          child: HugeIcon(
+          child: const HugeIcon(
             icon: HugeIcons.strokeRoundedCancelCircle,
             color: CupertinoColors.destructiveRed,
           ),
           onPressed: () {
-            Navigator.of(context).pop(context);
+            Navigator.of(context).pop();
           },
         ),
         CupertinoDialogAction(
           isDefaultAction: true,
-          child: HugeIcon(
+          child: const HugeIcon(
             icon: HugeIcons.strokeRoundedCheckmarkCircle02,
             color: CupertinoColors.systemBlue,
           ),
           onPressed: () {
-            _handleLogin(context);},
+            _handleLogin(context);
+          },
         ),
       ],
     );
   }
 }
 
+// --- Existing User Selector Widgets ---
 class Admin extends StatefulWidget {
-  Admin({Key? key}) : super(key: key);
+  const Admin({Key? key}) : super(key: key);
 
   @override
   _AdminState createState() => _AdminState();
 }
+
 class _AdminState extends State<Admin> {
   @override
   Widget build(BuildContext context) {
@@ -397,10 +364,9 @@ class _AdminState extends State<Admin> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: global.SizeConfig.screenHeight*0.1,
-            width: global.SizeConfig.screenHeight*0.1,
-            decoration: BoxDecoration(
-              // color:CupertinoColors.systemGrey,
+            height: global.SizeConfig.screenHeight * 0.1,
+            width: global.SizeConfig.screenHeight * 0.1,
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/avatar/Ayushprtp.webp'),
               ),
@@ -411,7 +377,6 @@ class _AdminState extends State<Admin> {
           Text(
             'ADMIN',
             style: TextStyle(
-              // backgroundColor: CupertinoColors.destructiveRed,
               fontFamily: 'Blanka',
               color: CupertinoColors.white,
               fontSize: global.SizeConfig.screenHeight * 0.03,
@@ -422,11 +387,11 @@ class _AdminState extends State<Admin> {
       onTap: () {
         showCupertinoDialog(
           context: context,
-          builder: (_) => LoginPrompt(
-            username: "ayushprtp"
+          builder: (_) => const LoginPrompt(
+            username: "ayushprtp", // Pre-fill username for this user
           ),
         );
-      }
+      },
     );
   }
 }
@@ -437,49 +402,47 @@ class Pika extends StatefulWidget {
   @override
   State<Pika> createState() => _PikaState();
 }
+
 class _PikaState extends State<Pika> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: global.SizeConfig.screenHeight*0.1,
-              width: global.SizeConfig.screenHeight*0.1,
-              decoration: BoxDecoration(
-                // color:CupertinoColors.systemGrey,
-                image: DecorationImage(
-                  image: AssetImage('assets/images/avatar/Pika.webp'),
-                ),
-                color: CupertinoColors.systemGrey4,
-                shape: BoxShape.circle,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            height: global.SizeConfig.screenHeight * 0.1,
+            width: global.SizeConfig.screenHeight * 0.1,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/avatar/Pika.webp'),
               ),
+              color: CupertinoColors.systemGrey4,
+              shape: BoxShape.circle,
             ),
-            Text(
-              'Pika',
-              style: TextStyle(
-                // backgroundColor: CupertinoColors.destructiveRed,
-                fontFamily: 'Blanka',
-                color: CupertinoColors.white,
-                fontSize: global.SizeConfig.screenHeight * 0.03,
-              ),
+          ),
+          Text(
+            'Pika',
+            style: TextStyle(
+              fontFamily: 'Blanka',
+              color: CupertinoColors.white,
+              fontSize: global.SizeConfig.screenHeight * 0.03,
             ),
-          ],
-        ),
-        onTap: () {
-          showCupertinoDialog(
-            context: context,
-            builder: (_) => LoginPrompt(
-                username: "pika"
-            ),
-          );
-        }
+          ),
+        ],
+      ),
+      onTap: () {
+        showCupertinoDialog(
+          context: context,
+          builder: (_) => const LoginPrompt(
+            username: "pika", // Pre-fill username for this user
+          ),
+        );
+      },
     );
   }
 }
-
 
 class Panda extends StatefulWidget {
   const Panda({super.key});
@@ -487,49 +450,47 @@ class Panda extends StatefulWidget {
   @override
   State<Panda> createState() => _PandaState();
 }
+
 class _PandaState extends State<Panda> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: global.SizeConfig.screenHeight*0.1,
-              width: global.SizeConfig.screenHeight*0.1,
-              decoration: BoxDecoration(
-                // color:CupertinoColors.systemGrey,
-                image: DecorationImage(
-                  image: AssetImage('assets/images/avatar/Panda.webp'),
-                ),
-                color: CupertinoColors.systemGrey4,
-                shape: BoxShape.circle,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            height: global.SizeConfig.screenHeight * 0.1,
+            width: global.SizeConfig.screenHeight * 0.1,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/avatar/Panda.webp'),
               ),
+              color: CupertinoColors.systemGrey4,
+              shape: BoxShape.circle,
             ),
-            Text(
-              'Panda',
-              style: TextStyle(
-                // backgroundColor: CupertinoColors.destructiveRed,
-                fontFamily: 'Blanka',
-                color: CupertinoColors.white,
-                fontSize: global.SizeConfig.screenHeight * 0.03,
-              ),
+          ),
+          Text(
+            'Panda',
+            style: TextStyle(
+              fontFamily: 'Blanka',
+              color: CupertinoColors.white,
+              fontSize: global.SizeConfig.screenHeight * 0.03,
             ),
-          ],
-        ),
-        onTap: () {
-          showCupertinoDialog(
-            context: context,
-            builder: (_) => LoginPrompt(
-                username: "panda"
-            ),
-          );
-        }
+          ),
+        ],
+      ),
+      onTap: () {
+        showCupertinoDialog(
+          context: context,
+          builder: (_) => const LoginPrompt(
+            username: "panda", // Pre-fill username for this user
+          ),
+        );
+      },
     );
   }
 }
-
 
 class Test extends StatefulWidget {
   const Test({super.key});
@@ -537,49 +498,44 @@ class Test extends StatefulWidget {
   @override
   State<Test> createState() => _TestState();
 }
+
 class _TestState extends State<Test> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: global.SizeConfig.screenHeight*0.1,
-              width: global.SizeConfig.screenHeight*0.1,
-              decoration: BoxDecoration(
-                // color:CupertinoColors.systemGrey,
-                image: DecorationImage(
-                  image: AssetImage('assets/images/avatar/Test.webp'),
-                ),
-                color: CupertinoColors.systemGrey4,
-                shape: BoxShape.circle,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            height: global.SizeConfig.screenHeight * 0.1,
+            width: global.SizeConfig.screenHeight * 0.1,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/avatar/Test.webp'),
               ),
+              color: CupertinoColors.systemGrey4,
+              shape: BoxShape.circle,
             ),
-            Text(
-              'Test',
-              style: TextStyle(
-                // backgroundColor: CupertinoColors.destructiveRed,
-                fontFamily: 'Blanka',
-                color: CupertinoColors.white,
-                fontSize: global.SizeConfig.screenHeight * 0.03,
-              ),
+          ),
+          Text(
+            'Test',
+            style: TextStyle(
+              fontFamily: 'Blanka',
+              color: CupertinoColors.white,
+              fontSize: global.SizeConfig.screenHeight * 0.03,
             ),
-          ],
-        ),
-        onTap: () {
-          showCupertinoDialog(
-            context: context,
-            builder: (_) => LoginPrompt(
-            ),
-          );
-        }
+          ),
+        ],
+      ),
+      onTap: () {
+        showCupertinoDialog(
+          context: context,
+          builder: (_) => const LoginPrompt(
+            // No username pre-filled here, user will type it
+          ),
+        );
+      },
     );
   }
 }
-
-
-
-
-

@@ -5,6 +5,7 @@ import 'package:pikanda/frontend/login_screen.dart';
 import 'package:pikanda/frontend/quote_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:pikanda/frontend/splash_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
         color: CupertinoColors.destructiveRed,
         location: BannerLocation.bottomStart,
 
-        child: LoginScreen(),
+        child: SplashScreen(),
       ),
     );
   }

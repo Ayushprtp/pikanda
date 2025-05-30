@@ -1,8 +1,10 @@
 import 'package:hugeicons/hugeicons.dart';
+import 'package:pikanda/frontend/customwidgets.dart';
 import 'package:pikanda/frontend/devinfo_screen.dart';
 import 'package:pikanda/frontend/quote_screen.dart';
 import 'package:pikanda/frontend/quotes.dart';
 import 'package:pikanda/frontend/song_widget.dart';
+import 'package:pikanda/frontend/version_screen.dart';
 import 'package:pikanda/test.dart';
 import 'package:pikanda/utilities/bg.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,18 +33,26 @@ class _HomeScreenState extends State<HomeScreen> {
           color: CupertinoColors.white,
         ),
       ),
-      trailing: HugeIcon(
-        icon: HugeIcons.strokeRoundedAccountSetting03,
-        color: CupertinoColors.systemGrey,
-      ),
+      trailing: LogoutButton(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Text(global.Global.currentUser!.username.toString()),
+          Text(global.Global.currentUser!.role.toString()),
+          Text(
+            'Hello, ${global.Global.currentUser?.username ?? 'Guest'}!',
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: CupertinoColors.white),
+          ),
+          if (global.Global.currentUser?.role != null) // Display role if available
+            Text(
+              'Your Role: ${global.Global.currentUser!.role}',
+              style: const TextStyle(fontSize: 18, color: CupertinoColors.systemGrey),
+            ),
           TestButton(),
           CheckButton(),
           Spacer(),
-          Align(alignment: Alignment.bottomCenter, child: Dev()),
+          Align(alignment: Alignment.bottomCenter, child: Ver()),
         ],
       ),
     );
@@ -70,10 +80,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         color: CupertinoColors.white,
     ),
     ),
-    trailing: HugeIcon(
-    icon: HugeIcons.strokeRoundedAccountSetting03,
-    color: CupertinoColors.systemGrey,
-    ),
+    trailing: LogoutButton(),
     child: Column(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,7 +93,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         padding: const EdgeInsets.all(10.0),
         child: MorphedContainer(child: Text('Recnt Quotes Having Reponse List View')),
       ),
-    Text('❤️‍🩹❤️‍🔥🥹🥺',style: TextStyle(fontFamily: 'Ios',fontSize: 60),),
 
     Row(
       children: [
@@ -116,7 +122,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       context,
     ).push(CupertinoPageRoute(builder: (context) => QuoteInsertScreen())),
       ),)),),
-    Align(alignment: Alignment.bottomCenter, child: Dev()),
+    Align(alignment: Alignment.bottomCenter, child: Ver()),
     ],));
   }
 }
@@ -133,9 +139,10 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Bg(
+      trailing: LogoutButton(),
       child: Column(
         children: [
-          MorphedContainer(child: Text('Testing Closed..Wait Untill We Start Testing For Next Major Feature',style: TextStyle(color: CupertinoColors.destructiveRed),))
+          MorphedContainer(child: Center(child: Text('Testing Closed..Wait Untill We Start Testing For Next Major Feature',style: TextStyle(color: CupertinoColors.destructiveRed),)))
         ],
       ),
     );
@@ -152,7 +159,28 @@ class PikandaHomeScreen extends StatefulWidget {
 class _PikandaHomeScreenState extends State<PikandaHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Bg(
+      leading: null,
+      middle: Text(
+        'Home..!!',
+        style: TextStyle(
+          fontFamily: 'Ethnocentric',
+          fontSize: global.SizeConfig.screenHeight * 0.025,
+          color: CupertinoColors.white,
+        ),
+      ),
+      trailing: LogoutButton(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          TestButton(),
+          CheckButton(),
+          Spacer(),
+          Align(alignment: Alignment.bottomCenter, child: Ver()),
+        ],
+      ),
+    );
   }
 }
 

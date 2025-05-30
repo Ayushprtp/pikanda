@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:pikanda/frontend/customwidgets.dart';
+import 'package:pikanda/frontend/home_screen.dart';
 import 'package:pikanda/utilities/bg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pikanda/frontend/quote_widget.dart';
@@ -13,6 +15,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:pikanda/utilities/morphsimcontainer.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:audio_service/audio_service.dart';
 
 class QuoteScreen extends StatefulWidget {
   QuoteScreen({super.key});
@@ -22,18 +25,31 @@ class QuoteScreen extends StatefulWidget {
 }
 
 class _QuoteScreenState extends State<QuoteScreen> {
-  late String _sUrl = 'https://www.youtube.com/watch?v=VuG7ge_8I2Y';
+  late String _sUrl =
+      // 'https://www.youtube.com/watch?v=VuG7ge_8I2Y';
   // 'https://youtu.be/E9zWVQypoSM?si=okOOTKDudYr8hli5';
   // 'https://youtu.be/0RHjkD-htWQ?si=kKn_NCIBjErZtQuH';
   //     'https://youtu.be/fWQpb6T89d4?si=GegMKgy3RjyMvTWw';
   // 'https://music.youtube.com/watch?v=gZ0vHQKfNH8&si=6vcVbUSFrqNxsWch';
   // 'https://music.youtube.com/watch?v=_9FyH8PmRSU&si=HZdrsG380n2PjIsM';
+  // 'https://youtu.be/eWf-mx0_NKU?si=zfNdeRAjITK-lVN6';
+  // 'https://music.youtube.com/watch?v=kYtGl1Ge5pg';
+  // 'https://music.youtube.com/watch?v=qCDPprTDkJE&si=ablFNaMEuAxkogwD';
+  'https://music.youtube.com/watch?v=dQw4w9WgXcQ';
+  // 'https://www.youtube.com/watch?v=jDzgpibEJPc';
   final FocusNode _urlFocusNode = FocusNode();
   String? _currentUrl;
   @override
   Widget build(BuildContext context) {
     return BgMaterial(
-      leading: CupertinoNavigationBarBackButton(),
+      leading: Navigator.canPop(context)
+          ? CupertinoNavigationBarBackButton(
+        onPressed: () {
+          // Ensure we pop the route.
+          Navigator.pop(context);
+        },
+      )
+          : null,
       middle: Text(
         'Quotesss..!!',
         style: TextStyle(
@@ -49,6 +65,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
         ),
         onTap: () {},
       ),
+      bottomWidget: SongWidget(sUrl: '$_sUrl'),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -58,7 +75,6 @@ class _QuoteScreenState extends State<QuoteScreen> {
           Response(),
         ],
       ),
-      bottomWidget: SongWidget(sUrl: '$_sUrl'),
     );
   }
 }
@@ -98,7 +114,7 @@ class _ResponseState extends State<Response> {
         // height: double.maxFinite,
         child: Row(
           children: [
-            Expanded(
+            Flexible(
               child: CupertinoTextField(
                 onTapOutside: (value) {
                   setState(() {});
@@ -129,8 +145,6 @@ class _ResponseState extends State<Response> {
                 maxLines: 8,
               ),
             ),
-            GestureDetector(child: HugeIcon(icon: CupertinoIcons.hurricane, color: CupertinoColors.activeBlue,size: 50,),)
-            // HugeIcon(icon: icon, color: color)
           ],
         ),
       ),
@@ -149,8 +163,9 @@ class SongWidget extends StatefulWidget {
 class _SongWidgetState extends State<SongWidget> {
   late AudioPlayer player;
   late YoutubeExplode yt;
-  bool _isSongPlaying = true;
+  // bool _isSongPlaying = true;
   bool _isDeviceMute = false;
+  double _previousVolume = 0.5;
   String? title;
   String? artist;
   String? audioUrl;
@@ -187,30 +202,44 @@ class _SongWidgetState extends State<SongWidget> {
       final videoId = _extractVideoId(widget.sUrl);
       if (videoId == null) throw Exception('Invalid YouTube URL');
 
-      final video = await yt.videos.get(VideoId(videoId));
-      final manifest = await yt.videos.streamsClient.getManifest(
-        VideoId(videoId),
-      );
+      // Fetch video metadata and manifest in parallel
+      final results = await Future.wait([
+        yt.videos.get(VideoId(videoId)),
+        yt.videos.streamsClient.getManifest(VideoId(videoId)),
+      ]);
 
-      // Get best audio stream (M4A first, then fallback)
+      final video = results[0] as Video;
+      final manifest = results[1] as StreamManifest;
+
       final audioStreams = manifest.audioOnly;
+      // ... rest of your stream filtering logic ...
       final m4aStreams =
-          audioStreams.where((s) => s.container == 'm4a').toList()
-            ..sort((a, b) => b.bitrate.compareTo(a.bitrate));
+      audioStreams.where((s) => s.container == 'm4a').toList()
+        ..sort((a, b) => b.bitrate.compareTo(a.bitrate));
 
-      final audioStream =
-          m4aStreams.isNotEmpty
-              ? m4aStreams.first
-              : audioStreams.withHighestBitrate();
+      final AudioStreamInfo audioStream;
 
-      await player.setUrl(audioStream.url.toString());
+      if (m4aStreams.isNotEmpty) {
+        audioStream = m4aStreams.first;
+      } else {
+        if (audioStreams.isNotEmpty) {
+          audioStream = audioStreams.withHighestBitrate();
+        } else {
+          throw Exception('No audio streams found for this video.');
+        }
+      }
 
       setState(() {
         title = video.title.split(' - ').first;
         artist = video.author;
-        thumbnailUrl = video.thumbnails.highResUrl;
+        thumbnailUrl = video.thumbnails.mediumResUrl;
+        audioUrl = audioStream.url.toString();
         loading = false;
       });
+
+      // Only set the URL if it's actually loaded and not an error
+      await player.setUrl(audioUrl.toString());
+
     } catch (e) {
       setState(() {
         error = e.toString();
@@ -218,7 +247,6 @@ class _SongWidgetState extends State<SongWidget> {
       });
     }
   }
-
   @override
   void dispose() {
     player.dispose();
@@ -281,7 +309,7 @@ class _SongWidgetState extends State<SongWidget> {
                       // Title & Artist
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,10 +369,10 @@ class _SongWidgetState extends State<SongWidget> {
                                       child: Center(
                                         child: HugeIcon(
                                           icon:
-                                              _isSongPlaying
-                                                  ? HugeIcons.strokeRoundedPause
+                                              isPlaying
+                                                  ? HugeIcons.strokeRoundedPlay
                                                   : HugeIcons
-                                                      .strokeRoundedPlay,
+                                                      .strokeRoundedPause,
                                           color: CupertinoColors.white,
                                           size:
                                               global.SizeConfig.screenWidth *
@@ -360,7 +388,7 @@ class _SongWidgetState extends State<SongWidget> {
                                       await player.play();
                                     }
                                     setState(() {
-                                      _isSongPlaying = !_isSongPlaying;
+                                      // _isSongPlaying = !_isSongPlaying;
                                     });
                                   },
                                 ),
@@ -393,12 +421,20 @@ class _SongWidgetState extends State<SongWidget> {
                                       ),
                                     ),
                                   ),
-                                  onTap: () {
-                                    setState(() {
-                                      _isDeviceMute = !_isDeviceMute;
-                                    });
-                                    player.setVolume(_isDeviceMute ? 0.0 : 1.0);
-                                  },
+                                        onTap: () async {
+                          setState(() {
+                          _isDeviceMute = !_isDeviceMute;
+                          });
+
+                          if (_isDeviceMute) {
+                          // Mute: store current volume and set to 0
+                          _previousVolume = player.volume; // Store current volume
+                          await player.setVolume(0.0);
+                          } else {
+                          // Unmute: restore previous volume
+                          await player.setVolume(_previousVolume);
+                          }
+                          },
                                 ),
                               ),
                             ],

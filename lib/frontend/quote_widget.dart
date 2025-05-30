@@ -141,14 +141,16 @@ class _QuoteWidgetState extends State<QuoteWidget> {
                   borderRadius: BorderRadius.circular(25),
                 ),
               ),
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async{
                 setLocalState(() {
                   reacted = index;
                 });
                 setState(() {
                   reacted = index;
                 });
+
+                await Future.delayed(const Duration(seconds: 1));
+                Navigator.pop(context);
               },
             );
           },
