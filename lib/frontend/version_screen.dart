@@ -123,9 +123,30 @@ class Ver extends StatelessWidget {
                   ),
                 ),
 
-                GestureDetector(child: Dev(),onTap: (){
+                GestureDetector(
+                  child:
+                  Center(
+                    child: Dev(),
+                    // child: RichText(
+                    //   text: TextSpan(
+                    //     text: 'Desinged By ',
+                    //     style: TextStyle(
+                    //       color: CupertinoColors.white,
+                    //       fontSize: global.SizeConfig.screenHeight * 0.025,
+                    //       fontFamily: 'Jasmine',
+                    //     ),
+                    //     children: <TextSpan>[
+                    //       TextSpan(text: ' AYU ', style: TextStyle(fontFamily: 'Blanka')),
+                    //       TextSpan(text: ' <3', style: TextStyle(fontFamily: 'SF')),
+                    //     ],
+                    //   ),
+                    // ),
+                  ),
+                  onTap: (
+                    ){
 
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
+
                 },)
               ],
 

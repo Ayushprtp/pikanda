@@ -1,53 +1,74 @@
+// lib/frontend/quote_widget.dart (or wherever your SongWidget is located)
+
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
-import 'package:pikanda/frontend/customwidgets.dart';
-import 'package:pikanda/frontend/home_screen.dart';
-import 'package:pikanda/utilities/bg.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:pikanda/frontend/quote_widget.dart';
-import 'package:pikanda/frontend/song_widget.dart';
-import 'package:pikanda/utilities/globalvar.dart' as global;
-import 'package:hugeicons/hugeicons.dart';
-import 'package:pikanda/utilities/morphsimcontainer.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:audio_service/audio_service.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:pikanda/frontend/quote_widget.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart'; // <<< ADD THIS IMPORT
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
+// Temporarily REMOVE: import 'package:pikanda/backend/music_services.dart'; // Temporarily comment out for testing
+
+// Assuming these are defined globally or in a utility file
+import '../utilities/bg.dart';
+import '../utilities/globalvar.dart' as global;
+import '../utilities/morphsimcontainer.dart';
+
+// --- Constants and Custom Cache Manager (Keep as is) ---
+class CustomCacheManager extends CacheManager {
+  static const key = 'customAudioCache';
+  static CustomCacheManager? _instance;
+
+  factory CustomCacheManager() {
+    _instance ??= CustomCacheManager._();
+    return _instance!;
+  }
+
+  CustomCacheManager._()
+      : super(
+    Config(
+      key,
+      stalePeriod: const Duration(hours: 24),
+      maxNrOfCacheObjects: 100,
+    ),
+  );
+}
+
+// Custom URL parser (Keep as is)
+class CustomUrlParser {
+  static String? extractVideoId(String url) {
+    final regExp = RegExp(
+      r'^(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:music\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|v\/|shorts\/|e\/|clip\/|playlist\?list=|live\/)?([a-zA-Z0-9_-]{11})(?:\S+)?$',
+      caseSensitive: false,
+    );
+    final match = regExp.firstMatch(url);
+    if (match != null && match.group(1) != null && match.group(1)!.length == 11) {
+      return match.group(1);
+    }
+    return null;
+  }
+}
+
+// --- QuoteScreen (Keep as is, update the _sUrl example) ---
 class QuoteScreen extends StatefulWidget {
-  QuoteScreen({super.key});
+  const QuoteScreen({super.key});
 
   @override
   State<QuoteScreen> createState() => _QuoteScreenState();
 }
 
+
 class _QuoteScreenState extends State<QuoteScreen> {
-  late String _sUrl =
-      // 'https://www.youtube.com/watch?v=VuG7ge_8I2Y';
-      // 'https://youtu.be/E9zWVQypoSM?si=okOOTKDudYr8hli5';
-      // 'https://youtu.be/0RHjkD-htWQ?si=kKn_NCIBjErZtQuH';
-      //     'https://youtu.be/fWQpb6T89d4?si=GegMKgy3RjyMvTWw';
-      // 'https://music.youtube.com/watch?v=gZ0vHQKfNH8&si=6vcVbUSFrqNxsWch';
-      // 'https://music.youtube.com/watch?v=_9FyH8PmRSU&si=HZdrsG380n2PjIsM';
-      // 'https://youtu.be/eWf-mx0_NKU?si=zfNdeRAjITK-lVN6';
-      // 'https://music.youtube.com/watch?v=kYtGl1Ge5pg';
-      // 'https://music.youtube.com/watch?v=qCDPprTDkJE&si=ablFNaMEuAxkogwD';
-      //     'https://music.youtube.com/watch?v=dQw4w9WgXcQ';
-      // 'https://www.youtube.com/watch?v=jDzgpibEJPc';
-      'https://music.youtube.com/watch?v=dQw4w9WgXcQ'; // Your URL
+  final String _sUrl = 'https://youtu.be/1GRVh1u3ME4?si=lPxwk7c1m9OHmyGr';
 
-  final FocusNode _urlFocusNode = FocusNode();
-  String? _currentUrl;
-
-  // NEW: Create a GlobalKey for the SongWidget's state
   final GlobalKey<_SongWidgetState> _songWidgetKey = GlobalKey();
 
   @override
   void dispose() {
-    // NEW: Call the stopMusic method on the SongWidget's state when QuoteScreen is disposed
     _songWidgetKey.currentState?.stopMusic();
     super.dispose();
   }
@@ -55,15 +76,13 @@ class _QuoteScreenState extends State<QuoteScreen> {
   @override
   Widget build(BuildContext context) {
     return BgMaterial(
-      leading:
-          Navigator.canPop(context)
-              ? CupertinoNavigationBarBackButton(
-                onPressed: () {
-                  // Ensure we pop the route.
-                  Navigator.pop(context);
-                },
-              )
-              : null,
+      leading: Navigator.canPop(context)
+          ? CupertinoNavigationBarBackButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      )
+          : null,
       middle: Text(
         'Quotesss..!!',
         style: TextStyle(
@@ -79,9 +98,14 @@ class _QuoteScreenState extends State<QuoteScreen> {
         ),
         onTap: () {},
       ),
-      // NEW: Assign the key to the SongWidget
-      bottomWidget: SongWidget(key: _songWidgetKey, sUrl: _sUrl),
-      child: Column(
+      bottomWidget: SongWidget(
+        key: _songWidgetKey,
+        sUrl: _sUrl,
+        onPlaybackStatusChanged: (isPlaying) {
+          debugPrint('Song playback status: $isPlaying');
+        },
+      ),
+      child: const Column(
         children: [
           Spacer(),
           Align(alignment: Alignment.center, child: QuoteWidget()),
@@ -116,18 +140,18 @@ class _ResponseState extends State<Response> {
                   setState(() {});
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'SF',
                   fontSize: 16,
                   fontStyle: FontStyle.normal,
                 ),
                 autocorrect: true,
                 minLines: 1,
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
                 onChanged: (value) => setState(() {}),
                 placeholder: "Express Your Feelingsss..!!",
                 decoration: BoxDecoration(
-                  color: CupertinoColors.darkBackgroundGray.withOpacity(0.5),
+                  color: CupertinoColors.darkBackgroundGray.withAlpha(50),
                   border: Border.all(color: CupertinoColors.systemGrey),
                   borderRadius: BorderRadius.circular(25),
                 ),
@@ -142,22 +166,32 @@ class _ResponseState extends State<Response> {
   }
 }
 
+// --- SongWidget Class (Updated to use YoutubeExplode) ---
+
 class SongWidget extends StatefulWidget {
   final String sUrl;
-  const SongWidget({Key? key, required this.sUrl}) : super(key: key);
+  final Duration? initialPosition;
+  final Function(bool isPlaying)? onPlaybackStatusChanged;
+
+  const SongWidget({
+    Key? key,
+    required this.sUrl,
+    this.initialPosition,
+    this.onPlaybackStatusChanged,
+  }) : super(key: key);
 
   @override
   State<SongWidget> createState() => _SongWidgetState();
 }
 
 class _SongWidgetState extends State<SongWidget> {
-  late AudioPlayer player;
-  late YoutubeExplode yt;
+  late AudioPlayer _player;
+  late YoutubeExplode _ytExplode; // <<< Use YoutubeExplode directly
+
   bool _isDeviceMute = false;
   double _previousVolume = 0.5;
   String? title;
   String? artist;
-  String? audioUrl;
   String? thumbnailUrl;
   bool loading = true;
   String? error;
@@ -165,94 +199,113 @@ class _SongWidgetState extends State<SongWidget> {
   @override
   void initState() {
     super.initState();
-    player = AudioPlayer();
-    yt = YoutubeExplode();
-    fetchMeta();
+    _player = AudioPlayer();
+    _ytExplode = YoutubeExplode(); // <<< Initialize YoutubeExplode
 
-    // OPTIONAL: Listen to the player's volume changes to update _previousVolume
-    player.volumeStream.listen((volume) {
+    _initPlayerListeners();
+    fetchAndPlayMeta();
+  }
+
+  void _initPlayerListeners() {
+    _player.volumeStream.listen((volume) {
       if (!_isDeviceMute) {
         _previousVolume = volume;
       }
     });
+
+    _player.playerStateStream.listen((playerState) {
+      widget.onPlaybackStatusChanged?.call(playerState.playing);
+      if (playerState.processingState == ProcessingState.completed) {
+        _player.seek(Duration.zero);
+        _player.play();
+      }
+    });
   }
 
-  // NEW: Add a public method to stop the music in SongWidget's state
   Future<void> stopMusic() async {
-    await player.stop();
+    await _player.stop();
   }
 
-  String? _extractVideoId(String url) {
-    final regExp = RegExp(
-      r'^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|music\.youtube\.com\/watch\?v=)([^#\&?]*).*',
-      caseSensitive: false,
-    );
-    final match = regExp.firstMatch(url);
-    return (match != null && match.group(2)!.length == 11)
-        ? match.group(2)
-        : null;
-  }
-
-  Future<void> fetchMeta() async {
+  Future<void> fetchAndPlayMeta() async {
     setState(() {
       loading = true;
       error = null;
     });
 
     try {
-      final videoId = _extractVideoId(widget.sUrl);
-      if (videoId == null) throw Exception('Invalid YouTube URL');
-
-      // Fetch video metadata and manifest in parallel
-      final results = await Future.wait([
-        yt.videos.get(VideoId(videoId)),
-        yt.videos.streamsClient.getManifest(VideoId(videoId)),
-      ]);
-
-      final video = results[0] as Video;
-      final manifest = results[1] as StreamManifest;
-
-      final audioStreams = manifest.audioOnly;
-      // ... rest of your stream filtering logic ...
-      final m4aStreams =
-          audioStreams.where((s) => s.container == 'm4a').toList()
-            ..sort((a, b) => b.bitrate.compareTo(a.bitrate));
-
-      final AudioStreamInfo audioStream;
-
-      if (m4aStreams.isNotEmpty) {
-        audioStream = m4aStreams.first;
-      } else {
-        if (audioStreams.isNotEmpty) {
-          audioStream = audioStreams.withHighestBitrate();
-        } else {
-          throw Exception('No audio streams found for this video.');
-        }
+      final videoId = CustomUrlParser.extractVideoId(widget.sUrl);
+      if (videoId == null) {
+        throw Exception('Invalid YouTube URL provided: ${widget.sUrl}');
       }
 
+      // --- Use YoutubeExplode to get video and stream info ---
+      final Video video = await _ytExplode.videos.get(videoId);
+      final StreamManifest manifest = await _ytExplode.videos.streamsClient.getManifest(videoId);
+
       setState(() {
-        title = video.title.split(' - ').first;
+        title = video.title;
         artist = video.author;
-        thumbnailUrl = video.thumbnails.mediumResUrl;
-        audioUrl = audioStream.url.toString();
+        thumbnailUrl = video.thumbnails.highResUrl; // Or other resolutions
         loading = false;
       });
 
-      // Only set the URL if it's actually loaded and not an error
-      await player.setUrl(audioUrl.toString());
-      await player.play(); // NEW: Start playing automatically when loaded
+      // Find the best audio-only stream
+      final AudioStreamInfo? audioStream = manifest.audioOnly.where((s) => s.codec == 'opus').sortByBitrate().lastOrNull;
+
+      if (audioStream == null) {
+        throw Exception('No suitable audio stream found for this video.');
+      }
+
+      // Get the stream URL
+      final String streamUrl = audioStream.url.toString(); // Convert Uri to String
+
+      debugPrint('Attempting to play stream from YoutubeExplode: $streamUrl');
+
+      await _player.setAudioSource(
+        AudioSource.uri(
+          Uri.parse(streamUrl),
+          tag: MediaItem(
+            id: videoId,
+            title: title ?? 'Unknown Title',
+            artist: artist ?? 'Unknown Artist',
+            artUri: Uri.parse(thumbnailUrl ?? ''),
+          ),
+        ),
+        initialPosition: widget.initialPosition ?? Duration.zero,
+      );
+
+      await _player.play();
     } catch (e) {
+      debugPrint('Error fetching metadata or playing audio with YoutubeExplode: $e');
       setState(() {
-        error = e.toString();
+        error = 'Failed to load song: ${e.toString().split(':').last.trim()}';
         loading = false;
       });
     }
   }
 
+  Widget _buildCachedThumbnail() {
+    if (thumbnailUrl == null || thumbnailUrl!.isEmpty) {
+      return const CupertinoActivityIndicator();
+    }
+    return FutureBuilder<File>(
+      future: CustomCacheManager().getSingleFile(thumbnailUrl!),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+          return Image.file(snapshot.data!, fit: BoxFit.cover, filterQuality: FilterQuality.high);
+        } else if (snapshot.hasError) {
+          debugPrint('Error loading cached thumbnail: ${snapshot.error}');
+          return const Icon(CupertinoIcons.exclamationmark_triangle_fill, color: CupertinoColors.systemRed);
+        }
+        return const CupertinoActivityIndicator();
+      },
+    );
+  }
+
   @override
   void dispose() {
-    player.dispose(); // Dispose the player when SongWidget is removed
-    yt.close();
+    _player.dispose();
+    _ytExplode.close(); // <<< Close YoutubeExplode instance
     super.dispose();
   }
 
@@ -275,197 +328,157 @@ class _SongWidgetState extends State<SongWidget> {
             ),
           ],
         ),
-        child:
-            loading
-                ? Center(
-                  child: CupertinoActivityIndicator(
-                    radius: global.SizeConfig.screenHeight * 0.02,
+        child: loading
+            ? Center(
+          child: CupertinoActivityIndicator(
+            radius: global.SizeConfig.screenHeight * 0.02,
+          ),
+        )
+            : error != null
+            ? Center(child: Text(error!, style: const TextStyle(fontSize: 12, color: CupertinoColors.systemRed)))
+            : Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            children: [
+              // Thumbnail
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  width: global.SizeConfig.screenWidth * 0.13,
+                  height: global.SizeConfig.screenWidth * 0.13,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: CupertinoColors.destructiveRed,
                   ),
-                )
-                : error != null
-                ? Center(child: Text(error!, style: TextStyle(fontSize: 12)))
-                : Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(
+                  child: _buildCachedThumbnail(),
+                ),
+              ),
+
+              // Title & Artist
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Thumbnail
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: CupertinoColors.destructiveRed,
-                            image: DecorationImage(
-                              image: NetworkImage(thumbnailUrl!),
-                              filterQuality: FilterQuality.high,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          width: global.SizeConfig.screenWidth * 0.13,
-                          height: global.SizeConfig.screenWidth * 0.13,
+                      Text(
+                        title ?? 'Unknown Title',
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(
+                          fontSize: global.SizeConfig.screenHeight * 0.023,
+                          color: CupertinoColors.systemGrey4,
                         ),
                       ),
-
-                      // Title & Artist
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                title ?? 'Unknown Title',
-                                maxLines: 1,
-                                overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                  fontSize:
-                                      global.SizeConfig.screenHeight * 0.023,
-                                  color: CupertinoColors.systemGrey4,
-                                ),
-                              ),
-                              Text(
-                                artist ?? 'Unknown Artist',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize:
-                                      global.SizeConfig.screenHeight * 0.017,
-                                  color: CupertinoColors.systemGrey2,
-                                ),
-                              ),
-                            ],
-                          ),
+                      Text(
+                        artist ?? 'Unknown Artist',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: global.SizeConfig.screenHeight * 0.017,
+                          color: CupertinoColors.systemGrey2,
                         ),
-                      ),
-
-                      // Playback Controls
-                      StreamBuilder<PlayerState>(
-                        stream: player.playerStateStream,
-                        builder: (context, snapshot) {
-                          final playerState = snapshot.data;
-                          // Default to false if no data yet, to avoid initial play button showing pause
-                          final isPlaying = playerState?.playing ?? false;
-
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                child: GestureDetector(
-                                  child: MorphedContainer(
-                                    height:
-                                        global.SizeConfig.screenWidth * 0.09,
-                                    width: global.SizeConfig.screenWidth * 0.09,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                        global.SizeConfig.screenWidth * 1,
-                                      ),
-                                    ),
-                                    color: CupertinoColors.systemPurple
-                                        .withOpacity(0.6),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(1.0),
-                                      child: Center(
-                                        child: HugeIcon(
-                                          icon:
-                                              isPlaying
-                                                  ? HugeIcons.strokeRoundedPause
-                                                  : HugeIcons.strokeRoundedPlay,
-                                          color: CupertinoColors.white,
-                                          size:
-                                              global.SizeConfig.screenWidth *
-                                              0.06,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () async {
-                                    if (isPlaying) {
-                                      await player.pause();
-                                    } else {
-                                      await player.play();
-                                    }
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                child: GestureDetector(
-                                  child: MorphedContainer(
-                                    height:
-                                        global.SizeConfig.screenWidth * 0.09,
-                                    width: global.SizeConfig.screenWidth * 0.09,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                        global.SizeConfig.screenWidth * 1,
-                                      ),
-                                    ),
-                                    color: CupertinoColors.systemPurple
-                                        .withOpacity(0.6),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(1.0),
-                                      child: Center(
-                                        child:
-                                            _isDeviceMute
-                                                ? HugeIcon(
-                                                  icon:
-                                                      HugeIcons
-                                                          .strokeRoundedHeadsetOff,
-                                                  color:
-                                                      CupertinoColors
-                                                          .destructiveRed,
-                                                  size:
-                                                      global
-                                                          .SizeConfig
-                                                          .screenWidth *
-                                                      0.06,
-                                                )
-                                                : HugeIcon(
-                                                  icon:
-                                                      HugeIcons
-                                                          .strokeRoundedHeadset,
-                                                  color:
-                                                      CupertinoColors
-                                                          .systemGreen,
-                                                  size:
-                                                      global
-                                                          .SizeConfig
-                                                          .screenWidth *
-                                                      0.06,
-                                                ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () async {
-                                    setState(() {
-                                      _isDeviceMute = !_isDeviceMute;
-                                    });
-
-                                    if (_isDeviceMute) {
-                                      _previousVolume = player.volume;
-                                      await player.setVolume(0.0);
-                                    } else {
-                                      await player.setVolume(_previousVolume);
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
-                          );
-                        },
                       ),
                     ],
                   ),
                 ),
+              ),
+
+              // Playback Controls
+              StreamBuilder<PlayerState>(
+                stream: _player.playerStateStream,
+                builder: (context, snapshot) {
+                  final playerState = snapshot.data;
+                  final isPlaying = playerState?.playing ?? false;
+
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: GestureDetector(
+                          child: MorphedContainer(
+                            height: global.SizeConfig.screenWidth * 0.09,
+                            width: global.SizeConfig.screenWidth * 0.09,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                global.SizeConfig.screenWidth * 1,
+                              ),
+                            ),
+                            color: CupertinoColors.systemPurple.withOpacity(0.6),
+                            child: Padding(
+                              padding: const EdgeInsets.all(1.0),
+                              child: Center(
+                                child: HugeIcon(
+                                  icon: isPlaying ? HugeIcons.strokeRoundedPause : HugeIcons.strokeRoundedPlay,
+                                  color: CupertinoColors.white,
+                                  size: global.SizeConfig.screenWidth * 0.06,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onTap: () async {
+                            if (isPlaying) {
+                              await _player.pause();
+                            } else {
+                              await _player.play();
+                            }
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: GestureDetector(
+                          child: MorphedContainer(
+                            height: global.SizeConfig.screenWidth * 0.09,
+                            width: global.SizeConfig.screenWidth * 0.09,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                global.SizeConfig.screenWidth * 1,
+                              ),
+                            ),
+                            color: CupertinoColors.systemPurple.withOpacity(0.6),
+                            child: Padding(
+                              padding: const EdgeInsets.all(1.0),
+                              child: Center(
+                                child: _isDeviceMute
+                                    ? HugeIcon(
+                                  icon: HugeIcons.strokeRoundedHeadsetOff,
+                                  color: CupertinoColors.destructiveRed,
+                                  size: global.SizeConfig.screenWidth * 0.06,
+                                )
+                                    : HugeIcon(
+                                  icon: HugeIcons.strokeRoundedHeadset,
+                                  color: CupertinoColors.systemGreen,
+                                  size: global.SizeConfig.screenWidth * 0.06,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onTap: () async {
+                            setState(() {
+                              _isDeviceMute = !_isDeviceMute;
+                            });
+
+                            if (_isDeviceMute) {
+                              _previousVolume = _player.volume;
+                              await _player.setVolume(0.0);
+                            } else {
+                              await _player.setVolume(_previousVolume);
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
-
-//it will show
-// -Quotesflipcard
-// -song plays
-// -reply leave your feeling
-// - love ur unoved the quote

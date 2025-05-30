@@ -6,7 +6,9 @@ import 'package:pikanda/frontend/quote_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pikanda/frontend/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'backend/music_services.dart';
 import 'firebase_options.dart';
 import 'package:pikanda/utilities/globalvar.dart' as global;
 
@@ -17,19 +19,28 @@ Future<void> main() async {
     url: global.supabaseUrl,
     anonKey: global.supabaseUrl);
 
-  // runApp(DevicePreview(builder: (context) => const MyApp()))
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]).then((_) {
-      runApp(const MyApp());
-    });
+
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  // Initialize your new YoutubeMusicApiService
+  await YoutubeMusicApiService().init(prefs);
+
+  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(const MyApp());
+  });
 }
 
 final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
+
+  // 2. Define the constructor with 'musicServices' as a REQUIRED named parameter
   const MyApp({super.key});
+  //                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ This part is key!
 
   @override
   Widget build(BuildContext context) {
@@ -44,18 +55,19 @@ class MyApp extends StatelessWidget {
         ),
       ),
       // title: 'pikanda',
-      home: Banner(
-        message: 'Basic',
-        textStyle: TextStyle(
-          fontFamily: 'SF',
-          fontWeight: FontWeight.w500,
-          color: CupertinoColors.black,
-        ),
-        color: CupertinoColors.destructiveRed,
-        location: BannerLocation.bottomStart,
-
-        child: SplashScreen(),
-      ),
+      home: SplashScreen()
+      // Banner(
+      //   message: 'Basic',
+      //   textStyle: TextStyle(
+      //     fontFamily: 'SF',
+      //     fontWeight: FontWeight.w500,
+      //     color: CupertinoColors.black,
+      //   ),
+      //   color: CupertinoColors.destructiveRed,
+      //   location: BannerLocation.bottomStart,
+      //
+      //   child: SplashScreen(),
+      // ),
     );
   }
 }
