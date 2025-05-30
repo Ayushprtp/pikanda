@@ -231,8 +231,28 @@ class _SongWidgetState extends State<SongWidget> {
       }
 
       setState(() {
-        title = video.title.split(' - ').first;
-        artist = video.author;
+        String rawTitle = video.title.trim();
+        String rawAuthor = video.author.trim();
+
+        // Check for " - " separator to extract Artist and Title
+        if (rawTitle.contains(' - ')) {
+          final parts = rawTitle.split(' - ');
+          if (parts.length >= 2) {
+            // Assuming format "Artist - Song Title"
+            artist = parts.first.trim();
+            // Join remaining parts in case the song title itself contains " - "
+            title = parts.sublist(1).join(' - ').trim();
+          } else {
+            // Fallback if split didn't yield expected parts (e.g., just "Artist -")
+            title = rawTitle;
+            artist = rawAuthor;
+          }
+        } else {
+          // If no " - " in title, assume rawTitle is the song title
+          title = rawTitle;
+          artist = rawAuthor; // Use the video author as the artist
+        }
+
         thumbnailUrl = video.thumbnails.mediumResUrl;
         audioUrl = audioStream.url.toString();
         loading = false;
