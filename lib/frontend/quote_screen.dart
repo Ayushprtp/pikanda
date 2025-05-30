@@ -13,6 +13,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:pikanda/utilities/morphsimcontainer.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:audio_service/audio_service.dart';
 
 class QuoteScreen extends StatefulWidget {
   QuoteScreen({super.key});
@@ -22,12 +23,14 @@ class QuoteScreen extends StatefulWidget {
 }
 
 class _QuoteScreenState extends State<QuoteScreen> {
-  late String _sUrl = 'https://www.youtube.com/watch?v=VuG7ge_8I2Y';
+  late String _sUrl =
+      // 'https://www.youtube.com/watch?v=VuG7ge_8I2Y';
   // 'https://youtu.be/E9zWVQypoSM?si=okOOTKDudYr8hli5';
   // 'https://youtu.be/0RHjkD-htWQ?si=kKn_NCIBjErZtQuH';
   //     'https://youtu.be/fWQpb6T89d4?si=GegMKgy3RjyMvTWw';
   // 'https://music.youtube.com/watch?v=gZ0vHQKfNH8&si=6vcVbUSFrqNxsWch';
   // 'https://music.youtube.com/watch?v=_9FyH8PmRSU&si=HZdrsG380n2PjIsM';
+  'https://youtu.be/eWf-mx0_NKU?si=zfNdeRAjITK-lVN6';
   final FocusNode _urlFocusNode = FocusNode();
   String? _currentUrl;
   @override
@@ -56,6 +59,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
           Align(alignment: Alignment.center, child: QuoteWidget()),
           Spacer(),
           Response(),
+          Text(global.User.username)
         ],
       ),
       bottomWidget: SongWidget(sUrl: '$_sUrl'),
@@ -186,31 +190,54 @@ class _SongWidgetState extends State<SongWidget> {
     try {
       final videoId = _extractVideoId(widget.sUrl);
       if (videoId == null) throw Exception('Invalid YouTube URL');
-
       final video = await yt.videos.get(VideoId(videoId));
       final manifest = await yt.videos.streamsClient.getManifest(
         VideoId(videoId),
       );
-
-      // Get best audio stream (M4A first, then fallback)
+      // 1. Get ALL available audio-only streams from the manifest.
       final audioStreams = manifest.audioOnly;
+
+      // 2. Filter these streams specifically for M4A containers
+      //    and sort them by bitrate (highest first).
       final m4aStreams =
-          audioStreams.where((s) => s.container == 'm4a').toList()
-            ..sort((a, b) => b.bitrate.compareTo(a.bitrate));
+      audioStreams.where((s) => s.container == 'm4a').toList()
+        ..sort((a, b) => b.bitrate.compareTo(a.bitrate));
 
-      final audioStream =
-          m4aStreams.isNotEmpty
-              ? m4aStreams.first
-              : audioStreams.withHighestBitrate();
+      // 3. Determine the final audio stream to use:
+      final AudioStreamInfo audioStream; // Declare the variable
 
-      await player.setUrl(audioStream.url.toString());
+      if (m4aStreams.isNotEmpty) {
+        // IF M4A streams were found (m4aStreams is not empty),
+        // THEN use the first one, which is the highest bitrate M4A.
+        audioStream = m4aStreams.first;
+      } else {
+        // ELSE (if no M4A streams were found):
+        // Use the highest bitrate stream from ALL available audio streams.
+        // This covers formats like WebM (Opus) or others.
+        if (audioStreams.isNotEmpty) {
+          audioStream = audioStreams.withHighestBitrate();
+        } else {
+          // This handles the rare case where there are absolutely no audio streams at all.
+          throw Exception('No audio streams found for this video.');
+        }
+      }
+
+      // Ensure audioStream is not null before proceeding (good practice)
+      // This is implicitly handled by the `else` block above, but a direct check adds robustness.
+      // if (audioStream == null) {
+      //   throw Exception('Could not determine a suitable audio stream.');
+      // }
+
 
       setState(() {
         title = video.title.split(' - ').first;
         artist = video.author;
-        thumbnailUrl = video.thumbnails.highResUrl;
+        thumbnailUrl = video.thumbnails.mediumResUrl;
+        audioUrl =audioStream.url.toString();
         loading = false;
       });
+
+      await player.setUrl(audioUrl.toString());
     } catch (e) {
       setState(() {
         error = e.toString();

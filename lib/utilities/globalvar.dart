@@ -22,7 +22,7 @@ class Quote {
   // late String quote;
 }
 class User {
-  late String username;
+  static late String username;
 }
 
 class Version {

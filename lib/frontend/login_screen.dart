@@ -36,34 +36,36 @@ class _LoginScreenState extends State<LoginScreen> {
           content: Column(
             children: [
               Flexible(
-                child: CupertinoTextField(
-                  onTapOutside: (value) {
-                    setState(() {});
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  },
-                  style: TextStyle(
-                    fontFamily: 'SF',
-                    fontSize: 16,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  autocorrect: true,
-                  minLines: 1,
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                  onChanged: (value) => setState(() {}),
-                  placeholder: "Enter Username",
-                  decoration: BoxDecoration(
-                    color: CupertinoColors.darkBackgroundGray.withValues(
-                      alpha: 0.5,
+                child: MorphedContainer(
+                  child: CupertinoTextField(
+                    onTapOutside: (value) {
+                      setState(() {});
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
+                    style: TextStyle(
+                      fontFamily: 'SF',
+                      fontSize: 16,
+                      fontStyle: FontStyle.normal,
                     ),
-                    border: Border.all(
-                      color: CupertinoColors.systemGrey,
-                    ), // Customize the border
-                    borderRadius: BorderRadius.circular(
-                      25,
-                    ), // Customize the border radius
+                    autocorrect: true,
+                    minLines: 1,
+                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                    onChanged: (value) => setState(() {}),
+                    placeholder: "Enter Username",
+                    decoration: BoxDecoration(
+                      color: CupertinoColors.darkBackgroundGray.withValues(
+                        alpha: 0.5,
+                      ),
+                      border: Border.all(
+                        color: CupertinoColors.systemGrey,
+                      ), // Customize the border
+                      borderRadius: BorderRadius.circular(
+                        25,
+                      ), // Customize the border radius
+                    ),
+                    controller: _username,
+                    maxLines: 1,
                   ),
-                  controller: _username,
-                  maxLines: 1,
                 ),
               ),
             ],
@@ -77,6 +79,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               onPressed: () {
                 Navigator.of(context).pop(context);
+                setState(() {
+                  global.User.username = _username.text;
+                });
               },
             ),
 
