@@ -143,11 +143,11 @@ class Ver extends StatelessWidget {
                     // ),
                   ),
                   onTap: (
-                    ){
+                      ){
 
-                  // Navigator.of(context).pop();
+                    // Navigator.of(context).pop();
 
-                },)
+                  },)
               ],
 
               message: Text('Shows Current App Version'),

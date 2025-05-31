@@ -25,112 +25,16 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
   bool _isQuoteTextBold = false;
   bool _isQuoteTextUnderLined = false;
   double fontSize = 0.02; // Default font size
-  String fontFamily = 'Jasmine'; // Default font family
-  Alignment alignment = Alignment.center;
-  TextAlign textAlign = TextAlign.center; // Default text alignment
+  // String fontFamily = global.fontFamilies[1]; // Default font family
+  Alignment alignment = global.containerAlignments[4];
+  TextAlign textAlign = global.alignments[1]; // Default text alignment
 
-  // List of available font families
-  final List<String> _fontFamilies = [
-    'SF',
-    'Jasmine',
-    'Blanka',
-    'Ethnocentric',
-    'Unitedlovehello',
-    'Thisfeelings',
-    'Tamalikamerge',
-    'Skylight',
-    'Qualityoflove',
-    'Purplemystery',
-    'Pandastudio',
-    'Pandalovelybaby',
-    'Monkeyact',
-    'Feelwithme',
-    'Faisaljnnkyaw',
-    'Montserrat',
-    'kaushanscript',
-  ];
-  // List of available alignments
-  late final List<TextAlign> _alignments = [
-    TextAlign.left,
-    TextAlign.center,
-    TextAlign.right,
-    TextAlign.justify,
-    TextAlign.end,
-    TextAlign.start,
-  ];
-
-  final List<Alignment> _containerAlignments = [
-    // List of Alignment for container
-    Alignment.topLeft,
-    Alignment.topCenter,
-    Alignment.topRight,
-    Alignment.centerLeft,
-    Alignment.center,
-    Alignment.centerRight,
-    Alignment.bottomLeft,
-    Alignment.bottomCenter,
-    Alignment.bottomRight,
-  ];
-  String alignmentLabel(Alignment alignment) {
-    if (alignment == Alignment.topLeft) return "Top Left";
-    if (alignment == Alignment.topCenter) return "Top Center";
-    if (alignment == Alignment.topRight) return "Top Right";
-    if (alignment == Alignment.centerLeft) return "Center Left";
-    if (alignment == Alignment.center) return "Center";
-    if (alignment == Alignment.centerRight) return "Center Right";
-    if (alignment == Alignment.bottomLeft) return "Bottom Left";
-    if (alignment == Alignment.bottomCenter) return "Bottom Center";
-    if (alignment == Alignment.bottomRight) return "Bottom Right";
-    return alignment.toString();
-  }
-
-  final List<String> _frontquotecrads = [
-    'assets/card/1.webp',
-    'assets/card/2.webp',
-    'assets/card/3.webp',
-    'assets/card/4.webp',
-    'assets/card/5.webp',
-    'assets/card/6.webp',
-    'assets/card/7.webp',
-    'assets/card/8.webp',
-    'assets/card/9.webp',
-    'assets/card/10.webp',
-    'assets/card/11.webp',
-    'assets/card/12.webp',
-    'assets/card/13.webp',
-    'assets/card/14.webp',
-    'assets/card/15.webp',
-    'assets/card/16.webp',
-    'assets/card/17.webp',
-    'assets/card/18.webp',
-    'assets/card/19.webp',
-    'assets/card/20.webp',
-    'assets/card/21.webp',
-    'assets/card/22.webp',
-    'assets/card/23.webp',
-    'assets/card/24.webp',
-    'assets/card/25.webp',
-    'assets/card/26.webp',
-    'assets/card/27.webp',
-    'assets/card/28.webp',
-    'assets/card/29.webp',
-    'assets/card/30.webp',
-  ];
-
-  final List<String> _backquotecards = [
-    'assets/card/ayu.webp',
-    'assets/card/dex.webp',
-    'assets/card/pika.webp',
-  ];
 
   Color selectedColor = CupertinoColors.black;
-  String? fcard = 'assets/card/2.webp';
-  String? selectedcard = 'assets/card/2.webp';
   String? genre = 'null';
-  String? bcard = 'assets/card/dex.webp';
-  // String? selectedbcard = 'assets/card/dex.webp';
   int selectedfcard = 1;
   int selectedbcard = 1;
+  int fontFamily =1;
 
   void _showGenreDialog() {
     showCupertinoDialog(
@@ -241,8 +145,8 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
     return Bg(
       leading: Navigator.canPop(context)
           ? CupertinoNavigationBarBackButton(
+        previousPageTitle: 'Home',
         onPressed: () {
-          // Ensure we pop the route.
           Navigator.pop(context);
         },
       )
@@ -251,7 +155,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
         'Quote Upload..!!',
         style: TextStyle(
           fontFamily: 'Ethnocentric',
-          fontSize: global.SizeConfig.screenHeight * 0.025,
+          fontSize: global.SizeConfig.screenHeight * 0.020,
           color: CupertinoColors.white,
         ),
       ),
@@ -274,7 +178,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                 width: double.maxFinite,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('${_frontquotecrads[selectedfcard]}'),
+                    image: AssetImage('${global.frontQuoteCards[selectedfcard]}'),
                     fit: BoxFit.fitWidth,
                   ),
                   color: CupertinoColors.black,
@@ -288,7 +192,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                       textAlign: textAlign,
                       '${_QuoteInput.text}',
                       style: TextStyle(
-                        fontFamily: fontFamily,
+                        fontFamily: global.fontFamilies[fontFamily],
                         fontSize: global.SizeConfig.screenHeight * fontSize,
                         color: selectedColor,
                         fontStyle:
@@ -314,7 +218,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                 width: double.maxFinite,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('${_backquotecards[selectedbcard]}'),
+                    image: AssetImage('${global.backQuoteCards[selectedbcard]}'),
                     fit: BoxFit.fitWidth,
                   ),
                   // color: CupertinoColors.black,
@@ -486,7 +390,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                               context: context,
                                               builder: (context) {
                                                 String selectedFontFamily =
-                                                    fontFamily; // local mutable state
+                                                    global.fontFamilies[fontFamily]; // local mutable state
 
                                                 return CupertinoActionSheet(
                                                   actions: [
@@ -518,7 +422,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                                       5,
                                                                 ),
                                                                 itemCount:
-                                                                    _fontFamilies
+                                                                    global.fontFamilies
                                                                         .length,
                                                                 itemBuilder: (
                                                                   context,
@@ -529,12 +433,12 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                                       // Update local state to trigger border update in popup
                                                                       modalSetState(() {
                                                                         selectedFontFamily =
-                                                                            _fontFamilies[index];
+                                                                        global.fontFamilies[index];
                                                                       });
                                                                       // Optionally, update your main state too
                                                                       setState(() {
                                                                         fontFamily =
-                                                                            _fontFamilies[index];
+                                                                        index;
                                                                       });
                                                                       // Optionally, dismiss the popup after selection
                                                                       Navigator.of(
@@ -550,7 +454,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                                             ),
                                                                         border:
                                                                             selectedFontFamily ==
-                                                                                    _fontFamilies[index]
+                                                                                global.fontFamilies[index]
                                                                                 ? Border.all(
                                                                                   width:
                                                                                       2,
@@ -576,7 +480,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                                                   global.SizeConfig.screenWidth *
                                                                                   0.07,
                                                                               fontFamily:
-                                                                                  _fontFamilies[index],
+                                                                              global.fontFamilies[index],
                                                                             ),
                                                                           ),
                                                                         ),
@@ -694,14 +598,14 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                                       5,
                                                                 ),
                                                                 itemCount:
-                                                                    _containerAlignments
+                                                                    global.containerAlignments
                                                                         .length,
                                                                 itemBuilder: (
                                                                   context,
                                                                   index,
                                                                 ) {
                                                                   final itemAlignment =
-                                                                      _containerAlignments[index];
+                                                                  global.containerAlignments[index];
                                                                   return GestureDetector(
                                                                     onTap: () {
                                                                       modalSetState(() {
@@ -740,7 +644,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                                       ),
                                                                       child: Center(
                                                                         child: Text(
-                                                                          alignmentLabel(
+                                                                          global.alignmentLabel(
                                                                             itemAlignment,
                                                                           ),
                                                                           textAlign:
@@ -831,14 +735,14 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                                                         5,
                                                                   ),
                                                                   itemCount:
-                                                                      _alignments
+                                                                  global.alignments
                                                                           .length,
                                                                   itemBuilder: (
                                                                     context,
                                                                     index,
                                                                   ) {
                                                                     final alignment =
-                                                                        _alignments[index];
+                                                                        global.alignments[index];
                                                                     return GestureDetector(
                                                                       onTap: () {
                                                                         modalSetState(() {
@@ -1035,7 +939,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                           decoration: BoxDecoration(
                                             image: DecorationImage(
                                               image: AssetImage(
-                                                _frontquotecrads[index],
+                                                global.frontQuoteCards[index],
                                               ),
                                               fit: BoxFit.fitWidth,
                                             ),
@@ -1060,7 +964,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                         },
                                       );
                                     },
-                                    itemCount: _frontquotecrads.length,
+                                    itemCount: global.frontQuoteCards.length,
                                   ),
                                 ),
                               ),
@@ -1125,7 +1029,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                           decoration: BoxDecoration(
                                             image: DecorationImage(
                                               image: AssetImage(
-                                                _backquotecards[index],
+                                                global.backQuoteCards[index],
                                               ),
                                               fit: BoxFit.fitWidth,
                                             ),
@@ -1150,7 +1054,7 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                                         },
                                       );
                                     },
-                                    itemCount: _backquotecards.length,
+                                    itemCount: global.backQuoteCards.length,
                                   ),
                                 ),
                               ),
@@ -1191,7 +1095,6 @@ class _QuoteInsertScreenState extends State<QuoteInsertScreen> {
                           onPressed: () {
                             print(selectedfcard);
                             print(selectedbcard);
-                            print(bcard);
                             print(genre);
                             print(_QuoteInput.text);
                             print(_SongInput.text);

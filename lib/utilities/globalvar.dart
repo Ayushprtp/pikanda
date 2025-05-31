@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
@@ -63,12 +65,62 @@ class Version {
   // var ver ='$';
   String mame ='Anaconda';
   double number=2025.5;
-  double patch=4;
-  String desc='Soon To Be Published';
+  double patch=8;
+ String desc='Soon To Be Published';
   String img='https://cdn-icons-png.flaticon.com/512/3196/3196026.png';
 
 }
 
+final fontFamilies = [
+  'SF', 'Jasmine', 'Blanka', 'Ethnocentric', 'Unitedlovehello',
+  'Thisfeelings', 'Tamalikamerge', 'Skylight', 'Qualityoflove',
+  'Purplemystery', 'Pandastudio', 'Pandalovelybaby', 'Monkeyact',
+  'Feelwithme', 'Faisaljnnkyaw', 'Montserrat', 'kaushanscript',
+];
+
+final alignments = [
+  TextAlign.left,
+  TextAlign.center,
+  TextAlign.right,
+  TextAlign.justify,
+  TextAlign.end,
+  TextAlign.start,
+];
+
+final containerAlignments = [
+  Alignment.topLeft,
+  Alignment.topCenter,
+  Alignment.topRight,
+  Alignment.centerLeft,
+  Alignment.center,
+  Alignment.centerRight,
+  Alignment.bottomLeft,
+  Alignment.bottomCenter,
+  Alignment.bottomRight,
+];
+
+String alignmentLabel(Alignment alignment) {
+  switch (alignment) {
+    case Alignment.topLeft: return "Top Left";
+    case Alignment.topCenter: return "Top Center";
+    case Alignment.topRight: return "Top Right";
+    case Alignment.centerLeft: return "Center Left";
+    case Alignment.center: return "Center";
+    case Alignment.centerRight: return "Center Right";
+    case Alignment.bottomLeft: return "Bottom Left";
+    case Alignment.bottomCenter: return "Bottom Center";
+    case Alignment.bottomRight: return "Bottom Right";
+    default: return alignment.toString();
+  }
+}
+
+final frontQuoteCards = List.generate(30, (index) => 'assets/card/${index + 1}.webp');
+
+final backQuoteCards = [
+  'assets/card/ayu.webp',
+  'assets/card/dex.webp',
+  'assets/card/pika.webp',
+];
 
 
 

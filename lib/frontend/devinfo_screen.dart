@@ -299,6 +299,7 @@ class _DevState extends State<Dev> {
       // disabledColor: CupertinoColors.activeBlue,
       // focusColor: CupertinoColors.activeGreen,
       onPressed: () {
+        Navigator.of(context).pop();
         _DevPopUP();
       },
       child: RichText(
