@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -428,7 +429,7 @@ class _SongWidgetState extends State<SongWidget> {
                   width: global.SizeConfig.screenWidth * 0.125,
                   height: global.SizeConfig.screenWidth * 0.125,
                   decoration: BoxDecoration(
-                      color: CupertinoColors.destructiveRed,
+                      color: CupertinoColors.black,
                       borderRadius: BorderRadius.circular(20)
                   ),
                   child: _buildCachedThumbnail(),
