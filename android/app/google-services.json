@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:395243212042:android:0fe70ce6ff511394ee7ef3",
+        "mobilesdk_app_id": "1:395243212042:android:d047f1243498b8cfee7ef3",
         "android_client_info": {
-          "package_name": "com.example.myapp"
+          "package_name": "com.ayushprtp.pikanda"
         }
       },
       "oauth_client": [],

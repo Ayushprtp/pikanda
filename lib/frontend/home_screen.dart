@@ -231,7 +231,7 @@ class _QRscanState extends State<QRscan> {
     return CurvedNavigationBar(
       index: 0,
       animationDuration: Duration(milliseconds: 250),
-      height: global.SizeConfig.screenHeight * 0.06,
+      height: global.SizeConfig.screenHeight * 0.05,
       buttonBackgroundColor: CupertinoColors.systemPink,
       backgroundColor: CupertinoColors.transparent,
       onTap: (index)

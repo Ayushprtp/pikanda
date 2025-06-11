@@ -166,7 +166,7 @@ class _QuoteWidgetState extends State<QuoteWidget> {
           },
           isDefaultAction: true,
           trailingIcon: CupertinoIcons.doc_on_clipboard_fill,
-          child: const Text('Copy'),
+          child: const Text('Copyy'),
         ),
         CupertinoContextMenuAction(
           onPressed: () {

@@ -64,8 +64,8 @@ class Global {
 class Version {
   // var ver ='$';
   String mame ='Anaconda';
-  double number=2025.5;
-  double patch=8;
+  double number=2025.7;
+  double patch=1;
  String desc='Soon To Be Published';
   String img='https://cdn-icons-png.flaticon.com/512/3196/3196026.png';
 

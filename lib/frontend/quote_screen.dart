@@ -1,28 +1,20 @@
-// lib/frontend/quote_widget.dart (or wherever your SongWidget is located)
-
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:pikanda/frontend/quote_widget.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart'; // <<< ADD THIS IMPORT
+import 'package:pikanda/frontend/response_widget.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-
-// Temporarily REMOVE: import 'package:pikanda/backend/music_services.dart'; // Temporarily comment out for testing
-
-// Assuming these are defined globally or in a utility file
 import '../utilities/bg.dart';
 import '../utilities/globalvar.dart' as global;
 import '../utilities/morphsimcontainer.dart';
 
-
-// --- QuoteScreen (Keep as is, update the _sUrl example) ---
+// --- QuoteScreen (UI unchanged) ---
 class QuoteScreen extends StatefulWidget {
   const QuoteScreen({super.key});
 
@@ -30,12 +22,9 @@ class QuoteScreen extends StatefulWidget {
   State<QuoteScreen> createState() => _QuoteScreenState();
 }
 
-
 class _QuoteScreenState extends State<QuoteScreen> {
   final String _sUrl =
-      // _ResponseState()._response.text;
-      // 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-  'https://youtu.be/eWf-mx0_NKU?si=0NpcyIPrziiUhaX9';
+      'https://youtu.be/eWf-mx0_NKU?si=0NpcyIPrziiUhaX9';
 
   final GlobalKey<_SongWidgetState> _songWidgetKey = GlobalKey();
 
@@ -72,8 +61,8 @@ class _QuoteScreenState extends State<QuoteScreen> {
         onTap: () {},
       ),
       bottomWidget: SongWidget(
-        startPosition: Duration(seconds: 30),
-        endPosition: Duration(seconds: 90),
+        startPosition: Duration(seconds: 15),
+        endPosition: Duration(seconds: 30),
         key: _songWidgetKey,
         sUrl: _sUrl,
         onPlaybackStatusChanged: (isPlaying) {
@@ -92,57 +81,9 @@ class _QuoteScreenState extends State<QuoteScreen> {
   }
 }
 
-class Response extends StatefulWidget {
-  const Response({super.key});
-
-  @override
-  State<Response> createState() => _ResponseState();
-}
-
-class _ResponseState extends State<Response> {
-  final TextEditingController _response = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: MorphedContainer(
-        width: double.maxFinite,
-        child: Row(
-          children: [
-            Flexible(
-              child: CupertinoTextField(
-                onTapOutside: (value) {
-                  setState(() {});
-                  FocusManager.instance.primaryFocus?.unfocus();
-                },
-                style: const TextStyle(
-                  fontFamily: 'SF',
-                  fontSize: 16,
-                  fontStyle: FontStyle.normal,
-                ),
-                autocorrect: true,
-                minLines: 1,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                onChanged: (value) => setState(() {}),
-                placeholder: "Express Your Feelingsss..!!",
-                decoration: BoxDecoration(
-                  color: CupertinoColors.darkBackgroundGray.withAlpha(50),
-                  border: Border.all(color: CupertinoColors.systemGrey),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                controller: _response,
-                maxLines: 8,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 
-// --- Constants and Custom Cache Manager (Keep as is) ---
+// --- Custom Cache Manager for audio (24h) ---
 class CustomCacheManager extends CacheManager {
   static const key = 'customAudioCache';
   static CustomCacheManager? _instance;
@@ -153,29 +94,31 @@ class CustomCacheManager extends CacheManager {
   }
 
   CustomCacheManager._()
-      : super(
-    Config(
-      key,
-      stalePeriod: const Duration(hours: 24),
-      maxNrOfCacheObjects: 100,
-    ),
-  );
+      : super(Config(
+    key,
+    stalePeriod: const Duration(hours: 24),
+    maxNrOfCacheObjects: 100,
+  ));
 }
 
-// Custom URL parser (Keep as is)
+// --- Robust YouTube/YouTube Music Video ID extraction ---
 class CustomUrlParser {
   static String? extractVideoId(String url) {
+    final ytMusicReg = RegExp(r'[\?&]v=([a-zA-Z0-9_-]{11})');
+    final match1 = ytMusicReg.firstMatch(url);
+    if (match1 != null && match1.group(1) != null) return match1.group(1);
+
     final regExp = RegExp(
-      r'^(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:music\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|v\/|shorts\/|e\/|clip\/|playlist\?list=|live\/)?([a-zA-Z0-9_-]{11})(?:\S+)?$',
+      r'^(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:music\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|v\/|shorts\/|e\/|clip\/|playlist\?list=|live\/)?([a-zA-Z0-9_-]{11})',
       caseSensitive: false,
     );
-    final match = regExp.firstMatch(url);
-    if (match != null && match.group(1) != null && match.group(1)!.length == 11) {
-      return match.group(1);
-    }
+    final match2 = regExp.firstMatch(url);
+    if (match2 != null && match2.group(1) != null) return match2.group(1);
+
     return null;
   }
 }
+
 class SongWidget extends StatefulWidget {
   final String sUrl;
   final Duration? initialPosition;
@@ -217,7 +160,7 @@ class _SongWidgetState extends State<SongWidget> {
     _ytExplode = YoutubeExplode();
 
     _initPlayerListeners();
-    fetchAndPlayMeta();
+    _fetchAndPlay();
   }
 
   void _initPlayerListeners() {
@@ -227,7 +170,6 @@ class _SongWidgetState extends State<SongWidget> {
       }
     });
 
-    // Loop between start and end
     _player.positionStream.listen((position) {
       if (_start != null && _end != null && _end! > _start!) {
         if (position >= _end!) {
@@ -246,24 +188,7 @@ class _SongWidgetState extends State<SongWidget> {
     await _player.stop();
   }
 
-  // Download and cache the full audio file, return File
-  Future<File> _getOrDownloadAudioFile(String audioUrl, String audioKey) async {
-    final cacheManager = CustomCacheManager();
-    final cachedFile = await cacheManager.getFileFromCache(audioKey);
-
-    if (cachedFile != null && cachedFile.file.existsSync()) {
-      return cachedFile.file;
-    }
-
-    final response = await HttpClient().getUrl(Uri.parse(audioUrl)).then((req) => req.close());
-    if (response.statusCode != 200) throw Exception('Audio download failed');
-
-    final bytes = await consolidateHttpClientResponseBytes(response);
-    final file = await cacheManager.putFile(audioKey, bytes, fileExtension: 'm4a', maxAge: const Duration(hours: 24));
-    return file;
-  }
-
-  Future<void> fetchAndPlayMeta() async {
+  Future<void> _fetchAndPlay() async {
     setState(() {
       loading = true;
       error = null;
@@ -271,90 +196,143 @@ class _SongWidgetState extends State<SongWidget> {
 
     try {
       final videoId = CustomUrlParser.extractVideoId(widget.sUrl);
-      if (videoId == null) {
-        throw Exception('Invalid YouTube URL provided: ${widget.sUrl}');
-      }
-
-      final Video video = await _ytExplode.videos.get(videoId);
-      String cleanTitle = video.title;
-      if (video.author.isNotEmpty && cleanTitle.contains(' - ')) {
-        final parts = cleanTitle.split(' - ');
-        cleanTitle = parts.sublist(1).join(' - ');
-      }
-
-      final StreamManifest manifest = await _ytExplode.videos.streamsClient.getManifest(videoId);
+      if (videoId == null) throw Exception('Invalid YouTube/YouTube Music URL: ${widget.sUrl}');
+      final video = await _ytExplode.videos.get(videoId);
 
       setState(() {
-        title = cleanTitle;
+        title = video.title;
         artist = video.author;
         thumbnailUrl = video.thumbnails.highResUrl;
-        loading = false;
       });
 
-      AudioStreamInfo? audioStream;
+      final manifest = await _ytExplode.videos.streamsClient.getManifest(videoId);
 
-      // Prefer m4a as it is more broadly supported by just_audio
+      // --- Select the best available audio stream and set key/extension accordingly ---
+      AudioStreamInfo? selectedStream;
+      String ext = 'm4a';
+      // 1. m4a
       final m4aStreams = manifest.audioOnly.where((s) => s.container.name.toLowerCase() == 'm4a').toList();
       m4aStreams.sort((a, b) => b.bitrate.compareTo(a.bitrate));
       if (m4aStreams.isNotEmpty) {
-        audioStream = m4aStreams.first;
+        selectedStream = m4aStreams.first;
+        ext = 'm4a';
       }
-
-      // Fallback to opus
-      if (audioStream == null) {
-        final opusStreams = manifest.audioOnly.where((s) => s.codec.toString().toLowerCase() == 'opus').toList();
+      // 2. opus
+      if (selectedStream == null) {
+        final opusStreams = manifest.audioOnly.where((s) => s.codec.toString().toLowerCase().contains('opus')).toList();
         opusStreams.sort((a, b) => b.bitrate.compareTo(a.bitrate));
         if (opusStreams.isNotEmpty) {
-          audioStream = opusStreams.first;
+          selectedStream = opusStreams.first;
+          ext = 'opus';
         }
       }
-
-      // Fallback to any audio
-      if (audioStream == null && manifest.audioOnly.isNotEmpty) {
+      // 3. webm
+      if (selectedStream == null) {
+        final webmStreams = manifest.audioOnly.where((s) => s.container.name.toLowerCase() == 'webm').toList();
+        webmStreams.sort((a, b) => b.bitrate.compareTo(a.bitrate));
+        if (webmStreams.isNotEmpty) {
+          selectedStream = webmStreams.first;
+          ext = 'webm';
+        }
+      }
+      // 4. any other
+      if (selectedStream == null && manifest.audioOnly.isNotEmpty) {
         final allStreams = manifest.audioOnly.toList();
         allStreams.sort((a, b) => b.bitrate.compareTo(a.bitrate));
-        audioStream = allStreams.first;
+        selectedStream = allStreams.first;
+        ext = selectedStream.container.name.toLowerCase();
       }
+      if (selectedStream == null) throw Exception('No suitable audio stream found.');
 
-      if (audioStream == null) {
-        throw Exception('No suitable audio stream found for this video.');
-      }
+      final streamUrl = selectedStream.url.toString();
+      final audioKey = 'audio_${videoId}_${selectedStream.tag}';
 
-      final String streamUrl = audioStream.url.toString();
+      final cacheManager = CustomCacheManager();
+      final cachedFile = await cacheManager.getFileFromCache(audioKey);
 
-      // Determine start and end for looping
       final Duration fullDuration = video.duration ?? Duration.zero;
       _start = widget.startPosition ?? Duration.zero;
       _end = widget.endPosition ?? fullDuration;
 
-      // Download and cache the full file, then play from local file
-      final audioKey = 'audio_${videoId}';
-      final audioFile = await _getOrDownloadAudioFile(streamUrl, audioKey);
+      File? playableFile;
+      bool isCachedPlayable = false;
 
-      await _player.setAudioSource(
-        ClippingAudioSource(
-          start: _start!,
-          end: _end!,
-          child: AudioSource.uri(
-            Uri.file(audioFile.path),
-            tag: MediaItem(
-              id: videoId,
-              title: title ?? 'Unknown Title',
-              artist: artist ?? 'Unknown Artist',
-              artUri: Uri.parse(thumbnailUrl ?? ''),
+      // Try cached file if exists
+      if (cachedFile != null && cachedFile.file.existsSync() && cachedFile.file.lengthSync() > 100 * 1024) {
+        try {
+          await _player.setAudioSource(
+            ClippingAudioSource(
+              start: _start!,
+              end: _end!,
+              child: AudioSource.uri(
+                Uri.file(cachedFile.file.path),
+                tag: MediaItem(
+                  id: videoId,
+                  title: title ?? 'Unknown Title',
+                  artist: artist ?? 'Unknown Artist',
+                  artUri: Uri.parse(thumbnailUrl ?? ''),
+                ),
+              ),
+            ),
+            initialPosition: widget.initialPosition ?? _start!,
+          );
+          isCachedPlayable = true;
+          playableFile = cachedFile.file;
+        } catch (e) {
+          debugPrint('Cached file not playable, will stream from CDN: $e');
+        }
+      }
+
+      // If cache is NOT playable, stream and cache in background
+      if (!isCachedPlayable) {
+        await _player.setAudioSource(
+          ClippingAudioSource(
+            start: _start!,
+            end: _end!,
+            child: AudioSource.uri(
+              Uri.parse(streamUrl),
+              tag: MediaItem(
+                id: videoId,
+                title: title ?? 'Unknown Title',
+                artist: artist ?? 'Unknown Artist',
+                artUri: Uri.parse(thumbnailUrl ?? ''),
+              ),
             ),
           ),
-        ),
-        initialPosition: widget.initialPosition ?? _start!,
-      );
+          initialPosition: widget.initialPosition ?? _start!,
+        );
+
+        // Background: download/caching
+        _downloadAndCacheAudio(streamUrl, audioKey, ext);
+      }
+
+      setState(() {
+        loading = false;
+      });
 
       await _player.play();
-    } catch (e) {
-      debugPrint('Error fetching metadata or playing audio with YoutubeExplode: $e');
+    } catch (e, stk) {
+      debugPrint('Error streaming/caching audio: $e\n$stk');
       setState(() {
         error = 'Failed to load song: ${e.toString().split(':').last.trim()}';
         loading = false;
       });
+    }
+  }
+
+  // Download and cache audio in background
+  Future<void> _downloadAndCacheAudio(String url, String key, String ext) async {
+    try {
+      final cacheManager = CustomCacheManager();
+      final request = await HttpClient().getUrl(Uri.parse(url));
+      final response = await request.close();
+      if (response.statusCode != 200) throw Exception('Audio download failed');
+      final bytes = await consolidateHttpClientResponseBytes(response);
+      if (bytes.length < 100 * 1024) throw Exception('Audio file too small for caching');
+      await cacheManager.putFile(key, bytes, fileExtension: ext, maxAge: const Duration(hours: 24));
+      debugPrint('Audio cached for key: $key');
+    } catch (e) {
+      debugPrint('Audio cache failed: $e');
     }
   }
 
@@ -376,7 +354,6 @@ class _SongWidgetState extends State<SongWidget> {
             ),
           );
         } else if (snapshot.hasError) {
-          debugPrint('Error loading cached thumbnail: ${snapshot.error}');
           return const Icon(CupertinoIcons.exclamationmark_triangle_fill, color: CupertinoColors.systemRed);
         }
         return const CupertinoActivityIndicator();
@@ -430,8 +407,7 @@ class _SongWidgetState extends State<SongWidget> {
                   height: global.SizeConfig.screenWidth * 0.125,
                   decoration: BoxDecoration(
                       color: CupertinoColors.black,
-                      borderRadius: BorderRadius.circular(20)
-                  ),
+                      borderRadius: BorderRadius.circular(20)),
                   child: _buildCachedThumbnail(),
                 ),
               ),
@@ -492,7 +468,9 @@ class _SongWidgetState extends State<SongWidget> {
                               padding: const EdgeInsets.all(1.0),
                               child: Center(
                                 child: HugeIcon(
-                                  icon: isPlaying ? HugeIcons.strokeRoundedPause : HugeIcons.strokeRoundedPlay,
+                                  icon: isPlaying
+                                      ? HugeIcons.strokeRoundedPause
+                                      : HugeIcons.strokeRoundedPlay,
                                   color: CupertinoColors.white,
                                   size: global.SizeConfig.screenWidth * 0.06,
                                 ),
