@@ -186,6 +186,8 @@ class _ResponseState extends State<Response> {
           type.toLowerCase().contains('video') ||
           type.toLowerCase().contains('camera')) {
         detectedType = 'image_video';
+        // For dummy images, let's pretend it's a PNG for testing the issue
+        fileExtension = '.png';
       } else if (type.toLowerCase().contains('voice')) {
         detectedType = 'audio';
       }
@@ -213,18 +215,20 @@ class _ResponseState extends State<Response> {
 
   // Helper function to get a HugeIconData based on file type and extension
   IconData _getHugeIconForFileType(AttachedFile file) {
-    if (file.type == 'image_video') {
-      return HugeIcons.strokeRoundedImage01; // General image icon
+    // Check if the file is truly an image and has a valid path to try to load
+    final bool isActualImage = file.type == 'image_video' && File(file.path).existsSync();
+
+    if (isActualImage) {
+      // If it's a real image that can be loaded, we return a general image icon if no preview is shown
+      return HugeIcons.strokeRoundedImage01;
     } else if (file.type == 'audio') {
       return HugeIcons.strokeRoundedMic01;
     } else if (file.type == 'file') {
       switch (file.extension) {
-        case '.webp':
-          return HugeIcons.strokeRoundedImage01;
         case '.pdf':
           return HugeIcons.strokeRoundedPdf02;
         case '.txt':
-          return HugeIcons.strokeRoundedFile01; // A generic document icon for TXT
+          return HugeIcons.strokeRoundedQuillWrite02; // A generic document icon for TXT
         case '.doc':
         case '.docx':
           return HugeIcons.strokeRoundedDocumentAttachment;
@@ -269,6 +273,10 @@ class _ResponseState extends State<Response> {
                     itemCount: _attachedFiles.length,
                     itemBuilder: (context, index) {
                       final AttachedFile file = _attachedFiles[index];
+                      // Determine if it's an image that can actually be loaded from a file path
+                      final bool canShowImagePreview =
+                          file.type == 'image_video' && File(file.path).existsSync();
+
                       return Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Stack(
@@ -279,11 +287,17 @@ class _ResponseState extends State<Response> {
                               decoration: BoxDecoration(
                                 color: CupertinoColors.systemGrey5.withOpacity(0.5),
                                 borderRadius: BorderRadius.circular(12),
+                                // Add a border to visually define the card
+                                border: Border.all(
+                                  color: CupertinoColors.systemGrey4.withOpacity(0.7),
+                                  width: 1.0,
+                                ),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  if (file.type == 'image_video' && File(file.path).existsSync())
+                                  if (canShowImagePreview)
+                                  // Image.file for actual image previews
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(8),
                                       child: Image.file(
@@ -291,15 +305,22 @@ class _ResponseState extends State<Response> {
                                         width: 80,
                                         height: 60,
                                         fit: BoxFit.cover,
+                                        // Add a background color to the image's "canvas"
+                                        // This helps with transparency issues by providing a solid base
+                                        // For PNGs, if there are transparent areas, they will show this color.
+                                        // Make sure this color matches your desired aesthetic.
+                                        color: CupertinoColors.systemGrey5.withOpacity(0.5),
+                                        colorBlendMode: BlendMode.dstATop, // Or other blend modes like screen, overlay
                                         errorBuilder: (context, error, stackTrace) =>
                                             HugeIcon(
-                                              icon: _getHugeIconForFileType(file),
+                                              icon: HugeIcons.strokeRoundedImage01, // Fallback to general image icon
                                               color: CupertinoColors.white,
                                               size: 40,
                                             ),
                                       ),
                                     )
                                   else
+                                  // HugeIcon for other file types or failed image loading
                                     HugeIcon(
                                       icon: _getHugeIconForFileType(file),
                                       color: CupertinoColors.white,
@@ -328,7 +349,7 @@ class _ResponseState extends State<Response> {
                                 onTap: () => _removeAttachedFile(index),
                                 child: Container(
                                   decoration: const BoxDecoration(
-                                    color: CupertinoColors.systemGrey,
+                                    color: CupertinoColors.systemGrey, // Darker background for visibility
                                     shape: BoxShape.circle,
                                   ),
                                   child: const HugeIcon(
@@ -404,7 +425,13 @@ class _ResponseState extends State<Response> {
                       : GestureDetector(
                     onTap: () {
                       print('Send icon tapped. Message: ${_response.text}');
-
+                      // Implement send message logic here
+                      _response.clear(); // Clear text after sending
+                      if (_attachedFiles.isNotEmpty) {
+                        setState(() {
+                          _attachedFiles.clear(); // Clear attachments after sending
+                        });
+                      }
                     },
                     child: Container(
                       color: CupertinoColors.black,
