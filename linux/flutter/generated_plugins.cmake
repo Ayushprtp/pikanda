@@ -4,9 +4,8 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_linux
-  flutter_timezone
   gtk
-  media_kit_libs_linux
+  record_linux
   url_launcher_linux
 )
 
