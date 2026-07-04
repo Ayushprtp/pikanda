@@ -27,7 +27,7 @@ Future<void> main() async {
   final safeZap = SafeZapService();
   if (safeZap.smsSupported) {
     await Workmanager()
-        .initialize(safezapWorkmanagerDispatcher, isInDebugMode: false);
+        .initialize(safezapWorkmanagerDispatcher, );
     if (await safeZap.isEnabled()) {
       safeZap.startSmsListener();
       await safeZap.resetWatchdog();

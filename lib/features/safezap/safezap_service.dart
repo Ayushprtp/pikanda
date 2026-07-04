@@ -20,7 +20,7 @@ import '../../core/utils/aes_helper.dart';
 ///  W — the user triple-taps the app logo (silent panic button)
 ///
 /// Payload format (sent over SMS, Android only):
-///   PKD:v1:<aes_hex_iv.aes_hex_cipher>:<A|S|W>
+///   `PKD:v1:<aes_hex_iv.aes_hex_cipher>:<A|S|W>`
 /// Plaintext before encryption: "LAT,LNG,MILLIS_TIMESTAMP"
 /// A parallel row is written to location_events when the network is up.
 class SafeZapService {

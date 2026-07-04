@@ -5,7 +5,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../core/services/location_helper.dart';
 import '../../core/services/notification_service.dart';
-import '../../core/utils/aes_helper.dart';
 import '../../shared/models.dart';
 import '../../shared/widgets.dart';
 import '../auth/auth_provider.dart';
