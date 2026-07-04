@@ -1,2 +1,0 @@
-/home/user/StudioProjects/pikanda/android/app/.cxx/RelWithDebInfo/2i5x7333/x86/CMakeFiles/edit_cache.dir
-/home/user/StudioProjects/pikanda/android/app/.cxx/RelWithDebInfo/2i5x7333/x86/CMakeFiles/rebuild_cache.dir
