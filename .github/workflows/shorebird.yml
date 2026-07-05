@@ -1,0 +1,45 @@
+name: Shorebird release / patch
+
+# Manual trigger: choose whether to cut a full release or push an OTA patch.
+# Requires the SHOREBIRD_TOKEN repo secret (get it via `shorebird login:ci`).
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "What to run"
+        required: true
+        default: patch
+        type: choice
+        options: [release, patch]
+
+jobs:
+  shorebird:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - uses: shorebirdtech/setup-shorebird@v1
+        with:
+          cache: true
+
+      - name: Shorebird ${{ inputs.action }}
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+        run: |
+          if [ "${{ inputs.action }}" = "release" ]; then
+            shorebird release android --no-confirm
+          else
+            shorebird patch android --no-confirm
+          fi
+
+      - name: Upload artifacts
+        if: inputs.action == 'release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: build/app/outputs/**/*.a?b*
+          if-no-files-found: ignore

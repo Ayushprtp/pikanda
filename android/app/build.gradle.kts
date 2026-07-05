@@ -14,6 +14,9 @@ android {
 //     ndkVersion = flutter.ndkVersion
     ndkVersion = "29.0.13113456"
         compileOptions {
+            // Required by flutter_local_notifications (and other plugins) to
+            // backport newer java.time APIs to older Android versions.
+            isCoreLibraryDesugaringEnabled = true
             sourceCompatibility = JavaVersion.VERSION_17
             targetCompatibility = JavaVersion.VERSION_17
         }
@@ -23,23 +26,26 @@ android {
         }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.ayushprtp.pikanda"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        // Android 6.0+ — covers effectively every device in use.
+        // (mobile_scanner/record require 23; don't go lower.)
+        minSdk = maxOf(23, flutter.minSdkVersion)
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        multiDexEnabled = true
     }
 
     buildTypes {
-
         getByName("release") {
+            // Signed with the debug key so `flutter build apk --release` is
+            // installable out of the box. Replace with a real upload keystore
+            // before publishing to the Play Store.
+            signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
@@ -48,4 +54,8 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }

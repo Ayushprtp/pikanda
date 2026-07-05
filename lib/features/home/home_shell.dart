@@ -5,6 +5,10 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../core/services/location_helper.dart';
 import '../../core/services/notification_service.dart';
+import '../../core/services/permission_service.dart';
+import '../../core/services/app_lock.dart';
+import '../../core/services/updater_service.dart';
+import '../extras/scratch_card.dart';
 import '../../shared/models.dart';
 import '../../shared/widgets.dart';
 import '../auth/auth_provider.dart';
@@ -31,6 +35,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
     // Fire-and-forget session upkeep: FCM token, location refresh,
     // SafeZap watchdog re-arm + group data caching.
     Future.microtask(() async {
+      await PermissionService.requestEssentialsOnce();
       await NotificationService.syncToken();
       await LocationHelper.refreshAndUpload();
       final sz = ref.read(safeZapServiceProvider);
@@ -138,6 +143,11 @@ class _DashboardTab extends ConsumerWidget {
                     ],
                   ),
                 ),
+                IconButton(
+                  tooltip: 'Group chat',
+                  onPressed: () => context.push('/chat'),
+                  icon: const Icon(Icons.chat_bubble_outline),
+                ),
                 if (streak != null) StreakBadge(streak: streak.currentStreak),
                 const SizedBox(width: 8),
                 AuraRing(
@@ -185,6 +195,7 @@ class _DashboardTab extends ConsumerWidget {
               ],
             ),
           ),
+          const DailyScratchCard(),
           Row(
             children: [
               Expanded(
@@ -326,10 +337,13 @@ class _MoreTab extends ConsumerWidget {
       ('📅', 'Mood Calendar', '/mood/calendar'),
       ('🔥', 'Streaks', '/streaks'),
       ('📦', 'Memory Capsules', '/capsules'),
+      ('🖼️', 'Memories Gallery', '/memories'),
       ('📊', 'Stats & Highlights', '/stats'),
+      ('📍', 'Live Map & Distance', '/live'),
       ('🪣', 'Bucket List', '/bucket'),
       ('⏳', 'Countdowns', '/countdowns'),
       ('🗺️', 'SafeZap Map', '/safezap'),
+      ('🔐', 'Permissions', '/permissions'),
       if (isAdmin) ('🛠️', 'Admin Panel', '/admin'),
     ];
 
@@ -379,6 +393,15 @@ class _MoreTab extends ConsumerWidget {
               ],
             ),
           ),
+        const _AppLockTile(),
+        SectionCard(
+          onTap: () => UpdaterService.instance.checkForUpdates(context),
+          child: const Row(children: [
+            Icon(Icons.system_update_alt),
+            SizedBox(width: 10),
+            Text('Check for updates'),
+          ]),
+        ),
         SectionCard(
           onTap: () async {
             await ref.read(activeGroupIdProvider.notifier).clear();
@@ -403,6 +426,52 @@ class _MoreTab extends ConsumerWidget {
         ),
         const SizedBox(height: 24),
       ],
+    );
+  }
+}
+
+/// Biometric app-lock switch (More tab).
+class _AppLockTile extends ConsumerStatefulWidget {
+  const _AppLockTile();
+
+  @override
+  ConsumerState<_AppLockTile> createState() => _AppLockTileState();
+}
+
+class _AppLockTileState extends ConsumerState<_AppLockTile> {
+  bool? _supported;
+
+  @override
+  void initState() {
+    super.initState();
+    ref
+        .read(appLockProvider.notifier)
+        .canUseBiometrics()
+        .then((v) => mounted ? setState(() => _supported = v) : null);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.watch(appLockProvider); // rebuild when lock state flips
+    final ctl = ref.read(appLockProvider.notifier);
+    if (_supported == false) return const SizedBox.shrink();
+
+    return SectionCard(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: SwitchListTile(
+        contentPadding: EdgeInsets.zero,
+        secondary: const Icon(Icons.fingerprint),
+        title: const Text('App lock'),
+        subtitle: const Text('Require fingerprint/face to open'),
+        value: ctl.enabled,
+        onChanged: (v) async {
+          final ok = await ctl.setEnabled(v);
+          if (!ok && context.mounted) {
+            showSnack(context, 'Could not verify — app lock unchanged');
+          }
+          setState(() {});
+        },
+      ),
     );
   }
 }

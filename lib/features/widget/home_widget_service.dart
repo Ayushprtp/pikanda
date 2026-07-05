@@ -51,6 +51,25 @@ class HomeWidgetService {
     }
   }
 
+  /// Pushes the group pet's current state to the pet home-screen widget.
+  static Future<void> updatePet({
+    required String emoji,
+    required String name,
+    required String mood,
+    required String stats,
+  }) async {
+    try {
+      await HomeWidget.saveWidgetData<String>('pet_emoji', emoji);
+      await HomeWidget.saveWidgetData<String>('pet_name', name);
+      await HomeWidget.saveWidgetData<String>('pet_mood', mood);
+      await HomeWidget.saveWidgetData<String>('pet_stats', stats);
+      await HomeWidget.updateWidget(
+          androidName: 'PetWidgetProvider', iOSName: 'PetWidget');
+    } catch (e) {
+      debugPrint('pet widget update failed: $e');
+    }
+  }
+
   /// Fetches all group members' last locations and refreshes the widget.
   static Future<void> refreshDistances({
     required String groupId,
