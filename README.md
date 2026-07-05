@@ -122,6 +122,54 @@ Run the files in `supabase/migrations/` in order, then deploy
 `supabase/functions/send-fcm`. `pg_cron` and `pg_net` extensions are enabled by
 the migrations.
 
+## 📲 Building for every Android device
+
+```bash
+# One APK per CPU type (smallest downloads — recommended for sharing):
+flutter build apk --release --split-per-abi
+# → app-arm64-v8a-release.apk (most phones)
+# → app-armeabi-v7a-release.apk (older/budget phones)
+# → app-x86_64-release.apk (emulators)
+
+# Or one universal APK that runs everywhere:
+flutter build apk --release
+```
+
+Release builds are minified + resource-shrunk (R8, rules in
+`android/app/proguard-rules.pro`), signed with the debug key by default so
+they're installable immediately — swap in a real upload keystore before a
+Play Store release. `minSdk 23` (Android 6.0+) covers effectively every
+device in use.
+
+## 🐦 Shorebird code push (OTA patches)
+
+The app ships with [Shorebird](https://shorebird.dev) support
+(`shorebird.yaml` app_id `9c9a97dd…`, auto-update on launch, plus a manual
+**More → Check for updates** button in-app).
+
+```bash
+# one-time setup on your machine
+shorebird login
+
+# cut a release users install (Play Store / APK):
+shorebird release android
+
+# later: push a Dart-code fix over the air — users get it without reinstalling
+shorebird patch android
+```
+
+There's also a GitHub Actions workflow (`.github/workflows/shorebird.yml`)
+that can run `release`/`patch` from the Actions tab — add a `SHOREBIRD_TOKEN`
+repo secret (from `shorebird login:ci`) to enable it. Note: patches only
+apply to builds made with `shorebird release`, not plain `flutter build`.
+
+## 🔐 Permissions
+
+The app requests only what each feature needs, in context, and everything
+degrades gracefully when denied. **More → Permissions** shows the live status
+of every permission (notifications, location, background location, camera,
+microphone, SMS) with one-tap grant / open-settings.
+
 ---
 
 ## 🔒 Security notes

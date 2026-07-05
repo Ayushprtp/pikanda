@@ -18,6 +18,7 @@ import '../features/live/live_map_screen.dart';
 import '../features/mood/mood_screens.dart';
 import '../features/pets/pet_screen.dart';
 import '../features/safezap/safezap_map_screen.dart';
+import '../features/settings/permissions_screen.dart';
 import '../features/stats/stats_screen.dart';
 import '../features/streaks/streak_screen.dart';
 import '../features/vibe/vibe_screens.dart';
@@ -70,6 +71,8 @@ final routerProvider = Provider<GoRouter>((ref) {
               GameSessionScreen(sessionId: state.pathParameters['id']!)),
       GoRoute(path: '/safezap', builder: (_, __) => const SafeZapMapScreen()),
       GoRoute(path: '/live', builder: (_, __) => const LiveMapScreen()),
+      GoRoute(
+          path: '/permissions', builder: (_, __) => const PermissionsScreen()),
       GoRoute(path: '/admin', builder: (_, __) => const AdminPanelScreen()),
       GoRoute(path: '/bucket', builder: (_, __) => const BucketListScreen()),
       GoRoute(

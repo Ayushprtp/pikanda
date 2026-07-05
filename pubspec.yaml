@@ -64,6 +64,9 @@ dependencies:
   intl: ^0.20.2
   uuid: ^4.5.1
 
+  # over-the-air code push (Shorebird)
+  shorebird_code_push: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

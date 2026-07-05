@@ -1,108 +1,64 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+  <!-- ============ Network ============ -->
   <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+  <!-- ============ Notifications / background work ============ -->
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"/>
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
   <uses-permission android:name="android.permission.VIBRATE"/>
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-  <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
-  <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
-  <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
-  <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
-
-
-  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-  <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-
+  <!-- ============ Zaps: camera + voice notes ============ -->
   <uses-permission android:name="android.permission.CAMERA"/>
   <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+  <!-- Gallery access: photo picker on 13+, legacy storage read below 13 -->
+  <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+  <uses-permission
+      android:name="android.permission.READ_EXTERNAL_STORAGE"
+      android:maxSdkVersion="32"/>
 
-  <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-  <uses-permission android:name="android.permission.CALL_PHONE"/>
-  <uses-permission android:name="android.permission.READ_CALL_LOG"/>
-  <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
-  <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
-  <uses-permission android:name="android.permission.READ_PHONE_NUMBERS"/>
+  <!-- ============ Live map + SafeZap: location ============ -->
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <!-- Background location: only used by the SafeZap 24h watchdog -->
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
+  <!-- ============ SafeZap SMS triggers (Android-only feature) ============ -->
   <uses-permission android:name="android.permission.SEND_SMS"/>
   <uses-permission android:name="android.permission.RECEIVE_SMS"/>
   <uses-permission android:name="android.permission.READ_SMS"/>
-  <uses-permission android:name="android.permission.RECEIVE_MMS"/>
-  <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH"/>
+  <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
-
-  <uses-permission android:name="android.permission.BLUETOOTH"/>
-  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-  <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
-  <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE"/>
-  <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
-
-  <uses-permission android:name="android.permission.NFC"/>
-
-  <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
-  <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
-
-  <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-  <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
-  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-
-  <uses-permission android:name="android.permission.BODY_SENSORS"/>
-  <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
-
-  <uses-permission android:name="android.permission.READ_CONTACTS"/>
-  <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
-  <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-
-  <uses-permission android:name="android.permission.READ_CALENDAR"/>
-  <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
-
-  <uses-permission android:name="android.permission.USE_SIP"/>
-
-  <uses-permission android:name="android.permission.DUMP"/>
-  <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
-
-  <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
-  <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"/>
-  <uses-permission android:name="android.permission.BIND_VPN_SERVICE"/>
-  <uses-permission android:name="android.permission.BIND_WALLPAPER"/>
-
-  <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN"/>
-
-  <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"/>
-  <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-  <uses-permission android:name="android.permission.ACCESS_UWB"/>
-
+  <!-- Devices without telephony/camera can still install the app -->
+  <uses-feature android:name="android.hardware.telephony" android:required="false"/>
+  <uses-feature android:name="android.hardware.camera" android:required="false"/>
+  <uses-feature android:name="android.hardware.location.gps" android:required="false"/>
 
   <application
       android:name="${applicationName}"
       android:icon="@mipmap/ic_launcher"
-      android:label="PikandA"
-      android:usesCleartextTraffic="true"> <activity
-      android:name=".MainActivity"
-      android:exported="true"
-      android:launchMode="singleTop"
-      android:taskAffinity=""
-      android:theme="@style/LaunchTheme"
-      android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-      android:hardwareAccelerated="true"
-      android:windowSoftInputMode="adjustResize">
-    <meta-data
-        android:name="io.flutter.embedding.android.NormalTheme"
-        android:resource="@style/NormalTheme"
-        />
-    <intent-filter>
-      <action android:name="android.intent.action.MAIN"/>
-      <category android:name="android.intent.category.LAUNCHER"/>
-    </intent-filter>
-  </activity>
+      android:label="Pikanda"
+      android:enableOnBackInvokedCallback="true">
+    <activity
+        android:name=".MainActivity"
+        android:exported="true"
+        android:launchMode="singleTop"
+        android:taskAffinity=""
+        android:theme="@style/LaunchTheme"
+        android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+        android:hardwareAccelerated="true"
+        android:windowSoftInputMode="adjustResize">
+      <meta-data
+          android:name="io.flutter.embedding.android.NormalTheme"
+          android:resource="@style/NormalTheme"/>
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
     <meta-data
         android:name="flutterEmbedding"
         android:value="2"/>
@@ -124,6 +80,11 @@
     <intent>
       <action android:name="android.intent.action.PROCESS_TEXT"/>
       <data android:mimeType="text/plain"/>
+    </intent>
+    <!-- url_launcher: open songs in browser/Spotify/YouTube -->
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="https"/>
     </intent>
   </queries>
 

@@ -5,6 +5,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../core/services/location_helper.dart';
 import '../../core/services/notification_service.dart';
+import '../../core/services/permission_service.dart';
+import '../../core/services/updater_service.dart';
 import '../../shared/models.dart';
 import '../../shared/widgets.dart';
 import '../auth/auth_provider.dart';
@@ -31,6 +33,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
     // Fire-and-forget session upkeep: FCM token, location refresh,
     // SafeZap watchdog re-arm + group data caching.
     Future.microtask(() async {
+      await PermissionService.requestEssentialsOnce();
       await NotificationService.syncToken();
       await LocationHelper.refreshAndUpload();
       final sz = ref.read(safeZapServiceProvider);
@@ -331,6 +334,7 @@ class _MoreTab extends ConsumerWidget {
       ('🪣', 'Bucket List', '/bucket'),
       ('⏳', 'Countdowns', '/countdowns'),
       ('🗺️', 'SafeZap Map', '/safezap'),
+      ('🔐', 'Permissions', '/permissions'),
       if (isAdmin) ('🛠️', 'Admin Panel', '/admin'),
     ];
 
@@ -380,6 +384,14 @@ class _MoreTab extends ConsumerWidget {
               ],
             ),
           ),
+        SectionCard(
+          onTap: () => UpdaterService.instance.checkForUpdates(context),
+          child: const Row(children: [
+            Icon(Icons.system_update_alt),
+            SizedBox(width: 10),
+            Text('Check for updates'),
+          ]),
+        ),
         SectionCard(
           onTap: () async {
             await ref.read(activeGroupIdProvider.notifier).clear();
