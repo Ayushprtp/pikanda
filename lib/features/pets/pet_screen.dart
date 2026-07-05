@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../shared/models.dart';
 import '../../shared/widgets.dart';
+import '../widget/home_widget_service.dart';
 import 'pet_provider.dart';
 
 /// Full-screen route wrapper.
@@ -30,7 +31,19 @@ class PetBody extends ConsumerWidget {
     return pet.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => EmptyState(emoji: '😵', message: 'Error: $e'),
-      data: (p) => p == null ? const _AdoptView() : _PetView(pet: p),
+      data: (p) {
+        if (p != null) {
+          // keep the home-screen pet widget in sync
+          HomeWidgetService.updatePet(
+            emoji: p.displayEmoji,
+            name: '${p.name} · Lv ${p.level}',
+            mood: p.moodText,
+            stats:
+                '🍖 ${p.hunger} · 😊 ${p.happiness} · ⚡ ${p.energy} · 🛁 ${p.cleanliness}',
+          );
+        }
+        return p == null ? const _AdoptView() : _PetView(pet: p);
+      },
     );
   }
 }

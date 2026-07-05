@@ -16,6 +16,7 @@ import 'games/tap_race.dart';
 import 'games/word_guess.dart';
 import 'games/connect4.dart';
 import 'games/reaction_duel.dart';
+import 'games/battleship.dart';
 
 /// Hosts a single realtime game session: lobby → active board → result.
 class GameSessionScreen extends ConsumerStatefulWidget {
@@ -112,6 +113,8 @@ class _GameSessionScreenState extends ConsumerState<GameSessionScreen> {
               Connect4Board(session: s, players: players, members: members),
             GameType.reactionDuel =>
               ReactionDuelBoard(session: s, players: players, members: members),
+            GameType.battleship =>
+              BattleshipBoard(session: s, players: players, members: members),
           };
 
           if (s.status == 'finished') {

@@ -702,7 +702,8 @@ enum GameType {
   tapRace('tap_race', '👆', 'Tap Race', 8),
   wordGuess('word_guess', '🔤', 'Word Guess', 8),
   connect4('connect4', '🔴', 'Connect Four', 2),
-  reactionDuel('reaction_duel', '⚡', 'Reaction Duel', 2);
+  reactionDuel('reaction_duel', '⚡', 'Reaction Duel', 2),
+  battleship('battleship', '🚢', 'Battleship', 2);
 
   final String key;
   final String emoji;

@@ -6,6 +6,7 @@ import '../features/auth/login_screen.dart';
 import '../features/auth/register_screen.dart';
 import '../features/auth/auth_provider.dart';
 import '../features/capsule/capsule_screens.dart';
+import '../features/chat/chat_screen.dart';
 import '../features/daily/daily_screen.dart';
 import '../features/extras/bucket_list_screen.dart';
 import '../features/extras/countdowns_screen.dart';
@@ -15,6 +16,7 @@ import '../features/groups/group_gate_screen.dart';
 import '../features/groups/group_provider.dart';
 import '../features/home/home_shell.dart';
 import '../features/live/live_map_screen.dart';
+import '../features/memories/memories_screen.dart';
 import '../features/mood/mood_screens.dart';
 import '../features/pets/pet_screen.dart';
 import '../features/safezap/safezap_map_screen.dart';
@@ -73,6 +75,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/live', builder: (_, __) => const LiveMapScreen()),
       GoRoute(
           path: '/permissions', builder: (_, __) => const PermissionsScreen()),
+      GoRoute(path: '/chat', builder: (_, __) => const ChatScreen()),
+      GoRoute(path: '/memories', builder: (_, __) => const MemoriesScreen()),
       GoRoute(path: '/admin', builder: (_, __) => const AdminPanelScreen()),
       GoRoute(path: '/bucket', builder: (_, __) => const BucketListScreen()),
       GoRoute(

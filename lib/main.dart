@@ -6,6 +6,7 @@ import 'package:workmanager/workmanager.dart';
 
 import 'core/config.dart';
 import 'core/router.dart';
+import 'core/services/app_lock.dart';
 import 'core/services/notification_service.dart';
 import 'core/theme.dart';
 import 'features/groups/group_provider.dart';
@@ -51,6 +52,8 @@ class PikandaApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(themeCfg),
       routerConfig: router,
+      builder: (context, child) =>
+          LockGate(child: child ?? const SizedBox.shrink()),
     );
   }
 }

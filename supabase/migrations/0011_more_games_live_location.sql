@@ -4,7 +4,7 @@
 alter table public.game_sessions drop constraint if exists game_sessions_game_type_check;
 alter table public.game_sessions add constraint game_sessions_game_type_check
   check (game_type in ('tictactoe','rps','memory_match','tap_race','word_guess',
-                       'connect4','reaction_duel'));
+                       'connect4','reaction_duel','battleship'));
 
 -- 2) live location fields on user_locations
 alter table public.user_locations add column if not exists is_sharing boolean not null default false;
