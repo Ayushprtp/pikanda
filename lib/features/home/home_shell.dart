@@ -327,6 +327,7 @@ class _MoreTab extends ConsumerWidget {
       ('🔥', 'Streaks', '/streaks'),
       ('📦', 'Memory Capsules', '/capsules'),
       ('📊', 'Stats & Highlights', '/stats'),
+      ('📍', 'Live Map & Distance', '/live'),
       ('🪣', 'Bucket List', '/bucket'),
       ('⏳', 'Countdowns', '/countdowns'),
       ('🗺️', 'SafeZap Map', '/safezap'),

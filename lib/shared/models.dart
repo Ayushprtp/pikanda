@@ -700,7 +700,9 @@ enum GameType {
   rps('rps', '✂️', 'Rock Paper Scissors', 2),
   memoryMatch('memory_match', '🃏', 'Memory Match', 2),
   tapRace('tap_race', '👆', 'Tap Race', 8),
-  wordGuess('word_guess', '🔤', 'Word Guess', 8);
+  wordGuess('word_guess', '🔤', 'Word Guess', 8),
+  connect4('connect4', '🔴', 'Connect Four', 2),
+  reactionDuel('reaction_duel', '⚡', 'Reaction Duel', 2);
 
   final String key;
   final String emoji;
@@ -925,12 +927,18 @@ class UserLocation {
   final double lat;
   final double lng;
   final DateTime updatedAt;
+  final bool isSharing;
+  final int? battery;
+  final double? speed;
 
   UserLocation({
     required this.userId,
     required this.lat,
     required this.lng,
     required this.updatedAt,
+    this.isSharing = false,
+    this.battery,
+    this.speed,
   });
 
   factory UserLocation.fromJson(Map<String, dynamic> j) => UserLocation(
@@ -938,5 +946,21 @@ class UserLocation {
         lat: (j['lat'] as num).toDouble(),
         lng: (j['lng'] as num).toDouble(),
         updatedAt: DateTime.parse(j['updated_at']).toLocal(),
+        isSharing: j['is_sharing'] ?? false,
+        battery: j['battery'],
+        speed: (j['speed'] as num?)?.toDouble(),
       );
+
+  /// A member is "live" if their location was updated in the last 2 minutes.
+  bool get isLive =>
+      DateTime.now().difference(updatedAt).inSeconds < 120;
+
+  String get freshness {
+    final d = DateTime.now().difference(updatedAt);
+    if (d.inSeconds < 20) return 'live now';
+    if (d.inMinutes < 1) return '${d.inSeconds}s ago';
+    if (d.inHours < 1) return '${d.inMinutes}m ago';
+    if (d.inDays < 1) return '${d.inHours}h ago';
+    return '${d.inDays}d ago';
+  }
 }
